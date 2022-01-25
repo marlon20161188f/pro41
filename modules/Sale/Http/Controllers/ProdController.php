@@ -122,6 +122,101 @@ class ProdController extends Controller
         }
 
         return $records;
+    } 
+     public function item_tables() {
+
+        $items = $this->table('items');
+       // $items = SearchItemController::getNotServiceItemToModal();
+
+       $affectation_igv_types = AffectationIgvType::whereActive()->get();
+       $price_types = PriceType::whereActive()->get();
+
+       return compact('items', 'affectation_igv_types', 'price_types');
+   }
+   public function tables() {
+
+    $customers = $this->table('customers');
+    $establishments = Establishment::where('id', auth()->user()->establishment_id)->get();
+    $currency_types = CurrencyType::whereActive()->get();
+    $company = Company::active();
+
+    return compact('customers', 'establishments','currency_types','company');
     }
+    public function table($table)
+    {
+        switch ($table) {
+            case 'customers':
+
+                $customers = Person::whereType('customers')->orderBy('name')->take(20)->get()->transform(function($row) {
+                    return [
+                        'id' => $row->id,
+                        'description' => $row->number.' - '.$row->name,
+                        'name' => $row->name,
+                        'number' => $row->number,
+                        'identity_document_type_id' => $row->identity_document_type_id,
+                        'identity_document_type_code' => $row->identity_document_type->code
+                    ];
+                });
+                return $customers;
+
+                break;
+
+            case 'items':
+
+                $warehouse = Warehouse::where('establishment_id', auth()->user()->establishment_id)->first();
+
+                $items = Item::orderBy('description')->whereIsActive()->whereNotIsSet()
+                    // ->with(['warehouses' => function($query) use($warehouse){
+                    //     return $query->where('warehouse_id', $warehouse->id);
+                    // }])
+                    ->get()->transform(function($row) {
+                    $full_description = $this->getFullDescription($row);
+                    // $full_description = ($row->internal_id)?$row->internal_id.' - '.$row->description:$row->description;
+                    return [
+                        'id' => $row->id,
+                        'full_description' => $full_description,
+                        'description' => $row->description,
+                        'currency_type_id' => $row->currency_type_id,
+                        'currency_type_symbol' => $row->currency_type->symbol,
+                        'sale_unit_price' => $row->sale_unit_price,
+                        'purchase_unit_price' => $row->purchase_unit_price,
+                        'unit_type_id' => $row->unit_type_id,
+                        'sale_affectation_igv_type_id' => $row->sale_affectation_igv_type_id,
+                        'purchase_affectation_igv_type_id' => $row->purchase_affectation_igv_type_id,
+                        'is_set' => (bool) $row->is_set,
+                        'has_igv' => (bool) $row->has_igv,
+                        'calculate_quantity' => (bool) $row->calculate_quantity,
+                        'item_unit_types' => collect($row->item_unit_types)->transform(function($row) {
+                            return [
+                                'id' => $row->id,
+                                'description' => "{$row->description}",
+                                'item_id' => $row->item_id,
+                                'unit_type_id' => $row->unit_type_id,
+                                'quantity_unit' => $row->quantity_unit,
+                                'price1' => $row->price1,
+                                'price2' => $row->price2,
+                                'price3' => $row->price3,
+                                'price_default' => $row->price_default,
+                            ];
+                        }),
+                        'warehouses' => collect($row->warehouses)->transform(function($row) {
+                            return [
+                                'warehouse_id' => $row->warehouse->id,
+                                'warehouse_description' => $row->warehouse->description,
+                                'stock' => $row->stock,
+                            ];
+                        })
+                    ];
+                });
+                return $items;
+
+                break;
+            default:
+                return [];
+
+                break;
+        }
+    }
+
 
 }

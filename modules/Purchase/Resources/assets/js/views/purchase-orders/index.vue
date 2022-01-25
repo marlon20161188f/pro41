@@ -26,7 +26,7 @@
             <th class="text-center">F. Vencimiento</th>
             <th>Proveedor</th>
             <!-- <th>Estado</th> -->
-            <th>O. Compra</th>
+            <th>O. Compras</th>
             <th>O. Venta</th>
             <!-- <th>F. Pago</th> -->
             <th class="text-center">Moneda</th>
