@@ -2,6 +2,8 @@
 
 namespace Modules\Sale\Http\Controllers;
 
+use Modules\Purchase\Models\PurchaseOrder;
+
 use App\Http\Controllers\SearchItemController;
 use App\Http\Controllers\Tenant\EmailController;
 use App\Models\Tenant\Configuration;
@@ -133,18 +135,53 @@ class ProdController extends Controller
 
        return compact('items', 'affectation_igv_types', 'price_types');
    }
+
    public function tables() {
 
+    $warehouses = Warehouse::query()->select('establishment_id', 'description')->get()->transform(function($row) {
+        return [
+            'id' => $row->establishment_id,
+            'description' => $row->description
+        ];
+    });
     $customers = $this->table('customers');
+    $suppliers = $this->table('suppliers');
+    $purchase_orders = PurchaseOrder::query()->select('id', 'prefix')->get()->transform(function($row) {
+        return [
+            'id' => $row->id,
+            'number' => $row->prefix.' - '.$row->id
+        ];
+    });
     $establishments = Establishment::where('id', auth()->user()->establishment_id)->get();
-    $currency_types = CurrencyType::whereActive()->get();
+    $currency_types = CurrencyType::query()->select('id', 'description', 'symbol')->whereActive()->get()->transform(function($row) {
+        return [
+            'id' => $row->id,
+            'name' => $row->description.' '.$row->symbol
+        ];
+    });
     $company = Company::active();
 
-    return compact('customers', 'establishments','currency_types','company');
+    return compact('warehouses', 'purchase_orders', 'suppliers', 'customers', 'establishments','currency_types','company');
     }
+
     public function table($table)
     {
         switch ($table) {
+            case 'suppliers':
+
+                $customers = Person::whereType('suppliers')->orderBy('name')->take(20)->get()->transform(function($row) {
+                    return [
+                        'id' => $row->id,
+                        'description' => $row->number.' - '.$row->name,
+                        'name' => $row->name,
+                        'number' => $row->number,
+                        'identity_document_type_id' => $row->identity_document_type_id,
+                        'identity_document_type_code' => $row->identity_document_type->code
+                    ];
+                });
+                return $customers;
+
+                break;
             case 'customers':
 
                 $customers = Person::whereType('customers')->orderBy('name')->take(20)->get()->transform(function($row) {

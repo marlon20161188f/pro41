@@ -93,6 +93,7 @@ class UserController extends Controller
         }
         return $data;
     }
+
     public function store(UserRequest $request) {
         $id = $request->input('id');
 

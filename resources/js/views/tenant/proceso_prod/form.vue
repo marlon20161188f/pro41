@@ -17,16 +17,16 @@
                                         <thead>
                                         <tr width="100%">
                                             <th
-                                                class="pb-2">Orden de compra
+                                                class="pb-2 text-center" >OP
                                             </th>
                                             <th
                                                 class="pb-2">Producto final
-                                                <el-tooltip class="item"
+                                                <!-- <el-tooltip class="item"
                                                             content="Aperture caja o cuentas bancarias"
                                                             effect="dark"
                                                             placement="top-start">
                                                     <i class="fa fa-info-circle"></i>
-                                                </el-tooltip>
+                                                </el-tooltip> -->
                                             </th>
                                             <th 
                                                 class="pb-2">Peso importado (Kg)
@@ -41,7 +41,7 @@
                                                 class="pb-2">Tejeduría (%)
                                             </th>
                                             <th
-                                                class="pb-2">Tinteduría (%)
+                                                class="pb-2">Tintorería (%)
                                             </th>
                                         </tr>
                                         </thead>
@@ -49,11 +49,12 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.currency_type_id"
-                                                            @change="changeCurrencyType">
-                                                        <el-option v-for="option in currency_types"
+                                                    <el-select v-model="form.purchase_orders_id">
+                                                            <!-- @change="changePurchaseOrderType" -->
+                                                            
+                                                        <el-option v-for="option in purchase_orders"
                                                                 :key="option.id"
-                                                                :label="option.description"
+                                                                :label="option.number"
                                                                 :value="option.id"></el-option>
                                                                 <small v-if="errors.currency_type_id"
                                        class="form-control-feedback"
@@ -64,41 +65,45 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select >
-                                                        <el-option ></el-option>
+                                                    <el-select  v-model="form.producto" placeholder="Rib">
+                                                        <el-option key="Rib" value="Rib" label="Rib"></el-option>
+                                                        <el-option key="Rollo" value="Rollo" label="Rollo"></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                    <el-input v-model="form.peso" type="number" ></el-input>
                                                 </div>
                                             </td>
                                              <td>
                                                  <div class="form-group mb-2 mr-2">
-                                                <el-date-picker
-                                                   
+                                                 <el-date-picker
+                                                    v-model="form.init"
+                                                    :clearable="false"
                                                     format="dd/MM/yyyy"
-                                                    type="date"
-                                                   
-                                                    value-format="yyyy-MM-dd"></el-date-picker>
+                                                    type="month"
+                                                    value-format="yyyy-MM-dd">
+                                                    </el-date-picker>
                                                  </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select >
-                                                        <el-option ></el-option>
+                                                    <el-select v-model="form.hilo">
+                                                        <el-option key="Hilo X" value="Hilo X" label="Hilo X"></el-option>
+                                                        <el-option key="Hilo Y" value="Hilo Y" label="Hilo Y"></el-option>
+                                                        <el-option key="Hilo Z" value="Hilo Z" label="Hilo Z"></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                    <el-input v-model="form.tejed" type="number"></el-input>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                    <el-input v-model="form.tinto" type="number"></el-input>
                                                 </div>
                                             </td>
                                             <br>
@@ -125,7 +130,7 @@
             </form>
         </div>
 
-        <purchase-form-item ></purchase-form-item>
+        <!-- <purchase-form-item ></purchase-form-item>
 
         <person-form 
                      type="suppliers"></person-form>
@@ -134,18 +139,18 @@
 
         <series-form
            >
-        </series-form>
+        </series-form> -->
 
     </div>
 </template>
 
 <script>
-import PurchaseFormItem from './partials/item.vue'
-import PersonForm from '../persons/form.vue'
-import PurchaseOptions from './partials/options.vue'
-import {exchangeRate, functions, fnPaymentsFee} from '../../../mixins/functions'
+//import PurchaseFormItem from './partials/item.vue'
+//import PersonForm from '../persons/form.vue'
+//import PurchaseOptions from './partials/options.vue'
+//import {exchangeRate, functions, fnPaymentsFee} from '../../../mixins/functions'
 
-import {mapActions, mapState} from "vuex";
+//import {mapActions, mapState} from "vuex";
 import {calculateRowItem} from '../../../helpers/functions'
 
 export default {
@@ -159,6 +164,7 @@ export default {
                 let data = response.data
                 this.document_types = data.document_types_invoice
                 this.currency_types = data.currency_types
+                this.purchase_orders = data.purchase_orders
                 this.payment_conditions = data.payment_conditions
                 // this.establishment = data.establishment
 
@@ -173,9 +179,9 @@ export default {
                 this.$store.commit('setConfiguration', data.configuration);
                 this.$store.commit('setEstablishment', data.establishment);
                 this.form.currency_type_id = (this.currency_types.length > 0) ? this.currency_types[0].id : null
-                this.form.establishment_id = (this.establishment.id) ? this.establishment.id : null
-                this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
-
+                // this.form.establishment_id = (this.establishment.id) ? this.establishment.id : null
+                //this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
+                this.form.purchase_orders_id = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
 
             })},
             data() {
@@ -194,9 +200,11 @@ export default {
             form: {
                 items:[]
             },
+            producto: null,
             aux_supplier_id: null,
             total_amount: 0,
             document_types: [],
+            purchase_orders: [],
             currency_types: [],
             discount_types: [],
             charges_types: [],
@@ -226,9 +234,11 @@ export default {
                     this.company = response.data.company 
                     this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
                     this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
+                    this.form.purchase_orders_id = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
+    
 
                     this.changeEstablishment()
-                    this.changeDateOfIssue() 
+                    // this.changeDateOfIssue() 
                     this.changeCurrencyType()
                     this.allCustomers()
                 })
@@ -320,6 +330,7 @@ export default {
                     time_of_issue: moment().format('HH:mm:ss'),
                     customer_id: null,
                     currency_type_id: null,
+                    purchase_orders_id: null,
                     exchange_rate_sale: 0, 
                     total_exportation: 0,
                     total_free: 0,
@@ -341,6 +352,8 @@ export default {
                 this.activePanel = 0
                 this.initForm()
                 this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
+                this.form.purchase_orders_id = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
+
                 this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
                 this.changeEstablishment() 
                 this.changeDateOfIssue()
@@ -373,9 +386,20 @@ export default {
             },
             changeCurrencyType() {
                 this.currency_type = _.find(this.currency_types, {'id': this.form.currency_type_id})
+                
                 let items = []
                 this.form.items.forEach((row) => {
                     items.push(calculateRowItem(row, this.form.currency_type_id, this.form.exchange_rate_sale))
+                });
+                this.form.items = items
+                this.calculateTotal()
+            },
+            changePurchaseOrderType() {
+                this.purchase_orders = _.find(this.purchase_orders, {'id': this.form.purchase_orders_id})
+                
+                let items = []
+                this.form.items.forEach((row) => {
+                    items.push(calculateRowItem(row, this.form.purchase_orders_id, this.form.exchange_rate_sale))
                 });
                 this.form.items = items
                 this.calculateTotal()

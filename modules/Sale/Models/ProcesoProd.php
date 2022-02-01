@@ -16,8 +16,6 @@ use Modules\Purchase\Models\PurchaseOrder;
 
 class ProcesoProd extends ModelTenant
 {
-    protected $with = ['user', 'soap_type', 'state_type', 'currency_type', 'items', 'files'];
-
     protected $fillable = [
         'id',
         'user_id',
@@ -50,6 +48,8 @@ class ProcesoProd extends ModelTenant
 
     protected $casts = [
         'date_of_issue' => 'date', 
+        'total' => 'float',
+        'is_valid' => 'boolean'
     ];
 
     public function getEstablishmentAttribute($value)

@@ -28,7 +28,7 @@
                 <data-table :resource="resource">
                     <tr slot="heading">
                         <th>#</th>
-                        <th class="text-center">Orden de compra</th>
+                        <th class="text-center">OP</th>
                         <th  class="text-center">Partida</th>
                         <th class="text-center">Producto final</th>
                         <th class="text-center">Fecha de Inicio</th>

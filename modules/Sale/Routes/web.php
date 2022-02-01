@@ -73,8 +73,8 @@ if($current_hostname) {
                 Route::get('search/customers', 'ProdController@searchCustomers');
                 Route::get('search/customer/{id}', 'ProdController@searchCustomerById');
 
-                Route::get('tables', 'ProdController@tables');
-                Route::get('table/{table}', 'ProdController@table');
+                Route::get('tables', 'ProdController@tables')->middleware(['redirect.level']);
+                Route::get('table/{table}', 'ProdController@table')->middleware(['redirect.level']);
                 Route::get('item/tables', 'ProdController@item_tables');
                 Route::post('email', 'ProdController@email');
 

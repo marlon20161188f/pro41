@@ -17,16 +17,16 @@
                                         <thead>
                                         <tr width="100%">
                                             <th
-                                                class="pb-2">Orden de compra
+                                                class="pb-2 text-center" >OP
                                             </th>
                                             <th
                                                 class="pb-2">Producto final
-                                                <el-tooltip class="item"
+                                                <!-- <el-tooltip class="item"
                                                             content="Aperture caja o cuentas bancarias"
                                                             effect="dark"
                                                             placement="top-start">
                                                     <i class="fa fa-info-circle"></i>
-                                                </el-tooltip>
+                                                </el-tooltip> -->
                                             </th>
                                             <th 
                                                 class="pb-2">Peso importado (Kg)
@@ -49,49 +49,52 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select
-                                                            >
-                                                        <el-option ></el-option>
+                                                    <el-select  v-model="form.purchase_orders" placeholder="OC-1" :disabled="true">
+                                                        <el-option></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select >
-                                                        <el-option ></el-option>
+                                                     <el-select  v-model="form.producto">
+                                                        <el-option key="Rib" value="Rib" label="Rib"></el-option>
+                                                        <el-option key="Rollo" value="Rollo" label="Rollo"></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                   <el-input v-model="form.peso" type="number" placeholder="35" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                              <td>
                                                  <div class="form-group mb-2 mr-2">
                                                 <el-date-picker
-                                                   
+                                                    v-model="form.init"
+                                                    :clearable="false"
                                                     format="dd/MM/yyyy"
-                                                    type="date"
-                                                   
-                                                    value-format="yyyy-MM-dd"></el-date-picker>
+                                                    type="month"
+                                                    value-format="yyyy-MM-dd">
+                                                    </el-date-picker>
                                                  </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select >
-                                                        <el-option ></el-option>
+                                                    <el-select v-model="form.hilo">
+                                                        <el-option key="Hilo X" value="Hilo X" label="Hilo X"></el-option>
+                                                        <el-option key="Hilo Y" value="Hilo Y" label="Hilo Y"></el-option>
+                                                        <el-option key="Hilo Z" value="Hilo Z" label="Hilo Z"></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                    <el-input v-model="form.tejed" type="number" :disabled="true" placeholder="5.6"></el-input>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                   <el-input v-model="form.tinto" type="number" :disabled="true" placeholder="4.8"></el-input>
                                                 </div>
                                             </td>
                                             <br>
@@ -119,17 +122,24 @@
                                         <tr>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                   <el-input v-model="form.partida" type="number"></el-input>
                                                 </div>
                                             </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                    <el-select v-model="form.color" placeholder="Amaríllo">
+                                                            <!-- @change="changePurchaseOrderType" -->
+                                                        <el-option key="Lila" value="Lila" label="Lila"></el-option>
+                                                        <el-option key="Gris" value="Gris" label="Gris"></el-option>
+                                                        <el-option key="Blanco" value="Blanco" label="Blanco"></el-option>
+                                                         <el-option key="Rojo" value="Rojo" label="Rojo"></el-option>  
+                                                         <el-option key="Negro" value="Negro" label="Negro"></el-option>  
+                                                    </el-select>
                                                 </div>
                                             </td>
                                              <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                   <el-input v-model="form.peso_tin" type="number"></el-input>
                                                 </div>
                                             </td>
                                         </tr>
@@ -156,7 +166,7 @@
             </form>
         </div>
 
-        <purchase-form-item ></purchase-form-item>
+        <!-- <purchase-form-item ></purchase-form-item>
 
         <person-form 
                      type="suppliers"></person-form>
@@ -165,7 +175,7 @@
 
         <series-form
            >
-        </series-form>
+        </series-form> -->
 
     </div>
 </template>
@@ -175,7 +185,47 @@
 export default {
     setup() {
         
-    },
+    },data() {
+        return {
+            input_person: {},
+            resource: 'proceso_prod',
+            showDialogAddItem: false,
+            readonly_date_of_due: false,
+            localHasGlobalIgv: false,
+            showDialogNewPerson: false,
+            showDialogOptions: false,
+            loading_submit: false,
+            hide_button: false,
+            is_perception_agent: false,
+            errors: {},
+            form: {
+                items:[]
+            },
+            producto: null,
+            aux_supplier_id: null,
+            total_amount: 0,
+            document_types: [],
+            purchase_orders: [],
+            currency_types: [],
+            discount_types: [],
+            charges_types: [],
+            payment_method_types: [],
+            all_suppliers: [],
+            suppliers: [],
+            all_customers: [],
+            suppliers:[],
+            customers: [],
+            company: null,
+            operation_types: [],
+            all_series: [],
+            series: [],
+            payment_destinations: [],
+            payment_conditions: [],
+            currency_type: {},
+            loading_search: false,
+            purchaseNewId: null,
+            showDialogLots: false,
+        }},
     methods:{
         close() {
             location.href = '/proceso_prod'
