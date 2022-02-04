@@ -156,7 +156,71 @@
                         </td> -->
 
                     <!-- </tr> -->
-                    <tr>
+                    <!-- tabla back /////////////////////////////////////////////////////////////////////////////////////////////-->
+                      <tr slot-scope="{ index, row }">
+                          <td class="text-center">{{ index }}</td>
+                          <td class="text-center">{{ row.op }}</td>
+                          <td class="text-center">{{ row.partida }}</td>
+                          <td class="text-center">{{ row.producto_final }}</td>
+                          <td class="text-center">{{ row.fecha_inicio }}</td>
+                          <td class="text-center">{{ row.fecha_final }}</td>
+                          <td class="text-center">{{ row.proveedor }}</td>
+                          <template v-if ="row.estado === 'Importación'">
+                              <td class="text-center"><span class="badge bg-secondary text-white bg-info">
+                                    Importación
+                                    </span>
+                              </td>
+                              <td> 
+                                  <a :href="`/proceso_prod/import/${row.id}`" type="button" 
+                                    class="btn waves-effect waves-light btn-xs btn-info">Editar
+                            </a>
+                            </td>
+                          </template>
+                          <template v-else-if="row.estado  === 'Tejeduría'">
+                              <td class="text-center"><span style="background-color:#CA33FF;" class="badge text-white">Tejeduría
+                                </span></td>
+                              <td> <a :href="`/proceso_prod/tejeduria/${row.id}`" type="button" 
+                                    class="btn waves-effect waves-light btn-xs btn-info">Editar
+                            </a></td>
+                          </template>
+                          <template v-else-if="row.estado  === 'Tintorería'">
+                              <td class="text-center"><span style="background-color:#FF9C33;" class="badge text-white">
+                            Tintorería
+                                 </span>
+                              </td>
+                              <td> <a :href="`/proceso_prod/tintoreria/${row.id}`" type="button" 
+                                    class="btn waves-effect waves-light btn-xs btn-info">Editar
+                            </a></td>
+                          </template>
+                          <template v-else-if="row.estado  === 'Almacén'">
+                              <td class="text-center"><span style="background-color:#64D23B;" class="badge text-white">
+                            Almacén
+                                </span></td>
+                              <td> <a :href="`/proceso_prod/almacen/${row.id}`" type="button" 
+                                    class="btn waves-effect waves-light btn-xs btn-info">Editar
+                            </a></td>
+                          </template>
+                          <template v-else-if="row.estado  === 'Cancelado'">
+                             <td class="text-center"><span class="badge text-white bg-danger">
+                            Cancelado
+                                </span></td>
+                              <td class="text-center"> 
+                            <a :href="`/proceso_prod/detalle/${row.id}`" type="button" class="btn waves-effect waves-light btn-xs btn-info">
+                            <i class="fa fa-search"></i>
+                            </a></td>
+                          </template>
+                          <template v-else-if="row.estado  === 'Inventario'">
+                              <td class="text-center"><span style="background-color:#fff; border-color: black;border-width: 1px;
+                             border-style: solid;" class="badge text-black">
+                            Inventario
+                        </span></td>
+                             <td class="text-center"> 
+                            <a :href="`/proceso_prod/detalle/${row.id}`" type="button" class="btn waves-effect waves-light btn-xs btn-info">
+                            <i class="fa fa-search"></i>
+                            </a></td> 
+                          </template>
+                      </tr>
+                    <!-- <tr>
                         <td class="text-center">1</td>
                         <td class="text-center">66444</td>
                         <td class="text-center">83533</td>
@@ -250,7 +314,7 @@
                             <a :href="`/proceso_prod/detalle`" type="button" class="btn waves-effect waves-light btn-xs btn-info">
                             <i class="fa fa-search"></i>
                             </a></td> 
-                    </tr>
+                    </tr> -->
                 </data-table>
             </div>
 

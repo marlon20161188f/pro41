@@ -73,7 +73,7 @@
                                                     v-model="form.init"
                                                     :clearable="false"
                                                     format="dd/MM/yyyy"
-                                                    type="month"
+                                                    type="date"
                                                     value-format="yyyy-MM-dd">
                                                     </el-date-picker>
                                                  </div>
@@ -230,7 +230,6 @@ export default {
             all_suppliers: [],
             suppliers: [],
             all_customers: [],
-            suppliers:[],
             customers: [],
             company: null,
             operation_types: [],

@@ -132,7 +132,7 @@
                                                     v-model="form.llegada"
                                                     :clearable="false"
                                                     format="dd/MM/yyyy"
-                                                    type="month"
+                                                    type="date"
                                                     value-format="yyyy-MM-dd">
                                                     </el-date-picker>
                                                 </div>
@@ -154,7 +154,7 @@
                                             </td>
                                              <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input ></el-input>
+                                                    <el-input v-model="form.cantidad"></el-input>
                                                 </div>
                                             </td>
                                              <td>

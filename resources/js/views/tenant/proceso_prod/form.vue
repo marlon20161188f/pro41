@@ -4,7 +4,7 @@
             <h3 class="my-0">Nueva producción</h3>
         </div>
         <div class="tab-content">
-            <form autocomplete="off"
+            <form autocomplete="off" @submit.prevent="submit"
                  >
                 <div class="form-body">
                     <div class="row">
@@ -49,16 +49,16 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.purchase_orders_id">
+                                                    <el-select v-model="form.op">
                                                             <!-- @change="changePurchaseOrderType" -->
                                                             
                                                         <el-option v-for="option in purchase_orders"
                                                                 :key="option.id"
                                                                 :label="option.number"
-                                                                :value="option.id"></el-option>
-                                                                <small v-if="errors.currency_type_id"
+                                                                :value="option.number"></el-option>
+                                                                <!-- <small v-if="errors.currency_type_id"
                                        class="form-control-feedback"
-                                       v-text="errors.currency_type_id[0]"></small>
+                                       v-text="errors.currency_type_id[0]"></small> -->
                     
                                                     </el-select>
                                                 </div>
@@ -82,7 +82,7 @@
                                                     v-model="form.init"
                                                     :clearable="false"
                                                     format="dd/MM/yyyy"
-                                                    type="month"
+                                                    type="date"
                                                     value-format="yyyy-MM-dd">
                                                     </el-date-picker>
                                                  </div>
@@ -116,14 +116,13 @@
                     </div>
                 </div>
                 <div class="form-actions text-center mt-4">
-                    <el-button
-                               native-type="submit"
+                    <el-button 
+                                native-type="submit" :loading="loading_submit"
                                type="primary">Pasar a importación
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
                      <el-button
-                        native-type="submit"
-                        type="danger">
+                        @click.prevent="close()">
                         Cancelar proceso
                         </el-button>
                 </div>
@@ -181,7 +180,7 @@ export default {
                 this.form.currency_type_id = (this.currency_types.length > 0) ? this.currency_types[0].id : null
                 // this.form.establishment_id = (this.establishment.id) ? this.establishment.id : null
                 //this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
-                this.form.purchase_orders_id = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
+                this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
 
             })},
             data() {
@@ -224,7 +223,8 @@ export default {
             purchaseNewId: null,
             showDialogLots: false,
         }
-    }, async created() {
+    },
+     async created() {
             await this.initForm()
             await this.$http.get(`/${this.resource}/tables`)
                 .then(response => { 
@@ -234,7 +234,7 @@ export default {
                     this.company = response.data.company 
                     this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
                     this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
-                    this.form.purchase_orders_id = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
+                    this.form.op = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
     
 
                     this.changeEstablishment()
@@ -322,43 +322,60 @@ export default {
             initForm() {
                 this.errors = {}
                 this.form = {
-                    prefix:'CASO',
-                    observation: null,
-                    detail: null,
-                    establishment_id: null, 
-                    date_of_issue: moment().format('YYYY-MM-DD'),
-                    time_of_issue: moment().format('HH:mm:ss'),
-                    customer_id: null,
-                    currency_type_id: null,
-                    purchase_orders_id: null,
-                    exchange_rate_sale: 0, 
-                    total_exportation: 0,
-                    total_free: 0,
-                    total_taxed: 0,
-                    total_unaffected: 0,
-                    total_exonerated: 0,
-                    total_igv: 0, 
-                    total_taxes: 0,
-                    total_value: 0,
-                    total: 0,
-                    items: [],
-                    files: [],
-                    actions: {
-                        format_pdf:'a4',
+                    // prefix:'CASO',
+                    // observation: null,
+                    // detail: null,
+                    // establishment_id: null, 
+                    // date_of_issue: moment().format('YYYY-MM-DD'),
+                    // time_of_issue: moment().format('HH:mm:ss'),
+                    // customer_id: null,
+                    // currency_type_id: null,
+                    // purchase_orders_id: null,
+                    // exchange_rate_sale: 0, 
+                    // total_exportation: 0,
+                    // total_free: 0,
+                    // total_taxed: 0,
+                    // total_unaffected: 0,
+                    // total_exonerated: 0,
+                    // total_igv: 0, 
+                    // total_taxes: 0,
+                    // total_value: 0,
+                    // total: 0,
+                    // items: [],
+                    // files: [],
+                    // actions: {
+                    //     format_pdf:'a4',
+                    op:'OC-1',
+                    producto: null,
+                    peso: 0,
+                    init: null,
+                    hilo: null,
+                    tejed:null,
+                    tinto:null,
                     }
-                }
+            
             },
             resetForm() {
-                this.activePanel = 0
-                this.initForm()
-                this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
-                this.form.purchase_orders_id = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
+                this.errors = {}
+                this.form = {
+                    op:'OC-1',
+                    producto: null,
+                    peso: 0,
+                    init: null,
+                    hilo: null,
+                    tejed:null,
+                    tinto:null,
+                    }
+                // this.activePanel = 0
+                // this.initForm()
+                // this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
+                // this.form.purchase_orders_id = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
 
-                this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
-                this.changeEstablishment() 
-                this.changeDateOfIssue()
-                this.changeCurrencyType()
-                this.allCustomers()
+                // this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
+                // this.changeEstablishment() 
+                // this.changeDateOfIssue()
+                // this.changeCurrencyType()
+                // this.allCustomers()
             }, 
             changeEstablishment() {
                 this.establishment = _.find(this.establishments, {'id': this.form.establishment_id})
@@ -458,8 +475,11 @@ export default {
                 await this.$http.post(`/${this.resource}`, this.form).then(response => {
                     if (response.data.success) {
                         this.resetForm();
-                        this.saleOpportunityNewId = response.data.data.id;
-                        this.showDialogOptions = true;
+                        // this.saleOpportunityNewId = response.data.data.id;
+                        // this.showDialogOptions = true;
+                        this.$message.success(response.data.message)
+                        this.$eventHub.$emit('reloadData')
+                        this.close()
                         this.isUpdate()
                     }
                     else {
@@ -485,7 +505,7 @@ export default {
                     this.customers = response.data.customers
                     this.form.customer_id = customer_id
                 })                  
-            },
-        }
+            }
     }
+}
 </script>

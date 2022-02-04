@@ -38,12 +38,16 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Tenant\PaymentMethodType;
 use Modules\Sale\Models\SaleOpportunity;
 use Modules\Sale\Models\ProcesoProd;
+use Modules\Sale\Models\ProcesoProduc;
 use Modules\Sale\Models\SaleOpportunityItem;
 use Modules\Sale\Http\Resources\SaleOpportunityCollection;
 use Modules\Sale\Http\Resources\ProcesoProdCollection;
+use Modules\Sale\Http\Resources\ProcesoProducCollection;
 use Modules\Sale\Http\Resources\SaleOpportunityResource;
 use Modules\Sale\Http\Resources\SaleOpportunityResource2;
 use Modules\Sale\Http\Requests\SaleOpportunityRequest;
+use Modules\Sale\Http\Requests\ProcesoProducRequest;
+
 use Modules\Sale\Mail\SaleOpportunityEmail;
 
 /**
@@ -85,16 +89,18 @@ class ProdController extends Controller
     public function columns()
     {
         return [
-            'date_of_issue' => 'Fecha de emisión',
-            'user_name' => 'Vendedor',
-            'customer_name' => 'Cliente'
+            'fecha_inicio' => 'Fecha de inicio',
+            'op' => 'Proveedor'
         ];
     }
     public function records(Request $request)
     {
-        $records = $this->getRecords($request);
+        // $records =DB::table('proceso_producs')->get();
+        $records = ProcesoProduc::where('id', '=',2);
+         return new ProcesoProducCollection($records->paginate(config('tenant.items_per_page')));
+        // $records = $this->getRecords($request);
 
-        return new ProcesoProdCollection($records->paginate(config('tenant.items_per_page')));
+        // return new ProcesoProdCollection($records->paginate(config('tenant.items_per_page')));
     }
 
     private function getRecords($request){
@@ -122,6 +128,7 @@ class ProdController extends Controller
                                 ->latest();
 
         }
+        $records = ProcesoProduc::get();
 
         return $records;
     } 
@@ -253,6 +260,18 @@ class ProdController extends Controller
 
                 break;
         }
+    }
+    public function store(ProcesoProducRequest $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+        $proceso->fill($request->all());
+        $proceso->save();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
     }
 
 
