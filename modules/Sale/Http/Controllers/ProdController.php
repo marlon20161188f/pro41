@@ -96,7 +96,7 @@ class ProdController extends Controller
     public function records(Request $request)
     {
         // $records =DB::table('proceso_producs')->get();
-        $records = ProcesoProduc::where('id', '=',2);
+        $records = ProcesoProduc::where('id', '>',0);
          return new ProcesoProducCollection($records->paginate(config('tenant.items_per_page')));
         // $records = $this->getRecords($request);
 
