@@ -66,8 +66,9 @@ class ProdController extends Controller
     {
         return view('tenant.proceso_prod.form', compact('id'));
     }
-    public function import($id = null)
+    public function import($id)
     {
+        //dd($id);
         return view('tenant.proceso_prod.import', compact('id'));
     }
     public function tej($id = null)
@@ -85,6 +86,15 @@ class ProdController extends Controller
     public function det($id = null)
     {
         return view('tenant.proceso_prod.det', compact('id'));
+    }
+    public function record($id)
+    {
+        $record =  ProcesoProduc::query()->select('id','op',
+        'producto_final','init','llegada','hilo','partida',
+        'produc_artic','color','warehouses_id','cantidad','peso',
+        'tejed','tinto','estado')->find($id);
+
+        return $record;
     }
     public function columns()
     {

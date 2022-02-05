@@ -318,11 +318,11 @@
                 </data-table>
             </div>
 
-
+<!-- 
             <sale-opportunities-options :showDialog.sync="showDialogOptions"
                               :recordId="recordId"
                               :showGenerate="true"
-                              :showClose="true"></sale-opportunities-options>
+                              :showClose="true"></sale-opportunities-options> -->
 
         </div>
     </div>

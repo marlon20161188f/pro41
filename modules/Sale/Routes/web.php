@@ -64,7 +64,7 @@ if($current_hostname) {
                 Route::get('records', 'ProdController@records');
                 Route::get('record/{id}', 'ProdController@record');
                 Route::get('create/{id?}', 'ProdController@create')->name('tenant.proceso_prod.create')->middleware(['redirect.level']);
-                Route::get('import/{id?}', 'ProdController@import')->name('tenant.proceso_prod.import')->middleware(['redirect.level']);
+                Route::get('import/{id}', 'ProdController@import');
                 Route::get('tejeduria/{id?}', 'ProdController@tej')->name('tenant.proceso_prod.tejeduria')->middleware(['redirect.level']);
                 Route::get('tintoreria/{id?}', 'ProdController@tin')->name('tenant.proceso_prod.tintoreria')->middleware(['redirect.level']);
                 Route::get('almacen/{id?}', 'ProdController@alm')->name('tenant.proceso_prod.almacen')->middleware(['redirect.level']);
