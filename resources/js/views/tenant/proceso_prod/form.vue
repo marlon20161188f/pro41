@@ -121,10 +121,10 @@
                                type="primary">Pasar a importación
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
-                     <el-button
+                     <!-- <el-button
                         @click.prevent="close()">
                         Cancelar proceso
-                        </el-button>
+                        </el-button> -->
                 </div>
             </form>
         </div>
