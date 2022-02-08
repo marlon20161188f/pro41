@@ -4,7 +4,7 @@
             <h3 class="my-0">Tintorería</h3>
         </div>
         <div class="tab-content">
-            <form autocomplete="off"
+            <form autocomplete="off" @submit.prevent="submit"
                  >
                 <div class="form-body">
                     <div class="row">
@@ -49,14 +49,14 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select  v-model="form.purchase_orders" placeholder="OC-1" :disabled="true">
+                                                    <el-select  v-model="form.op" name="op" :disabled="true">
                                                         <el-option></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                     <el-select  v-model="form.producto">
+                                                     <el-select  v-model="form.producto_final" name="producto_final">
                                                         <el-option key="Rib" value="Rib" label="Rib"></el-option>
                                                         <el-option key="Rollo" value="Rollo" label="Rollo"></el-option>
                                                     </el-select>
@@ -64,7 +64,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.peso" type="number" placeholder="35" :disabled="true"></el-input>
+                                                   <el-input v-model="form.peso" type="number" name="peso" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                              <td>
@@ -74,13 +74,15 @@
                                                     :clearable="false"
                                                     format="dd/MM/yyyy"
                                                     type="date"
-                                                    value-format="yyyy-MM-dd">
+                                                    value-format="yyyy-MM-dd"
+                                                    name="init"
+                                                    >
                                                     </el-date-picker>
                                                  </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.hilo">
+                                                    <el-select v-model="form.hilo" name="hilo">
                                                         <el-option key="Hilo X" value="Hilo X" label="Hilo X"></el-option>
                                                         <el-option key="Hilo Y" value="Hilo Y" label="Hilo Y"></el-option>
                                                         <el-option key="Hilo Z" value="Hilo Z" label="Hilo Z"></el-option>
@@ -89,12 +91,12 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.tejed" type="number" :disabled="true" placeholder="5.6"></el-input>
+                                                    <el-input v-model="form.tejed" type="number" :disabled="true" name="tejed"></el-input>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.tinto" type="number" :disabled="true" placeholder="4.8"></el-input>
+                                                   <el-input v-model="form.tinto" type="number" :disabled="true" name="tinto"></el-input>
                                                 </div>
                                             </td>
                                             <br>
@@ -122,12 +124,12 @@
                                         <tr>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.partida" type="number"></el-input>
+                                                   <el-input v-model="form.partida" type="number" name="partida"></el-input>
                                                 </div>
                                             </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.color" placeholder="Amaríllo">
+                                                    <el-select v-model="form.color" name="color">
                                                             <!-- @change="changePurchaseOrderType" -->
                                                         <el-option key="Lila" value="Lila" label="Lila"></el-option>
                                                         <el-option key="Gris" value="Gris" label="Gris"></el-option>
@@ -139,7 +141,7 @@
                                             </td>
                                              <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.peso_tin" type="number"></el-input>
+                                                   <el-input v-model="form.peso_tin" type="number" name="peso_tin"></el-input>
                                                 </div>
                                             </td>
                                         </tr>
@@ -152,13 +154,12 @@
                 </div>
                 <div class="form-actions text-center mt-4">
                     <el-button
-                               native-type="submit"
+                               native-type="submit"  :loading="loading_submit"
                                type="primary">Pasar al almacén
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
                      <el-button
-                        native-type="submit"
-                        type="danger">
+                        @click.prevent="cancelar()" type="danger">
                         Cancelar proceso
                         </el-button>
                     
@@ -183,9 +184,43 @@
 <script>
 
 export default {
+     props:['id'],
     setup() {
         
-    },data() {
+    }, mounted() {
+        this.initForm()
+        this.$http.get(`/${this.resource}/tables`)
+            .then(response => {
+                let data = response.data
+                this.document_types = data.document_types_invoice
+                this.currency_types = data.currency_types
+                this.purchase_orders = data.purchase_orders
+                this.payment_conditions = data.payment_conditions
+                this.suppliers = data.suppliers
+                // this.establishment = data.establishment
+
+
+                this.all_suppliers = data.suppliers
+                this.discount_types = data.discount_types
+                this.payment_method_types = data.payment_method_types
+                this.payment_destinations = data.payment_destinations
+                this.all_customers = data.customers
+
+                this.charges_types = data.charges_types
+                this.$store.commit('setConfiguration', data.configuration);
+                this.$store.commit('setEstablishment', data.establishment);
+                //this.form.currency_type_id = (this.currency_types.length > 0) ? this.currency_types[0].id : null
+                // this.form.establishment_id = (this.establishment.id) ? this.establishment.id : null
+                //this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
+                this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
+                //this.form.prov_tejed = (this.suppliers.length > 0) ? this.suppliers[0].name : null
+            })
+            // this.$http.get(`/${this.resource}/record/${this.id}`)
+            //    .then(response => {
+            //     this.form = response.data
+            //     })
+            },
+    data() {
         return {
             input_person: {},
             resource: 'proceso_prod',
@@ -226,10 +261,117 @@ export default {
             purchaseNewId: null,
             showDialogLots: false,
         }},
+        async created() {
+            await this.initForm()
+            // await  this.$http.get(`/${this.resource}/record/${id}`)
+            //    .then(response => {
+            //     this.form = response.data
+            //     })
+            this.loading_form = true
+            this.$eventHub.$on('reloadDataPersons', (customer_id) => {
+                this.reloadDataCustomers(customer_id)
+            })
+
+            await this.isUpdate()
+
+        },
     methods:{
         close() {
             location.href = '/proceso_prod'
-        }
+        },
+        initForm() {
+            this.$http.get(`/${this.resource}/record/${this.id}`)
+               .then(response => {
+                this.form = response.data
+                })
+               this.errors = {}
+                this.form = {
+                    op:'OC-1',
+                    producto: null,
+                    peso: 0,
+                    init: null,
+                    hilo: null,
+                    tejed:null,
+                    tinto:null,
+                }
+            }, 
+            resetForm() {
+                this.errors = {}
+                this.form = {
+                    op:'OC-1',
+                    producto: null,
+                    peso: 0,
+                    init: null,
+                    hilo: null,
+                    tejed:null,
+                    tinto:null,
+                    }
+                // this.activePanel = 0
+                // this.initForm()
+                // this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
+                // this.form.purchase_orders_id = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
+
+                // this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
+                // this.changeEstablishment() 
+                // this.changeDateOfIssue()
+                // this.changeCurrencyType()
+                // this.allCustomers()
+            }, 
+         async submit() {
+
+                this.loading_submit = true
+
+                await this.$http.post(`/${this.resource}/tin`, this.form).then(response => {
+                    if (response.data.success) {
+                        this.resetForm();
+                        // this.saleOpportunityNewId = response.data.data.id;
+                        // this.showDialogOptions = true;
+                        this.$message.success(response.data.message)
+                        this.$eventHub.$emit('reloadData')
+                        this.close()
+                        this.isUpdate()
+                    }
+                    else {
+                        this.$message.error(response.data.message);
+                    }
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        this.errors = error.response.data;
+                    }
+                    else {
+                        this.$message.error(error.response.data.message);
+                    }
+                }).then(() => {
+                    this.loading_submit = false;
+                });
+
+            },
+            cancelar() {
+                    this.$http.post(`/${this.resource}/det`, this.form).then(response => {
+                    if (response.data.success) {
+                        this.resetForm();
+                        // this.saleOpportunityNewId = response.data.data.id;
+                        // this.showDialogOptions = true;
+                        this.$message.success(response.data.message)
+                        this.$eventHub.$emit('reloadData')
+                        this.close()
+                        this.isUpdate()
+                    }
+                    else {
+                        this.$message.error(response.data.message);
+                    }
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        this.errors = error.response.data;
+                    }
+                    else {
+                        this.$message.error(error.response.data.message);
+                    }
+                }).then(() => {
+                    this.loading_submit = false;
+                });
+
+            },
     }
 
 }

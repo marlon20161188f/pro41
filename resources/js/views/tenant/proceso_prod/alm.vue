@@ -4,7 +4,7 @@
             <h3 class="my-0">Almacén</h3>
         </div>
         <div class="tab-content">
-            <form autocomplete="off"
+            <form autocomplete="off" @submit.prevent="submit"
                  >
                 <div class="form-body">
                     <div class="row">
@@ -46,14 +46,14 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                     <el-select  v-model="form.purchase_orders" placeholder="OC-1" :disabled="true">
+                                                     <el-select  v-model="form.op" name="op" :disabled="true">
                                                         <el-option></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select  v-model="form.producto">
+                                                    <el-select  v-model="form.producto_final" name="producto_final">
                                                         <el-option key="Rib" value="Rib" label="Rib"></el-option>
                                                         <el-option key="Rollo" value="Rollo" label="Rollo"></el-option>
                                                     </el-select>
@@ -61,7 +61,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.peso_tin" type="number" placeholder="56" :disabled="true"></el-input>
+                                                    <el-input v-model="form.peso_tin" type="number" name="peso_tin" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                              <td>
@@ -71,13 +71,15 @@
                                                     :clearable="false"
                                                     format="dd/MM/yyyy"
                                                     type="month"
-                                                    value-format="yyyy-MM-dd" :disabled="true">
+                                                    value-format="yyyy-MM-dd" :disabled="true"
+                                                    name="init"
+                                                    >
                                                     </el-date-picker>
                                                  </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.hilo">
+                                                    <el-select v-model="form.hilo" name="hilo">
                                                         <el-option key="Hilo X" value="Hilo X" label="Hilo X"></el-option>
                                                         <el-option key="Hilo Y" value="Hilo Y" label="Hilo Y"></el-option>
                                                         <el-option key="Hilo Z" value="Hilo Z" label="Hilo Z"></el-option>
@@ -86,7 +88,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.partida" type="number"></el-input>
+                                                    <el-input v-model="form.partida" type="number" name="partida"></el-input>
                                                 </div>
                                             </td>
                                             <br>
@@ -120,7 +122,7 @@
                                         <tr>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.produc_articu">
+                                                    <el-select v-model="form.produc_artic" name="produc_artic">
                                                         <el-option key="PRODUCTO OBTENIDO" value="PRODUCTO OBTENIDO" label="PRODUCTO OBTENIDO"></el-option>
                                                         <el-option key="ARTICULO OBTENIDO" value="ARTICULO OBTENIDO" label="ARTICULO OBTENIDO"></el-option>
                                                     </el-select>
@@ -133,36 +135,35 @@
                                                     :clearable="false"
                                                     format="dd/MM/yyyy"
                                                     type="date"
-                                                    value-format="yyyy-MM-dd">
+                                                    value-format="yyyy-MM-dd"
+                                                    name="llegada"
+                                                    >
                                                     </el-date-picker>
                                                 </div>
                                             </td>
                                               <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                        <el-select v-model="form.warehouses_id" placeholder="Almacén">
+                                                        <el-select v-model="form.warehouses_id" name="warehouses_id">
                                                             <!-- @change="changePurchaseOrderType" -->
                                                             
                                                         <el-option v-for="options in warehouses"
                                                                 :key="options.id"
                                                                 :label="options.description"
-                                                                :value="options.id"></el-option>
-                                                                <small v-if="errors.currency_type_id"
-                                       class="form-control-feedback"
-                                       v-text="errors.currency_type_id[0]"></small>
+                                                                :value="options.description"></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
                                              <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.cantidad"></el-input>
+                                                    <el-input v-model="form.cantidad" name="cantidad" type="number"></el-input>
                                                 </div>
                                             </td>
                                              <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-button
-                                                        native-type="submit"
-                                                        type="primary">
-                                                      <i class="fa fa-list-ul"></i> Ingrese series
+                                                    <el-button icon="el-icon-edit-outline"
+                                                               size="small"
+                                                               type="primary"
+                                                               @click.prevent="clickLotcode">Ingrese series
                                                     </el-button>
                                                 </div>
                                             </td>
@@ -176,19 +177,25 @@
                 </div>
                 <div class="form-actions text-center mt-4">
                     <el-button
-                               native-type="submit"
+                               native-type="submit" :loading="loading_submit"
                                type="primary">Cargar inventario
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
                      <el-button
-                        native-type="submit"
-                        type="danger">
+                        @click.prevent="cancelar()" type="danger">
                         Cancelar proceso
                         </el-button>
                     
                 </div>
             </form>
         </div>
+        <lots-form
+            :lots="form.cantidad"
+            :recordId="recordId"
+            :showDialog.sync="showDialogLots"
+            :stock="form.stock"
+            @addRowLot="addRowLot">
+        </lots-form>
 
         <!-- <purchase-form-item ></purchase-form-item>
 
@@ -207,6 +214,7 @@
 <script>
 
 export default {
+    props:['id'],
     setup() {
         
     },
@@ -233,32 +241,19 @@ export default {
                 this.charges_types = data.charges_types
                 this.$store.commit('setConfiguration', data.configuration);
                 this.$store.commit('setEstablishment', data.establishment);
-                this.form.currency_type_id = (this.currency_types.length > 0) ? this.currency_types[0].id : null
+                //this.form.currency_type_id = (this.currency_types.length > 0) ? this.currency_types[0].id : null
                 // this.form.establishment_id = (this.establishment.id) ? this.establishment.id : null
                 //this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
-                this.form.purchase_orders_id = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
-                this.form.suppliers_id = (this.suppliers.length > 0) ? this.suppliers[0].name : null
+                this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
+                this.form.prov_tejed = (this.suppliers.length > 0) ? this.suppliers[0].name : null
                 this.form.warehouses_id = (this.warehouses.length > 0) ? this.warehouses[0].description : null
             })},
-             async created() {
+            async created() {
             await this.initForm()
-            await this.$http.get(`/${this.resource}/tables`)
-                .then(response => { 
-                    this.currency_types = response.data.currency_types
-                    this.establishments = response.data.establishments 
-                    this.all_customers = response.data.customers
-                    this.company = response.data.company 
-                    this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
-                    this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
-                    this.form.purchase_orders_id = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
-                    this.form.suppliers_id = (this.suppliers.length > 0)?this.suppliers[0].id:null
-                    this.form.warehouses_id = (this.warehouses.length > 0)?this.warehouses[0].id:null
-
-                    //this.changeEstablishment()
-                    // this.changeDateOfIssue() 
-                   // this.changeCurrencyType()
-                   // this.allCustomers()
-                })
+            // await  this.$http.get(`/${this.resource}/record/${id}`)
+            //    .then(response => {
+            //     this.form = response.data
+            //     })
             this.loading_form = true
             this.$eventHub.$on('reloadDataPersons', (customer_id) => {
                 this.reloadDataCustomers(customer_id)
@@ -269,6 +264,7 @@ export default {
         },
     data() {
         return {
+            showDialogLots: false,
             input_person: {},
             resource: 'proceso_prod',
             showDialogAddItem: false,
@@ -313,37 +309,93 @@ export default {
         close() {
             location.href = '/proceso_prod'
         },
-         initForm() {
+          initForm() {
+            this.$http.get(`/${this.resource}/record/${this.id}`)
+               .then(response => {
+                this.form = response.data
+                })
+               this.errors = {}
+            }, 
+            resetForm() {
                 this.errors = {}
                 this.form = {
-                    prefix:'CASO',
-                    observation: null,
-                    detail: null,
-                    establishment_id: null, 
-                    date_of_issue: moment().format('YYYY-MM-DD'),
-                    time_of_issue: moment().format('HH:mm:ss'),
-                    warehouses_id: null,
-                    suppliers_id: null,
-                    customer_id: null,
-                    currency_type_id: null,
-                    purchase_orders_id: null,
-                    exchange_rate_sale: 0, 
-                    total_exportation: 0,
-                    total_free: 0,
-                    total_taxed: 0,
-                    total_unaffected: 0,
-                    total_exonerated: 0,
-                    total_igv: 0, 
-                    total_taxes: 0,
-                    total_value: 0,
-                    total: 0,
-                    items: [],
-                    files: [],
-                    actions: {
-                        format_pdf:'a4',
+                    op:'OC-1',
+                    producto: null,
+                    peso: 0,
+                    init: null,
+                    hilo: null,
+                    tejed:null,
+                    tinto:null,
                     }
-                }
-            }
+                // this.activePanel = 0
+                // this.initForm()
+                // this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
+                // this.form.purchase_orders_id = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
+
+                // this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
+                // this.changeEstablishment() 
+                // this.changeDateOfIssue()
+                // this.changeCurrencyType()
+                // this.allCustomers()
+            }, 
+             async submit() {
+
+                this.loading_submit = true
+
+                await this.$http.post(`/${this.resource}/alm`, this.form).then(response => {
+                    if (response.data.success) {
+                        this.resetForm();
+                        // this.saleOpportunityNewId = response.data.data.id;
+                        // this.showDialogOptions = true;
+                        this.$message.success(response.data.message)
+                        this.$eventHub.$emit('reloadData')
+                        this.close()
+                        this.isUpdate()
+                    }
+                    else {
+                        this.$message.error(response.data.message);
+                    }
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        this.errors = error.response.data;
+                    }
+                    else {
+                        this.$message.error(error.response.data.message);
+                    }
+                }).then(() => {
+                    this.loading_submit = false;
+                });
+
+            },
+            cancelar() {
+                    this.$http.post(`/${this.resource}/det`, this.form).then(response => {
+                    if (response.data.success) {
+                        this.resetForm();
+                        // this.saleOpportunityNewId = response.data.data.id;
+                        // this.showDialogOptions = true;
+                        this.$message.success(response.data.message)
+                        this.$eventHub.$emit('reloadData')
+                        this.close()
+                        this.isUpdate()
+                    }
+                    else {
+                        this.$message.error(response.data.message);
+                    }
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        this.errors = error.response.data;
+                    }
+                    else {
+                        this.$message.error(error.response.data.message);
+                    }
+                }).then(() => {
+                    this.loading_submit = false;
+                });
+
+            },
+            clickLotcode() {
+            this.showDialogLots = true
+        },
     }
 
 }

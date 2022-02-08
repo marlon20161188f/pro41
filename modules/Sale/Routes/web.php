@@ -58,17 +58,22 @@ if($current_hostname) {
             Route::prefix('proceso_prod')->group(function() {
 
                 Route::get('', 'ProdController@index')->name('tenant.proceso_prod.index')->middleware(['redirect.level']);
-                Route::post('', 'ProdController@store');
+                Route::post('', 'ProdController@storecreate');
+                Route::post('import', 'ProdController@storeimport');
+                Route::post('tej', 'ProdController@storetej');
+                Route::post('tin', 'ProdController@storetin');
+                Route::post('alm', 'ProdController@storealm');
+                Route::post('det', 'ProdController@storedet');
 
                 Route::get('columns', 'ProdController@columns');
                 Route::get('records', 'ProdController@records');
                 Route::get('record/{id}', 'ProdController@record');
-                Route::get('create/{id?}', 'ProdController@create')->name('tenant.proceso_prod.create')->middleware(['redirect.level']);
+                Route::get('create/{id}', 'ProdController@create')->name('tenant.proceso_prod.create')->middleware(['redirect.level']);
                 Route::get('import/{id}', 'ProdController@import');
-                Route::get('tejeduria/{id?}', 'ProdController@tej')->name('tenant.proceso_prod.tejeduria')->middleware(['redirect.level']);
-                Route::get('tintoreria/{id?}', 'ProdController@tin')->name('tenant.proceso_prod.tintoreria')->middleware(['redirect.level']);
-                Route::get('almacen/{id?}', 'ProdController@alm')->name('tenant.proceso_prod.almacen')->middleware(['redirect.level']);
-                Route::get('detalle/{id?}', 'ProdController@det')->name('tenant.proceso_prod.det')->middleware(['redirect.level']);
+                Route::get('tejeduria/{id}', 'ProdController@tej');
+                Route::get('tintoreria/{id}', 'ProdController@tin');
+                Route::get('almacen/{id}', 'ProdController@alm');
+                Route::get('detalle/{id}', 'ProdController@det');
                 // Route::get('edit/{id}', 'SaleOpportunityController@edit');
                 Route::get('search/customers', 'ProdController@searchCustomers');
                 Route::get('search/customer/{id}', 'ProdController@searchCustomerById');

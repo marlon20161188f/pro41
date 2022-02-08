@@ -25,12 +25,17 @@ class ProcesoProducCollection extends ResourceCollection
                 'partida'=> $row->partida,
                 'produc_artic'=> $row->produc_artic,
                 'color'=> $row->color,
-                'proveedor'=> $row->warehouses_id,
+                'prov_tejed'=> $row->prov_tejed,
+                'warehouses_id' => $row->warehouses_id,
                 'cantidad'=> $row->cantidad,
                 'peso'=> $row->peso,
+                'peso_tej'=> $row->peso_tej,
+                'peso_tin'=> $row->peso_tin,
                 'tejed'=> $row->tejed,
                 'tinto'=> $row->tinto,
-                'estado' => $row->estado
+                'estado' => $row->estado,
+                'prov_tejed' => $row->prov_tejed,
+                'prov_tin' => $row->prov_tin
                 ];
         });
     }

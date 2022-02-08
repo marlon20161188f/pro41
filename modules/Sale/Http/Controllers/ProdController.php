@@ -46,7 +46,11 @@ use Modules\Sale\Http\Resources\ProcesoProducCollection;
 use Modules\Sale\Http\Resources\SaleOpportunityResource;
 use Modules\Sale\Http\Resources\SaleOpportunityResource2;
 use Modules\Sale\Http\Requests\SaleOpportunityRequest;
-use Modules\Sale\Http\Requests\ProcesoProducRequest;
+use Modules\Sale\Http\Requests\ProcesoProducCreateRequest;
+use Modules\Sale\Http\Requests\ProcesoProducImportRequest;
+use Modules\Sale\Http\Requests\ProcesoProducTejRequest;
+use Modules\Sale\Http\Requests\ProcesoProducTinRequest;
+use Modules\Sale\Http\Requests\ProcesoProducAlmRequest;
 
 use Modules\Sale\Mail\SaleOpportunityEmail;
 
@@ -62,7 +66,7 @@ class ProdController extends Controller
 
         return view('tenant.proceso_prod.index');
     }
-    public function create($id = null)
+    public function create($id)
     {
         return view('tenant.proceso_prod.form', compact('id'));
     }
@@ -71,28 +75,25 @@ class ProdController extends Controller
         //dd($id);
         return view('tenant.proceso_prod.import', compact('id'));
     }
-    public function tej($id = null)
+    public function tej($id)
     {
         return view('tenant.proceso_prod.tej', compact('id'));
     }
-    public function tin($id = null)
+    public function tin($id )
     {
         return view('tenant.proceso_prod.tin', compact('id'));
     }
-    public function alm($id = null)
+    public function alm($id)
     {
         return view('tenant.proceso_prod.alm', compact('id'));
     }
-    public function det($id = null)
+    public function det($id)
     {
         return view('tenant.proceso_prod.det', compact('id'));
     }
     public function record($id)
     {
-        $record =  ProcesoProduc::query()->select('id','op',
-        'producto_final','init','llegada','hilo','partida',
-        'produc_artic','color','warehouses_id','cantidad','peso',
-        'tejed','tinto','estado')->find($id);
+        $record =  ProcesoProduc::find($id);
 
         return $record;
     }
@@ -112,6 +113,7 @@ class ProdController extends Controller
 
         // return new ProcesoProdCollection($records->paginate(config('tenant.items_per_page')));
     }
+    
 
     private function getRecords($request){
 
@@ -271,7 +273,7 @@ class ProdController extends Controller
                 break;
         }
     }
-    public function store(ProcesoProducRequest $request)
+    public function storecreate(ProcesoProducCreateRequest $request)
     {
         $id = $request->input('id');
         $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
@@ -283,6 +285,72 @@ class ProdController extends Controller
             'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
         ];
     }
+    public function storeimport(ProcesoProducImportRequest $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+        $proceso->fill($request->all());
+        $proceso->estado="Tejeduría";
+        $proceso->update();
 
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
+    }
+    public function storetej(ProcesoProducTejRequest $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+        $proceso->fill($request->all());
+        $proceso->estado="Tintorería";
+        $proceso->update();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
+    }
+    public function storetin(ProcesoProducTinRequest $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+        $proceso->fill($request->all());
+        $proceso->estado="Almacén";
+        $proceso->update();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
+    }
+    public function storealm(ProcesoProducaLMRequest $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+        $proceso->fill($request->all());
+        $proceso->estado="Inventario";
+        $proceso->update();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
+    }
+    public function storedet(Request $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+       // $proceso->fill($request->all());
+        $proceso->estado="Cancelado";
+        $proceso->update();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
+    }
+    
+    
 
 }

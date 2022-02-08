@@ -65,7 +65,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select  v-model="form.producto" placeholder="Rib">
+                                                    <el-select  v-model="form.producto_final" placeholder="Rib">
                                                         <el-option key="Rib" value="Rib" label="Rib"></el-option>
                                                         <el-option key="Rollo" value="Rollo" label="Rollo"></el-option>
                                                     </el-select>

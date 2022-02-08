@@ -31,9 +31,15 @@ class ProcesoProduc extends ModelTenant
             'warehouses_id',
             'cantidad',
             'peso',
+            'peso_tej',
+            'peso_tin',
             'tejed',
             'tinto',
-            'estado'
+            'estado',
+            'prev_tejed',
+            'prev_tin',
+            'updated_at',
+            'created_at'
         ];
         protected $casts = [
             'init' => 'date', 

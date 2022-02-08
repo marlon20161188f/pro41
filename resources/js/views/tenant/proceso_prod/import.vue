@@ -49,14 +49,14 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select  v-model="form.op" placeholder="OC-1" :disabled="true">
+                                                    <el-select  v-model="form.op" placeholder="OC-1" :disabled="true" name="op">
                                                         <el-option ></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                     <el-select  v-model="form.producto">
+                                                     <el-select  v-model="form.producto_final" name="producto_final">
                                                         <el-option key="Rib" value="Rib" label="Rib"></el-option>
                                                         <el-option key="Rollo" value="Rollo" label="Rollo"></el-option>
                                                     </el-select>
@@ -64,7 +64,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.peso" type="number" placeholder="" :disabled="true"></el-input>
+                                                   <el-input v-model="form.peso" type="number" placeholder="" :disabled="true" name="peso"></el-input>
                                                 </div>
                                             </td>
                                              <td>
@@ -74,13 +74,13 @@
                                                     :clearable="false"
                                                     format="dd/MM/yyyy"
                                                     type="date"
-                                                    value-format="yyyy-MM-dd">
+                                                    value-format="yyyy-MM-dd" name="init">
                                                     </el-date-picker>
                                                  </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.hilo">
+                                                    <el-select v-model="form.hilo" name="hilo">
                                                         <el-option key="Hilo X" value="Hilo X" label="Hilo X"></el-option>
                                                         <el-option key="Hilo Y" value="Hilo Y" label="Hilo Y"></el-option>
                                                         <el-option key="Hilo Z" value="Hilo Z" label="Hilo Z"></el-option>
@@ -89,12 +89,12 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.tejed" type="number"></el-input>
+                                                    <el-input v-model="form.tejed" type="number" name="tejed"></el-input>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.tinto" type="number"></el-input>
+                                                   <el-input v-model="form.tinto" type="number" name="tinto"></el-input>
                                                 </div>
                                             </td>
                                             <br>
@@ -116,13 +116,13 @@
                                         <tr>
                                             <td>
                                                 <div class="form-group mb-2 mr-2"> 
-                                                   <el-select v-model="form.prov_tejed" placeholder="Proveedor">
+                                                   <el-select v-model="form.prov_tejed" name="prov_tejed">
                                                             <!-- @change="changePurchaseOrderType" -->
                                                             
                                                         <el-option v-for="option in suppliers"
                                                                 :key="option.id"
                                                                 :label="option.name"
-                                                                :value="option.id"></el-option>
+                                                                :value="option.name"></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
@@ -141,8 +141,7 @@
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
                      <el-button
-                        native-type="submit"
-                        type="danger">
+                        @click.prevent="cancelar()" type="danger">
                         Cancelar proceso
                         </el-button>
                     
@@ -193,10 +192,10 @@ export default {
                 this.charges_types = data.charges_types
                 this.$store.commit('setConfiguration', data.configuration);
                 this.$store.commit('setEstablishment', data.establishment);
-                this.form.currency_type_id = (this.currency_types.length > 0) ? this.currency_types[0].id : null
+                //this.form.currency_type_id = (this.currency_types.length > 0) ? this.currency_types[0].id : null
                 // this.form.establishment_id = (this.establishment.id) ? this.establishment.id : null
                 //this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
-                this.form.purchase_orders_id = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
+                this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
                 this.form.prov_tejed = (this.suppliers.length > 0) ? this.suppliers[0].name : null
             })
             // this.$http.get(`/${this.resource}/record/${this.id}`)
@@ -308,7 +307,33 @@ export default {
 
                 this.loading_submit = true
 
-                await this.$http.post(`/${this.resource}`, this.form).then(response => {
+                await this.$http.post(`/${this.resource}/import`, this.form).then(response => {
+                    if (response.data.success) {
+                        this.resetForm();
+                        // this.saleOpportunityNewId = response.data.data.id;
+                        // this.showDialogOptions = true;
+                        this.$message.success(response.data.message)
+                        this.$eventHub.$emit('reloadData')
+                        this.close()
+                        this.isUpdate()
+                    }
+                    else {
+                        this.$message.error(response.data.message);
+                    }
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        this.errors = error.response.data;
+                    }
+                    else {
+                        this.$message.error(error.response.data.message);
+                    }
+                }).then(() => {
+                    this.loading_submit = false;
+                });
+
+            },
+            cancelar() {
+                    this.$http.post(`/${this.resource}/det`, this.form).then(response => {
                     if (response.data.success) {
                         this.resetForm();
                         // this.saleOpportunityNewId = response.data.data.id;
