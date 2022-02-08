@@ -66,7 +66,7 @@ class ProdController extends Controller
 
         return view('tenant.proceso_prod.index');
     }
-    public function create($id)
+    public function create($id=null)
     {
         return view('tenant.proceso_prod.form', compact('id'));
     }
