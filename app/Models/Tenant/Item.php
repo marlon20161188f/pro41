@@ -820,6 +820,7 @@ class Item extends ModelTenant
                 return [
                     'id'           => $row->id,
                     'series'       => $row->series,
+                    'peso'         => $row->peso,
                     'date'         => $row->date,
                     'item_id'      => $row->item_id,
                     'warehouse_id' => $row->warehouse_id,

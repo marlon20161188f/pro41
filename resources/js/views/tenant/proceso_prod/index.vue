@@ -170,7 +170,7 @@
                                     Importación
                                     </span>
                               </td>
-                              <td> 
+                              <td class="text-center"> 
                                   <a :href="`/proceso_prod/import/${row.id}`" type="button" 
                                     class="btn waves-effect waves-light btn-xs btn-info">Editar
                             </a>
@@ -180,7 +180,7 @@
                               <td class="text-center">{{ row.prov_tejed }}</td>
                               <td class="text-center"><span style="background-color:#CA33FF;" class="badge text-white">Tejeduría
                                 </span></td>
-                              <td> <a :href="`/proceso_prod/tejeduria/${row.id}`" type="button" 
+                              <td class="text-center"> <a :href="`/proceso_prod/tejeduria/${row.id}`" type="button" 
                                     class="btn waves-effect waves-light btn-xs btn-info">Editar
                             </a></td>
                           </template>
@@ -190,7 +190,7 @@
                             Tintorería
                                  </span>
                               </td>
-                              <td> <a :href="`/proceso_prod/tintoreria/${row.id}`" type="button" 
+                              <td class="text-center"> <a :href="`/proceso_prod/tintoreria/${row.id}`" type="button" 
                                     class="btn waves-effect waves-light btn-xs btn-info">Editar
                             </a></td>
                           </template>
@@ -199,7 +199,7 @@
                               <td class="text-center"><span style="background-color:#64D23B;" class="badge text-white">
                             Almacén
                                 </span></td>
-                              <td> <a :href="`/proceso_prod/almacen/${row.id}`" type="button" 
+                              <td class="text-center"> <a :href="`/proceso_prod/almacen/${row.id}`" type="button" 
                                     class="btn waves-effect waves-light btn-xs btn-info">Editar
                             </a></td>
                           </template>

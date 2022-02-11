@@ -26,6 +26,7 @@ class ItemLotController extends Controller
     {
         return [
             'series' => 'Serie',
+            'peso' =>'peso',
             'date' => 'Fecha',
             'state' => 'Estado',
             'item_description' => 'Producto',

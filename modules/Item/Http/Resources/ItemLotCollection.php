@@ -29,6 +29,7 @@ class ItemLotCollection extends ResourceCollection
                 'series' => $row->series,
                 'item_description' => $row->item->description,
                 'date' => $row->date,
+                'peso' => $row->peso,
                 'state' => $row->state,
                 'item_id' => $row->item_id,
                 'warehouse_id' => $row->warehouse_id,

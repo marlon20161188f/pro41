@@ -123,8 +123,10 @@
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
                                                     <el-select v-model="form.produc_artic" name="produc_artic">
-                                                        <el-option key="PRODUCTO OBTENIDO" value="PRODUCTO OBTENIDO" label="PRODUCTO OBTENIDO"></el-option>
-                                                        <el-option key="ARTICULO OBTENIDO" value="ARTICULO OBTENIDO" label="ARTICULO OBTENIDO"></el-option>
+                                                       <el-option v-for="options in items"
+                                                                :key="options.id"
+                                                                :label="options.description"
+                                                                :value="options.id"></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
@@ -188,15 +190,16 @@
                     
                 </div>
             </form>
-        </div>
-        <lots-form
-            :lots="form.cantidad"
+             <lots-form
+            :lots="lots"
             :recordId="recordId"
             :showDialog.sync="showDialogLots"
-            :stock="form.stock"
-            @addRowLot="addRowLot">
+            :stock="form.cantidad"
+            @addRowLot="addRowLot"
+            >
         </lots-form>
-
+        </div>
+        
         <!-- <purchase-form-item ></purchase-form-item>
 
         <person-form 
@@ -212,14 +215,24 @@
 </template>
 
 <script>
-
+import LotsForm from './partials/lots.vue';
+import {mapActions} from "vuex";
 export default {
-    props:['id'],
+    props:['id', 'showDialog'],
+    components: {
+        LotsForm
+    },
     setup() {
         
     },
-     mounted() {
-        this.initForm()
+    async mounted() {
+       await this.initForm()
+        this.$http.get(`/${this.resource}/item/tables`)
+        .then(response => {
+            let data = response.data
+            this.items = data.items
+             this.form.produc_artic = (this.items.length > 0) ? this.items[0].description : null
+        }),
         this.$http.get(`/${this.resource}/tables`)
             .then(response => {
                 let data = response.data
@@ -247,7 +260,10 @@ export default {
                 this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
                 this.form.prov_tejed = (this.suppliers.length > 0) ? this.suppliers[0].name : null
                 this.form.warehouses_id = (this.warehouses.length > 0) ? this.warehouses[0].description : null
-            })},
+                this.form.produc_artic = (this.items.length > 0) ? this.items[0].description : null
+
+            })
+    },
             async created() {
             await this.initForm()
             // await  this.$http.get(`/${this.resource}/record/${id}`)
@@ -264,7 +280,9 @@ export default {
         },
     data() {
         return {
-            showDialogLots: false,
+            lots:[],
+            recordId: null,
+            id: null,
             input_person: {},
             resource: 'proceso_prod',
             showDialogAddItem: false,
@@ -292,12 +310,13 @@ export default {
             suppliers: [],
             all_customers: [],
             warehouses:[],
+            items:[],
             suppliers:[],
             customers: [],
             company: null,
             operation_types: [],
             all_series: [],
-            series: [],
+            //series: [],
             payment_destinations: [],
             payment_conditions: [],
             currency_type: {},
@@ -306,6 +325,9 @@ export default {
             showDialogLots: false,
         }},
     methods:{
+        ...mapActions([
+            'loadConfiguration',
+        ]),
         close() {
             location.href = '/proceso_prod'
         },
@@ -314,6 +336,16 @@ export default {
                .then(response => {
                 this.form = response.data
                 })
+                this.form = {
+                    op:'OC-1',
+                    producto: null,
+                    init: null,
+                    hilo: null,
+                    tejed:null,
+                    tinto:null,
+                    produc_artic: null,
+                    lots: [],
+                    }
                this.errors = {}
             }, 
             resetForm() {
@@ -321,8 +353,8 @@ export default {
                 this.form = {
                     op:'OC-1',
                     producto: null,
-                    peso: 0,
                     init: null,
+                    produc_artic: null,
                     hilo: null,
                     tejed:null,
                     tinto:null,
@@ -341,7 +373,7 @@ export default {
              async submit() {
 
                 this.loading_submit = true
-
+                this.form.lots=this.lots
                 await this.$http.post(`/${this.resource}/alm`, this.form).then(response => {
                     if (response.data.success) {
                         this.resetForm();
@@ -396,6 +428,10 @@ export default {
             clickLotcode() {
             this.showDialogLots = true
         },
+        addRowLot(lots) {
+            this.lots = lots
+        },
+        
     }
 
 }

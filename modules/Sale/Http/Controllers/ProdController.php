@@ -51,6 +51,7 @@ use Modules\Sale\Http\Requests\ProcesoProducImportRequest;
 use Modules\Sale\Http\Requests\ProcesoProducTejRequest;
 use Modules\Sale\Http\Requests\ProcesoProducTinRequest;
 use Modules\Sale\Http\Requests\ProcesoProducAlmRequest;
+use App\Http\Requests\Tenant\ItemRequest;
 
 use Modules\Sale\Mail\SaleOpportunityEmail;
 
@@ -273,6 +274,16 @@ class ProdController extends Controller
                 break;
         }
     }
+    public function getFullDescription($row){
+
+        $desc = ($row->internal_id)?$row->internal_id.' - '.$row->description : $row->description;
+        $category = ($row->category) ? " - {$row->category->name}" : "";
+        $brand = ($row->brand) ? " - {$row->brand->name}" : "";
+
+        $desc = "{$desc} {$category} {$brand}";
+
+        return $desc;
+    }
     public function storecreate(ProcesoProducCreateRequest $request)
     {
         $id = $request->input('id');
@@ -331,7 +342,30 @@ class ProdController extends Controller
         $proceso->fill($request->all());
         $proceso->estado="Inventario";
         $proceso->update();
+        $item = Item::firstOrNew(['id' => $proceso->produc_artic]);
+        //$item->fill($request->all());
+            // $item->lots()->delete();
+            $establishment = Establishment::where('id', auth()->user()->establishment_id)->first();
+            $warehouse = Warehouse::where('establishment_id',$establishment->id)->first();
 
+            //$warehouse = WarehouseModule::find(auth()->user()->establishment_id);
+
+            $v_lots = isset($request->lots) ? $request->lots:[];
+
+            foreach ($v_lots as $lot) {
+
+                // $item->lots()->create($lot);
+                $item->lots()->create([
+                    'date' => $lot['date'],
+                    'series' => $lot['series'],
+                    'peso' => $lot['peso'],
+                    'item_id' => $item->id,
+                    'warehouse_id' => $warehouse ? $warehouse->id:null,
+                    'has_sale' => false,
+                    'state' => $lot['state'],
+                ]);
+            }
+        $item->update();
         return [
             'success' => true,
             'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
@@ -350,7 +384,44 @@ class ProdController extends Controller
             'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
         ];
     }
-    
+    public function storeSeries(ItemRequest $request) {
+
+        $id = $request->input('id');
+        $item = Item::firstOrNew(['id' => $id]);
+        $item->fill($request->all());
+        if ($id) {
+
+            // $item->lots()->delete();
+            $establishment = Establishment::where('id', auth()->user()->establishment_id)->first();
+            $warehouse = Warehouse::where('establishment_id',$establishment->id)->first();
+
+            //$warehouse = WarehouseModule::find(auth()->user()->establishment_id);
+
+            $v_lots = isset($request->lots) ? $request->lots:[];
+
+            foreach ($v_lots as $lot) {
+
+                // $item->lots()->create($lot);
+                $item->lots()->create([
+                    'date' => $lot['date'],
+                    'series' => $lot['series'],
+                    'item_id' => $item->id,
+                    'warehouse_id' => $warehouse ? $warehouse->id:null,
+                    'has_sale' => false,
+                    'state' => $lot['state'],
+                ]);
+            }
+        } 
+
+        $item->update();
+        
+        return [
+            'success' => true,
+            'message' => ($id)?'Producto editado con éxito':'Producto registrado con éxito',
+            'id' => $item->id
+        ];
+    }
+
     
 
 }

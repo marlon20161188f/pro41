@@ -24,6 +24,7 @@ class ItemLot extends ModelTenant
         'series',
         'date',
         'item_id',
+        'peso',
         'warehouse_id',
         'item_loteable_type',
         'item_loteable_id',
