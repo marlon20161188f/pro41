@@ -20,7 +20,7 @@ class ProcesoProducCreateRequest extends FormRequest
             'op' => [
                 'required',
             ],
-            'producto' => [
+            'producto_final' => [
                 'required',
             ],
             'peso' => [
