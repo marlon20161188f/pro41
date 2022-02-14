@@ -88,7 +88,12 @@ if($current_hostname) {
                 Route::get('print/{external_id}/{format?}', 'ProdController@toPrint');
 
             });
+            Route::prefix('proceso_prod_merma')->group(function() {
+                Route::get('', 'ProdMermaController@index')->name('tenant.proceso_prod_merma.index')->middleware(['redirect.level']);
+                Route::get('columns', 'ProdMermaController@columns');
+                Route::get('records', 'ProdMermaController@records');
 
+            });
             Route::prefix('payment-method-types')->group(function () {
 
                 Route::get('/records', 'PaymentMethodTypeController@records');

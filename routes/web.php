@@ -487,6 +487,7 @@ if ($hostname) {
             
             //proceso productivo
             Route::get('proceso_prod', 'Tenant\ProdController@index')->name('tenant.proceso_prod.index')->middleware('redirect.level');
+            Route::get('proceso_prod_merma', 'Tenant\ProdMermaController@index')->name('tenant.proceso_prod_merma.index')->middleware('redirect.level');
             Route::get('proceso_prod/columns', 'Tenant\SaleNoteController@columns');
             Route::get('proceso_prod/columns2', 'Tenant\SaleNoteController@columns2');
             

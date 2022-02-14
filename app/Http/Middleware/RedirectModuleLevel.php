@@ -112,7 +112,11 @@
                                                 } else {
                                                     if ($path[0] == "proceso_prod" && $path[1] == "create") {
                                                         $group = "proceso_prod";
-                                                    } 
+                                                    }  else {
+                                                        if ($path[0] == "proceso_prod_merma" && $path[1] == "create") {
+                                                            $group = "proceso_prod_merma";
+                                                        } 
+                                                    }
                                                 }
                                             }
                                         }
@@ -160,6 +164,8 @@
                     $group = "sale-opportunity";
                 } elseif ($path[0] == "proceso_prod") {
                     $group = "proceso_prod";
+                } elseif ($path[0] == "proceso_prod_merma") {
+                    $group = "proceso_prod_merma";
                 } elseif (in_array($path[0], ["contracts", "production-orders"])) {
                     $group = "contracts";
                 } elseif ($path[0] == "order-notes") {
@@ -315,6 +321,9 @@
 
                 case 'proceso_prod':
                     return redirect()->route('tenant.proceso_prod.index');
+                
+                case 'proceso_prod_merma':
+                        return redirect()->route('tenant.proceso_prod_merma.index');
 
                 case 'contracts':
                     return redirect()->route('tenant.contracts.create');

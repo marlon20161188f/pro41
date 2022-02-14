@@ -343,9 +343,10 @@
                                     @endif
                                     @if(in_array('proceso_prod_merma', $vc_module_levels))
                                         <li class="{{ ($firstLevel === 'proceso_prod_merma')?'nav-active':'' }}">
+
                                             <a class="nav-link"
                                                href="{{route('tenant.proceso_prod_merma.index')}}">
-                                                Proceso Productivo
+                                                Alerta de Mermas
                                             </a>
                                         </li>
                                     @endif

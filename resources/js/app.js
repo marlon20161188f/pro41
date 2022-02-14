@@ -217,6 +217,8 @@ Vue.component('tenant-proceso_prod-tej', require('./views/tenant/proceso_prod/te
 Vue.component('tenant-proceso_prod-tin', require('./views/tenant/proceso_prod/tin.vue'));
 Vue.component('tenant-proceso_prod-alm', require('./views/tenant/proceso_prod/alm.vue'));
 Vue.component('tenant-proceso_prod-det', require('./views/tenant/proceso_prod/det.vue'));
+//proceso_prod_merma
+Vue.component('tenant-proceso_prod_merma-index', require('./views/tenant/proceso_prod_merma/index.vue'));
 
 //Finance
 Vue.component('tenant-finance-global-payments-index', require('../../modules/Finance/Resources/assets/js/views/global_payments/index.vue'));
