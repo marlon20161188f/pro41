@@ -15,10 +15,10 @@ class CompanyAccountResource extends JsonResource
     public function toArray($request) {
         return [
             'id' => $this->id, 
-            'subtotal_pen'=> $this->subtotal_pen,
+            'Subtotal_pen'=> $this->Subtotal_pen,
             'total_pen'=> $this->total_pen, 
             'igv_pen'=> $this->igv_pen, 
-            'subtotal_usd'=> $this->subtotal_usd, 
+            'Subtotal_usd'=> $this->Subtotal_usd, 
             'total_usd'=> $this->total_usd, 
             'igv_usd'=> $this->igv_usd, 
         ];

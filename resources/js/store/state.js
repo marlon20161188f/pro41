@@ -42,7 +42,7 @@ export default {
         cron: false,
         sunat_alternate_server: false,
         compact_sidebar: false,
-        subtotal_account: 0,
+        Subtotal_account: 0,
         decimal_quantity: 0,
         amount_plastic_bag_taxes: 0,
         colums_grid_item: 0,

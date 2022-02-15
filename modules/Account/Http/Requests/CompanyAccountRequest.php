@@ -15,10 +15,10 @@ class CompanyAccountRequest extends FormRequest
         $id = $this->input('id');
         
         return [   
-            'subtotal_pen'=> ['required'],
+            'Subtotal_pen'=> ['required'],
             'total_pen'=> ['required'], 
             'igv_pen'=> ['required'], 
-            'subtotal_usd'=> ['required'], 
+            'Subtotal_usd'=> ['required'], 
             'total_usd'=> ['required'], 
             'igv_usd'=> ['required'], 
         ];

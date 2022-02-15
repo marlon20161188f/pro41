@@ -47,7 +47,7 @@ class DocumentTransform
             'total_plastic_bag_taxes' => Functions::valueKeyInArray($totals, 'total_impuestos_bolsa_plastica'),
             'total_taxes' => Functions::valueKeyInArray($totals, 'total_impuestos'),
             'total_value' => Functions::valueKeyInArray($totals, 'total_valor'),
-            'subtotal' => (Functions::valueKeyInArray($totals, 'subtotal_venta')) ? $totals['subtotal_venta'] : $totals['total_venta'],
+            'Subtotal' => (Functions::valueKeyInArray($totals, 'Subtotal_venta')) ? $totals['Subtotal_venta'] : $totals['total_venta'],
             'total' => Functions::valueKeyInArray($totals, 'total_venta'),
             'total_pending_payment' => Functions::valueKeyInArray($totals, 'total_pendiente_pago'),
             // 'pending_amount_detraction' => Functions::valueKeyInArray($totals, 'total_pendiente_detraccion'),

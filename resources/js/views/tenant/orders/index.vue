@@ -57,7 +57,7 @@
                     <el-table-column width="90" property="exchange_rate_sale" label="T/C"></el-table-column>
                     <el-table-column width="90" label="Subtotal">
                       <template slot-scope="scope">
-                        <span>S/ {{ subtotal(scope.row) }}</span>
+                        <span>S/ {{ Subtotal(scope.row) }}</span>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -247,18 +247,18 @@ export default {
       this.resource_options = 'documents'
       this.showDialogOptions = true
     },
-    subtotal(item) {
-      var subtotal;
+    Subtotal(item) {
+      var Subtotal;
       if (item.currency_type_id === "USD") {
-        subtotal = Number(
+        Subtotal = Number(
           item.cantidad *
             item.exchange_rate_sale *
             parseFloat(item.sale_unit_price)
         ).toFixed(2);
-        if (isNaN(subtotal)) {
+        if (isNaN(Subtotal)) {
           return "-";
         } else {
-          return subtotal
+          return Subtotal
         }
       } else {
         return parseFloat(item.cantidad * item.sale_unit_price)

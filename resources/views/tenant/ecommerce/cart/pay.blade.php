@@ -178,7 +178,7 @@
             records: [],
             message: 'Hello Vue!',
             summary: {
-                subtotal: '0.0',
+                Subtotal: '0.0',
                 tax: '0.0',
                 total: '0.0'
             },
@@ -224,16 +224,16 @@
                 localStorage.setItem('products_cart', JSON.stringify([]))
             },
             calculateSummary() {
-                let subtotal = 0.00
+                let Subtotal = 0.00
                 this.records.forEach(function (item) {
                     //console.log(item)
-                    subtotal += parseFloat(item.sub_total)
+                    Subtotal += parseFloat(item.sub_total)
                 })
 
-                this.summary.subtotal = subtotal.toFixed(2)
-                let tax = (subtotal * 0.18)
+                this.summary.Subtotal = Subtotal.toFixed(2)
+                let tax = (Subtotal * 0.18)
                 this.summary.tax = tax.toFixed(2)
-                this.summary.total = (subtotal + tax).toFixed(2)
+                this.summary.total = (Subtotal + tax).toFixed(2)
 
 
 

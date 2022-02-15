@@ -44,7 +44,7 @@ $type = $type ?? 'sale';
 <th> VALOR UNITARIO</th>
 <th> PRECIO UNITARIO</th>
 <th> DESCUENTO</th>
-<th> SUBTOTAL</th>
+<th> Subtotal</th>
 <th> TIPO DE IGV</th>
 <th> IGV</th>
 <th> TIPO DE ISC</th>

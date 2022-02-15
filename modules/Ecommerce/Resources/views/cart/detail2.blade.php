@@ -77,7 +77,7 @@
                 <tbody>
                     <tr>
                         <td>Subtotal</td>
-                        <td>S/ @{{summary.subtotal}}</td>
+                        <td>S/ @{{summary.Subtotal}}</td>
                     </tr>
 
                     <tr>
@@ -235,7 +235,7 @@
             records_old: [],
             order_generated: {},
             summary: {
-                subtotal: '0.0',
+                Subtotal: '0.0',
                 tax: '0.0',
                 total: '0.0'
             },
@@ -514,16 +514,16 @@
                 this.calculateSummary()
             },
             calculateSummary() {
-                let subtotal = 0.00
+                let Subtotal = 0.00
                 this.records.forEach(function (item) {
                     //console.log(item)
-                    subtotal += parseFloat(item.sub_total)
+                    Subtotal += parseFloat(item.sub_total)
                 })
 
-                this.summary.subtotal = subtotal.toFixed(2)
-                let tax = (subtotal * 0.18)
+                this.summary.Subtotal = Subtotal.toFixed(2)
+                let tax = (Subtotal * 0.18)
                 this.summary.tax = tax.toFixed(2)
-                this.summary.total = (subtotal + tax).toFixed(2)
+                this.summary.total = (Subtotal + tax).toFixed(2)
                 $("#total_amount").data('total', this.summary.total);
             }
         }

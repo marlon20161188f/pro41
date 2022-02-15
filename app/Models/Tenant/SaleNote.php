@@ -213,7 +213,7 @@
             'technical_service_id',
             // 'changed',
             'user_rel_suscription_plan_id',
-            'subtotal',
+            'Subtotal',
         ];
 
         protected $casts = [

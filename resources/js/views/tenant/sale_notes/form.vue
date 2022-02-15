@@ -635,7 +635,7 @@
                     total_other_taxes: 0,
                     total_taxes: 0,
                     total_value: 0,
-                    subtotal: 0,
+                    Subtotal: 0,
                     total: 0,
                     operation_type_id: null,
                     items: [],
@@ -790,7 +790,7 @@
                 // this.form.total = _.round(total, 2)
                 this.form_payment.payment = this.form.total
 
-                this.form.subtotal = _.round(total, 2)
+                this.form.Subtotal = _.round(total, 2)
                 this.form.total = _.round(total - this.total_discount_no_base, 2)
 
                 this.setTotalDefaultPayment()

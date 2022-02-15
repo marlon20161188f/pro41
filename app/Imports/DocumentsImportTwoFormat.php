@@ -77,7 +77,7 @@ class DocumentsImportTwoFormat implements ToCollection
                 //totales
                 $mtototal = $row[8];
                 $mtoimpuesto = $row[7];
-                $mtosubtotal = $row[6];
+                $mtoSubtotal = $row[6];
 
                 //unidad de medida
                 $cdunimed = $row[12];
@@ -96,7 +96,7 @@ class DocumentsImportTwoFormat implements ToCollection
                 //valores
                 $cantidad = $row[13];
                 $precio_unitario = $row[14];
-                $subtotal = $row[15];
+                $Subtotal = $row[15];
                 $total_impuesto = $row[16];
                 
                 $json = array(
@@ -111,13 +111,13 @@ class DocumentsImportTwoFormat implements ToCollection
                     "numero_orden_de_compra" => "-",
                     "totales" => [
                         "total_exportacion" => 0.00,
-                        "total_operaciones_gravadas" => $mtosubtotal,
+                        "total_operaciones_gravadas" => $mtoSubtotal,
                         "total_operaciones_inafectas" => 0.00,
                         "total_operaciones_exoneradas" => 0.00,
                         "total_operaciones_gratuitas" => 0.00,
                         "total_igv" => $mtoimpuesto,
                         "total_impuestos" => $mtoimpuesto,
-                        "total_valor" => $mtosubtotal,
+                        "total_valor" => $mtoSubtotal,
                         "total_venta" => $mtototal
                     ],
                     "datos_del_emisor" => [
@@ -144,12 +144,12 @@ class DocumentsImportTwoFormat implements ToCollection
                             "codigo_tipo_precio" => "01",
                             "precio_unitario" => $precio_unitario,
                             "codigo_tipo_afectacion_igv" => "10",
-                            "total_base_igv" => $subtotal,
+                            "total_base_igv" => $Subtotal,
                             "porcentaje_igv" => "18",
                             "total_igv" => $total_impuesto,
                             "total_impuestos" => $total_impuesto,
-                            "total_valor_item" => $subtotal,
-                            "total_item" => $subtotal + $total_impuesto,
+                            "total_valor_item" => $Subtotal,
+                            "total_item" => $Subtotal + $total_impuesto,
                             "datos_adicionales" => [
                                 [
                                     "codigo" => "5010",
@@ -178,7 +178,7 @@ class DocumentsImportTwoFormat implements ToCollection
                     //valores
                     $cantidad_s = $row[19];
                     $precio_unitario_s = $row[20];
-                    $subtotal_s = $row[21];
+                    $Subtotal_s = $row[21];
                     $total_impuesto_s = $row[22];
                     $new_item = [
                             "codigo_interno" => substr($row[17],0,10),
@@ -190,12 +190,12 @@ class DocumentsImportTwoFormat implements ToCollection
                             "codigo_tipo_precio" => "01",
                             "precio_unitario" => $precio_unitario_s,
                             "codigo_tipo_afectacion_igv" => "10",
-                            "total_base_igv" => $subtotal_s,
+                            "total_base_igv" => $Subtotal_s,
                             "porcentaje_igv" => "18",
                             "total_igv" => $total_impuesto_s,
                             "total_impuestos" => $total_impuesto_s,
-                            "total_valor_item" => $subtotal_s,
-                            "total_item" => $subtotal_s + $total_impuesto_s
+                            "total_valor_item" => $Subtotal_s,
+                            "total_item" => $Subtotal_s + $total_impuesto_s
                         ];
                     array_push($json["items"], $new_item);
                 }

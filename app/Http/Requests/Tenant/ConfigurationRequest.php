@@ -20,7 +20,7 @@ class ConfigurationRequest extends FormRequest
             'decimal_quantity' => ['required', 'integer'],
 
 
-            // 'subtotal_account' => ['required'],
+            // 'Subtotal_account' => ['required'],
             // 'stock' => ['required', 'boolean']
         ];
     }

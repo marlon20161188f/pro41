@@ -153,7 +153,7 @@
     </cac:TaxTotal>
 	<cac:LegalMonetaryTotal>
 		<cbc:LineExtensionAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total_value }}</cbc:LineExtensionAmount>
-		<cbc:TaxInclusiveAmount currencyID="{{ $document->currency_type_id }}">{{ $document->subtotal }}</cbc:TaxInclusiveAmount>
+		<cbc:TaxInclusiveAmount currencyID="{{ $document->currency_type_id }}">{{ $document->Subtotal }}</cbc:TaxInclusiveAmount>
 		<cbc:PayableAmount currencyID="{{ $document->currency_type_id }}">{{ $document->total }}</cbc:PayableAmount>
     </cac:LegalMonetaryTotal>
     @foreach($document->items as $row)

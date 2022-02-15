@@ -74,7 +74,7 @@ class Quotation extends ModelTenant
         'phone',
         'seller_id',
         'total_igv_free',
-        'subtotal',
+        'Subtotal',
     ];
 
     public static function boot()

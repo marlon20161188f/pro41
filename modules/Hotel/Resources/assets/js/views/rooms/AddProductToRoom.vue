@@ -86,10 +86,10 @@
                             <tfoot v-if="form.products.length > 0">
                             <tr>
                                 <td class="text-right"
-                                    colspan="3">SUBTOTAL
+                                    colspan="3">Subtotal
                                 </td>
                                 <td class="text-right">
-                                    {{ this.form.subtotal | toDecimals }}
+                                    {{ this.form.Subtotal | toDecimals }}
                                 </td>
                                 <td></td>
                                 <td></td>
@@ -198,7 +198,7 @@ export default {
             recordItem: null,
             form: {
                 products: [],
-                subtotal: 0,
+                Subtotal: 0,
                 total: 0,
                 igv: 0,
             },
@@ -277,13 +277,13 @@ export default {
             this.showDialogAddItem = true;
         },
         onCalculateTotals() {
-            this.form.subtotal = this.form.products
+            this.form.Subtotal = this.form.products
                 .map((p) => p.total_value)
                 .reduce((a, p) => a + p, 0);
             this.form.igv = this.form.products
                 .map((p) => p.total_igv)
                 .reduce((a, p) => a + p, 0);
-            this.form.total = this.form.subtotal + this.form.igv;
+            this.form.total = this.form.Subtotal + this.form.igv;
         },
         onAddItem(product) {
             const newProduct = {

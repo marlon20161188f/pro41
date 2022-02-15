@@ -38,7 +38,7 @@ class PurchaseSettlement extends ModelTenant
         'total_taxes',
         'total_value',
         'total',
-        'subtotal',
+        'Subtotal',
         
         'legends',
         'prepayments',
@@ -200,7 +200,7 @@ class PurchaseSettlement extends ModelTenant
             'total_taxed' => $this->total_taxed,
             'total_igv' => $this->total_igv,
             'total' => $this->total,
-            'subtotal' => $this->subtotal,
+            'Subtotal' => $this->Subtotal,
             'state_type_id' => $this->state_type_id,
             'state_type_description' => $this->state_type->description,
             'has_xml' => $has_xml,

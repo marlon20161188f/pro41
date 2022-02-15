@@ -195,7 +195,7 @@
                 0
                 @endif
             </td>
-            {{--SubTOTAL--}}
+            {{--Subtotal--}}
             <td class="text-right align-top">
                 {{ number_format(($row->unit_value*$row->quantity), 2) }}
             </td>

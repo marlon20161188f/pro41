@@ -275,10 +275,10 @@
                                 <span slot="label"><h3>Visual</h3></span>
                                 <div class="row">
                                     <!-- <div class="col-md-6 mt-4" v-if="typeUser != 'integrator'">
-                                        <label class="control-label">Cuenta contable venta subtotal</label>
-                                        <div class="form-group" :class="{'has-danger': errors.subtotal_account}">
-                                            <el-input v-model="form.subtotal_account" width="50%"></el-input>
-                                            <small class="form-control-feedback" v-if="errors.subtotal_account" v-text="errors.subtotal_account[0]"></small>
+                                        <label class="control-label">Cuenta contable venta Subtotal</label>
+                                        <div class="form-group" :class="{'has-danger': errors.Subtotal_account}">
+                                            <el-input v-model="form.Subtotal_account" width="50%"></el-input>
+                                            <small class="form-control-feedback" v-if="errors.Subtotal_account" v-text="errors.Subtotal_account[0]"></small>
                                         </div>
                                     </div> -->
                                     <div class="col-md-6 mt-4">
@@ -1131,7 +1131,7 @@ export default {
                 cron: true,
                 id: null,
                 sunat_alternate_server: false,
-                subtotal_account: null,
+                Subtotal_account: null,
                 decimal_quantity: null,
                 amount_plastic_bag_taxes: 0.1,
                 colums_grid_item: 4,

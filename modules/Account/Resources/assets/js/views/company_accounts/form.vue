@@ -23,9 +23,9 @@
                         </div>
                         <div class="col-md-4">
                             <label class="control-label">Subtotal Soles</label>
-                            <div class="form-group" :class="{'has-danger': errors.subtotal_pen}">
-                                <el-input v-model="form.subtotal_pen" ></el-input>
-                                <small class="form-control-feedback" v-if="errors.subtotal_pen" v-text="errors.subtotal_pen[0]"></small>
+                            <div class="form-group" :class="{'has-danger': errors.Subtotal_pen}">
+                                <el-input v-model="form.Subtotal_pen" ></el-input>
+                                <small class="form-control-feedback" v-if="errors.Subtotal_pen" v-text="errors.Subtotal_pen[0]"></small>
                             </div>
                         </div>
                         <div class="col-md-4 mt-4">
@@ -44,9 +44,9 @@
                         </div>
                         <div class="col-md-4 mt-4">
                             <label class="control-label">Subtotal Dólares</label>
-                            <div class="form-group" :class="{'has-danger': errors.subtotal_usd}">
-                                <el-input v-model="form.subtotal_usd" ></el-input>
-                                <small class="form-control-feedback" v-if="errors.subtotal_usd" v-text="errors.subtotal_usd[0]"></small>
+                            <div class="form-group" :class="{'has-danger': errors.Subtotal_usd}">
+                                <el-input v-model="form.Subtotal_usd" ></el-input>
+                                <small class="form-control-feedback" v-if="errors.Subtotal_usd" v-text="errors.Subtotal_usd[0]"></small>
                             </div>
                         </div>
                 </div>
@@ -86,7 +86,7 @@
                     stock: true,
                     cron: true,
                     id: null,
-                    subtotal_account:null
+                    Subtotal_account:null
                 };
             },
             submit() {

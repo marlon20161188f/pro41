@@ -97,7 +97,7 @@
             <div class="h-25 bg-info" style="overflow-y: auto">
                 <div class="row m-0 p-0 bg-white">
                     <div class="col-sm-6 py-1">
-                        <p class="font-weight-semibold mb-0">SUBTOTAL</p>
+                        <p class="font-weight-semibold mb-0">Subtotal</p>
                     </div>
                     <div class="col-sm-6 py-1 text-right">
                         <p class="font-weight-semibold mb-0">S/ 458.00</p>

@@ -10,10 +10,10 @@ class CompanyAccount extends ModelTenant
     public $timestamps = false;
     
     protected $fillable = [
-        'subtotal_pen',
+        'Subtotal_pen',
         'total_pen', 
         'igv_pen', 
-        'subtotal_usd', 
+        'Subtotal_usd', 
         'total_usd', 
         'igv_usd', 
     ];

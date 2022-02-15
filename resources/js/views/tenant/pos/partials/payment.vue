@@ -43,7 +43,7 @@
                 <template v-if="form.total_plastic_bag_taxes > 0">
                     <div class="row m-0 p-0 bg-white h-17 d-flex align-items-center">
                         <div class="col-sm-6 py-1">
-                            <p class="font-weight-semibold mb-0">SUBTOTAL</p>
+                            <p class="font-weight-semibold mb-0">Subtotal</p>
                         </div>
                         <div class="col-sm-6 py-1 text-right">
                             <p class="font-weight-semibold mb-0">{{ currencyTypeActive.symbol }} {{
@@ -82,7 +82,7 @@
                 <template v-else>
                     <div class="row m-0 p-0 bg-white h-25 d-flex align-items-center">
                         <div class="col-sm-6 py-1">
-                            <p class="font-weight-semibold mb-0">SUBTOTAL</p>
+                            <p class="font-weight-semibold mb-0">Subtotal</p>
                         </div>
                         <div class="col-sm-6 py-1 text-right">
                             <p class="font-weight-semibold mb-0">{{ currencyTypeActive.symbol }} {{
@@ -682,7 +682,7 @@ export default {
 
             this.form.total_plastic_bag_taxes = _.round(total_plastic_bag_taxes, 2)
             // this.form.total = _.round(total, 2)
-            this.form.subtotal = _.round(total + this.form.total_plastic_bag_taxes, 2)
+            this.form.Subtotal = _.round(total + this.form.total_plastic_bag_taxes, 2)
             this.form.total = _.round(total + this.form.total_plastic_bag_taxes, 2)
 
             this.discountGlobal()

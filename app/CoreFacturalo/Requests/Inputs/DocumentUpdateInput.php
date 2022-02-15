@@ -97,7 +97,7 @@ class DocumentUpdateInput
 			'total_taxes'               => $inputs['total_taxes'],
 			'total_value'               => $inputs['total_value'],
 			'total_perception'          => $inputs['total_perception'] ?? 0,
-            'subtotal'                  => (Functions::valueKeyInArray($inputs, 'subtotal')) ? $inputs['subtotal'] : $inputs['total'],
+            'Subtotal'                  => (Functions::valueKeyInArray($inputs, 'Subtotal')) ? $inputs['Subtotal'] : $inputs['total'],
 			'total'                     => $inputs['total'],
 			'has_prepayment'            => Functions::valueKeyInArray($inputs, 'has_prepayment', 0),
 			'items'                     => self::items($inputs),

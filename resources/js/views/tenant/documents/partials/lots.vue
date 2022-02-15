@@ -36,6 +36,7 @@
                                     <th class="text-center">#</th>
                                     <th class="text-center">Seleccionar</th>
                                     <th >Cod. Lote</th>
+                                    <th>Peso</th>
                                     <th>Serie</th>
                                     <th>Fecha</th>
                                 </tr>
@@ -52,6 +53,9 @@
                                     </td>
                                     <td>
                                         {{row.lot_code}}
+                                    </td>
+                                    <td>
+                                        {{row.peso}}
                                     </td>
                                     <td>
                                         {{row.series}}

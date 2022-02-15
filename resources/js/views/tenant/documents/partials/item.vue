@@ -183,7 +183,7 @@
                     <div class="col-md-4 col-sm-4">
                         <div :class="{'has-danger': errors.unit_price_value}"
                              class="form-group">
-                            <label class="control-label">Precio Unitario</label>
+                            <label class="control-label">Precio Unitario por Kg</label>
                             <el-input v-model="form.unit_price_value"
                                       :readonly="!edit_unit_price"
                                       @input="calculateQuantity">
@@ -200,7 +200,15 @@
 
                     <div class="col-md-4 col-sm-4">
                         <div class="form-group">
-                            <label class="control-label">Total</label>
+                            <label class="control-label">Kilos </label>
+                            <el-input v-model="readonly_peso"
+                                      readonly
+                                      @input="calculateTotal"></el-input>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Total </label>
                             <el-input v-model="readonly_total"
                                       readonly
                                       @input="calculateTotal"></el-input>
@@ -608,7 +616,9 @@ export default {
                 classic: ClassicEditor
             },
             value1: 'hello',
-            readonly_total: 0
+            readonly_total: 0,
+            readonly_peso: 0,
+            suma_peso: 0
             //item_unit_type: {}
         }
     },
@@ -1124,6 +1134,7 @@ export default {
             this.form.has_plastic_bag_taxes = this.form.item.has_plastic_bag_taxes;
             this.form.affectation_igv_type_id = this.form.item.sale_affectation_igv_type_id;
             this.form.quantity = 1;
+            this.suma_peso = 0;
             this.cleanTotalItem();
             this.showListStock = true
 
@@ -1180,7 +1191,11 @@ export default {
             this.calculateTotal()
         },
         calculateTotal() {
-            this.readonly_total = _.round((this.form.quantity * this.form.unit_price_value), 4)
+            this.readonly_total = _.round((this.suma_peso * this.form.unit_price_value), 4)
+            this.readonly_peso =_.round((this.suma_peso ),4)
+            // this.form.quantity *
+            //this.lots.peso.reduce((accumulator, curr) => accumulator + curr) 
+            //this.readonly_total =_.round((this.form.quantity * this.form.unit_price_value), 4)
         },
         cleanTotalItem() {
             this.total_item = null
@@ -1252,7 +1267,10 @@ export default {
 
             this.row.IdLoteSelected = IdLoteSelected
             this.row.document_item_id = document_item_id
-
+            this.row.total = this.readonly_total
+            this.row.peso = this.readonly_peso
+            this.row.total_value =_.round( (this.row.peso * this.row.total_value_without_rounding),4)
+            console.log(this.row)
             this.$emit('add', this.row);
 
             if (this.search_item_by_barcode) {
@@ -1384,6 +1402,13 @@ export default {
         },
         addRowSelectLot(lots) {
             this.lots = lots
+            var parsedobj = JSON.parse(JSON.stringify(this.lots))
+            
+            for (let value of lots) {
+                this.suma_peso+=value.peso;
+            }
+            console.log(parsedobj)
+            console.log(this.suma_peso)
         },
         focusSelectItem() {
             this.$refs.selectSearchNormal.$el.getElementsByTagName('input')[0].focus()

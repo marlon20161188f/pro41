@@ -66,7 +66,7 @@ class PurchaseSettlementInput
             'total_igv' => $inputs['total_igv'],
             'total_taxes' => $inputs['total_taxes'],
             'total_value' => $inputs['total_value'],
-            'subtotal' => $inputs['subtotal'],
+            'Subtotal' => $inputs['Subtotal'],
             'total' => $inputs['total'],
             'items' => self::items($inputs),
             'prepayments' => self::prepayments($inputs),

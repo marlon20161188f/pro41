@@ -82,7 +82,7 @@ class DocumentsImport implements ToCollection
                 //totales
                 $mtototal = $row[15];
                 $mtoimpuesto = $row[13];
-                $mtosubtotal = $row[12];
+                $mtoSubtotal = $row[12];
 
                 //unidad de medida
                 $cdunimed = $row[23];
@@ -113,13 +113,13 @@ class DocumentsImport implements ToCollection
                     // "numero_orden_de_compra" => "-",
                     "totales" => [
                         "total_exportacion" => 0.00,
-                        "total_operaciones_gravadas" => $mtosubtotal,
+                        "total_operaciones_gravadas" => $mtoSubtotal,
                         "total_operaciones_inafectas" => 0.00,
                         "total_operaciones_exoneradas" => 0.00,
                         "total_operaciones_gratuitas" => 0.00,
                         "total_igv" => $mtoimpuesto,
                         "total_impuestos" => $mtoimpuesto,
-                        "total_valor" => $mtosubtotal,
+                        "total_valor" => $mtoSubtotal,
                         // "total_valor" => $mtototal,
                         "total_venta" => $mtototal
                     ],
@@ -147,11 +147,11 @@ class DocumentsImport implements ToCollection
                             "codigo_tipo_precio" => "01",
                             "precio_unitario" => $row[25],
                             "codigo_tipo_afectacion_igv" => "10",
-                            "total_base_igv" => $row[26] != null ? $row[26] : $mtosubtotal,
+                            "total_base_igv" => $row[26] != null ? $row[26] : $mtoSubtotal,
                             "porcentaje_igv" => "18",
                             "total_igv" => $row[27] != null ? $row[27] : $mtoimpuesto,
                             "total_impuestos" => $row[27] != null ? $row[27] : $mtoimpuesto,
-                            "total_valor_item" => $row[26] != null ? $row[26] : $mtosubtotal,
+                            "total_valor_item" => $row[26] != null ? $row[26] : $mtoSubtotal,
                             "total_item" => $total_primer_producto > 0 ? $total_primer_producto : $mtototal,
                             "datos_adicionales" => [
                                 [

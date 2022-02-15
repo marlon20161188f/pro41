@@ -814,7 +814,7 @@ export default {
             this.form.total_taxes = _.round(total_igv, 2)
             this.form.total_plastic_bag_taxes = _.round(total_plastic_bag_taxes, 2)
             // this.form.total = _.round(total, 2)
-            this.form.subtotal = _.round(total + this.form.total_plastic_bag_taxes, 2)
+            this.form.Subtotal = _.round(total + this.form.total_plastic_bag_taxes, 2)
             this.form.total = _.round(total + this.form.total_plastic_bag_taxes - this.total_discount_no_base, 2)
 
             if (this.enabled_discount_global)
@@ -1228,7 +1228,7 @@ export default {
                 total_taxes: 0,
                 total_value: 0,
                 total: 0,
-                subtotal: 0,
+                Subtotal: 0,
                 total_igv_free: 0,
                 date_of_due: moment().format('YYYY-MM-DD'),
 
@@ -1621,7 +1621,7 @@ export default {
             this.form.total_value = parseFloat(data.total_value);
             this.form.total_charge = parseFloat(data.total_charge);
             this.form.total = parseFloat(data.total);
-            this.form.subtotal = parseFloat(data.subtotal);
+            this.form.Subtotal = parseFloat(data.Subtotal);
             this.form.total_igv_free = parseFloat(data.total_igv_free);
             this.form.series_id = this.onSetSeriesId(data.document_type_id, data.series);
             this.form.operation_type_id = data.invoice.operation_type_id;

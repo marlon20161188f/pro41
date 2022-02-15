@@ -368,7 +368,7 @@
                 'cron' => (bool)$this->cron,
                 'sunat_alternate_server' => (bool)$this->sunat_alternate_server,
                 'compact_sidebar' => (bool)$this->compact_sidebar,
-                'subtotal_account' => $this->subtotal_account,
+                'Subtotal_account' => $this->Subtotal_account,
                 'decimal_quantity' => $this->decimal_quantity,
                 'amount_plastic_bag_taxes' => $this->amount_plastic_bag_taxes,
                 'colums_grid_item' => $this->colums_grid_item,

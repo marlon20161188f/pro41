@@ -231,7 +231,7 @@
             'payment_condition_id',
             'is_editable',
             'dispatch_id',
-            'subtotal',
+            'Subtotal',
             'total_igv_free',
             'technical_service_id',
             // 'pending_amount_detraction',

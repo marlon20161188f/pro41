@@ -253,7 +253,7 @@
             records_old: [],
             order_generated: {},
             summary: {
-                subtotal: '0.0',
+                Subtotal: '0.0',
                 tax: '0.0',
                 total: '0.0'
             },
@@ -675,7 +675,7 @@
                 // this.calculateSummary()
 
                 this.summary = {
-                    subtotal: '0.0',
+                    Subtotal: '0.0',
                     tax: '0.0',
                     total: '0.00',
                     total_taxed: '0.0',
@@ -688,7 +688,7 @@
             },
             calculateSummary() {
 
-                //let subtotal = 0.00
+                //let Subtotal = 0.00
                 let total_taxed = 0
                 let total_value = 0
                 let total_exonerated = 0
@@ -697,7 +697,7 @@
 
                 this.records.forEach(function (item) {
 
-                    //subtotal += parseFloat(item.sub_total)
+                    //Subtotal += parseFloat(item.sub_total)
 
                     let unit_price = item.sub_total
                     let unit_value = unit_price
@@ -738,16 +738,16 @@
                 // let x =
                 // console.log(x)
 
-                // let subtotal = 0.00
+                // let Subtotal = 0.00
                 // this.records.forEach(function (item) {
                 //     //console.log(item)
-                //     subtotal += parseFloat(item.sub_total)
+                //     Subtotal += parseFloat(item.sub_total)
                 // })
 
-                // this.summary.subtotal = subtotal.toFixed(2)
-                // let tax = (subtotal * 0.18)
+                // this.summary.Subtotal = Subtotal.toFixed(2)
+                // let tax = (Subtotal * 0.18)
                 // this.summary.tax = tax.toFixed(2)
-                // this.summary.total = (subtotal + tax).toFixed(2)
+                // this.summary.total = (Subtotal + tax).toFixed(2)
                 // $("#total_amount").data('total', this.summary.total);
 
                 // this.payment_cash.amount = this.summary.total

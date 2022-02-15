@@ -136,7 +136,7 @@
                                                     <td>{{ row.item.description }}</td>
                                                     <td>{{ row.quantity }}</td>
                                                     <td>{{ row.unit_price }}</td>
-                                                    <td>{{ row.total_discount }}</td>
+                                                    <td>{{ row.total_discount }}</td> 
                                                     <td>{{ row.total }}</td> 
                                                 </tr>
                                                 <tr>
@@ -568,7 +568,8 @@
                 this.form.total_plastic_bag_taxes= this.document.total_plastic_bag_taxes
                 this.form.total_taxes= this.document.total_taxes
                 this.form.total_value= this.document.total_value
-                this.form.total= this.document.total
+                //this.form.total= this.document.total
+                this.form.total= row.total
                 this.form.items= this.document.items
                 this.form.affected_document_id= this.document.id
                 this.form.note_description= null

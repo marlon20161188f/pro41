@@ -14,7 +14,7 @@ class TenantDeleteSubtotalAccountToConfigurations extends Migration
     public function up()
     {
         Schema::table('configurations', function (Blueprint $table) {
-            $table->dropColumn('subtotal_account');
+            $table->dropColumn('Subtotal_account');
             //
         });
     }
@@ -27,7 +27,7 @@ class TenantDeleteSubtotalAccountToConfigurations extends Migration
     public function down()
     {
         Schema::table('configurations', function (Blueprint $table) {
-            $table->string('subtotal_account')->default('70111')->after('locked_emission');
+            $table->string('Subtotal_account')->default('70111')->after('locked_emission');
         });
     }
 }

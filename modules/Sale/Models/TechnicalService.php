@@ -54,7 +54,7 @@
      * @property float|null                           $total_plastic_bag_taxes
      * @property float|null                           $total_taxes
      * @property float|null                           $total_value
-     * @property float|null                           $subtotal
+     * @property float|null                           $Subtotal
      * @property float|null                           $total
      * @property int|null                             $is_editable
      * @property string                               $cellphone
@@ -122,7 +122,7 @@
             'total_plastic_bag_taxes',
             'total_taxes',
             'total_value',
-            'subtotal',
+            'Subtotal',
             'total',
             'is_editable',
             'cellphone',
@@ -168,7 +168,7 @@
             'total_plastic_bag_taxes' => 'float',
             'total_taxes' => 'float',
             'total_value' => 'float',
-            'subtotal' => 'float',
+            'Subtotal' => 'float',
             'total' => 'float',
             'is_editable' => 'int',
             'cost' => 'float',
@@ -1019,17 +1019,17 @@
          */
         public function getSubtotal(): ?float
         {
-            return $this->subtotal;
+            return $this->Subtotal;
         }
 
         /**
-         * @param float|null $subtotal
+         * @param float|null $Subtotal
          *
          * @return TechnicalService
          */
-        public function setSubtotal(?float $subtotal): TechnicalService
+        public function setSubtotal(?float $Subtotal): TechnicalService
         {
-            $this->subtotal = $subtotal;
+            $this->Subtotal = $Subtotal;
             return $this;
         }
 

@@ -42,8 +42,8 @@
                 $table->decimal('total_plastic_bag_taxes', 6)->nullable()->default(0)->after('total_other_taxes');
                 $table->decimal('total_taxes', 12)->nullable()->default(0)->after('total_plastic_bag_taxes');
                 $table->decimal('total_value', 12)->nullable()->default(0)->after('total_taxes');
-                $table->decimal('subtotal', 12)->nullable()->default(0)->after('total_value');
-                $table->decimal('total', 12)->nullable()->default(0)->after('subtotal');
+                $table->decimal('Subtotal', 12)->nullable()->default(0)->after('total_value');
+                $table->decimal('total', 12)->nullable()->default(0)->after('Subtotal');
                 $table->unsignedTinyInteger('is_editable')->default(0)->nullable()->after('total');
 
             });
@@ -84,7 +84,7 @@
                     'total_plastic_bag_taxes',
                     'total_taxes',
                     'total_value',
-                    'subtotal',
+                    'Subtotal',
                     'total',
                     'is_editable',
                 ];

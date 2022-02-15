@@ -294,7 +294,7 @@
                     "total_other_taxes" => $plan->total_other_taxes,
                     "total_taxes" => $plan->total_taxes,
                     "total_value" => $plan->total_value,
-                    // "subtotal" => $plan->subtotal,
+                    // "Subtotal" => $plan->Subtotal,
                     "total" => $plan->total,
                     "operation_type_id" => null,
 

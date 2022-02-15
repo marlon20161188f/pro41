@@ -17,10 +17,10 @@ class TenantCompanyAccountsTable extends Migration
         Schema::create('company_accounts', function (Blueprint $table) {
 
             $table->increments('id');
-            $table->string('subtotal_pen'); 
+            $table->string('Subtotal_pen'); 
             $table->string('total_pen'); 
             $table->string('igv_pen');             
-            $table->string('subtotal_usd'); 
+            $table->string('Subtotal_usd'); 
             $table->string('total_usd'); 
             $table->string('igv_usd'); 
 
@@ -28,8 +28,8 @@ class TenantCompanyAccountsTable extends Migration
 
         DB::table('company_accounts')->insert([ 
             [
-                'subtotal_pen'=> '70111','total_pen' => '12121', 'igv_pen' => '40111',
-                'subtotal_usd'=> '70111','total_usd' => '12122', 'igv_usd' => '40111',
+                'Subtotal_pen'=> '70111','total_pen' => '12121', 'igv_pen' => '40111',
+                'Subtotal_usd'=> '70111','total_usd' => '12122', 'igv_usd' => '40111',
             ]
         ]);
     }

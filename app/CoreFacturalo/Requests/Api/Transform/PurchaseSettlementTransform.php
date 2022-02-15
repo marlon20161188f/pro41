@@ -36,7 +36,7 @@ class PurchaseSettlementTransform
             'total_igv' => Functions::valueKeyInArray($totals, 'total_igv'),
             'total_taxes' => Functions::valueKeyInArray($totals, 'total_impuestos'),
             'total_value' => Functions::valueKeyInArray($totals, 'total_valor'),
-            'subtotal' => Functions::valueKeyInArray($totals, 'subtotal_compra'),
+            'Subtotal' => Functions::valueKeyInArray($totals, 'Subtotal_compra'),
             'total' => Functions::valueKeyInArray($totals, 'total_compra'),
             'items' => self::items($inputs),
             'prepayments' => self::prepayments($inputs),

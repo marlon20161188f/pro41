@@ -14,7 +14,7 @@ class TenantAddSubtotalToDocuments extends Migration
     public function up()
     {
         Schema::table('documents', function (Blueprint $table) {
-            $table->decimal('subtotal', 12, 2)->default(0)->after('total_value');
+            $table->decimal('Subtotal', 12, 2)->default(0)->after('total_value');
         });
     }
 
@@ -26,7 +26,7 @@ class TenantAddSubtotalToDocuments extends Migration
     public function down()
     {
         Schema::table('documents', function (Blueprint $table) {
-            $table->dropColumn('subtotal');
+            $table->dropColumn('Subtotal');
         });
     }
 }
