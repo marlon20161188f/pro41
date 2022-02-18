@@ -61,7 +61,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.peso_tin" type="number" name="peso_tin" :disabled="true"></el-input>
+                                                    <el-input v-model="form.peso_tin" type="number" step=".0001" name="peso_tin" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                              <td>
@@ -261,6 +261,7 @@ export default {
                 this.form.prov_tejed = (this.suppliers.length > 0) ? this.suppliers[0].name : null
                 this.form.warehouses_id = (this.warehouses.length > 0) ? this.warehouses[0].description : null
                 this.form.produc_artic = (this.items.length > 0) ? this.items[0].description : null
+                this.form.llegada =  moment().format('YYYY-MM-DD')
 
             })
     },
@@ -335,6 +336,7 @@ export default {
             this.$http.get(`/${this.resource}/record/${this.id}`)
                .then(response => {
                 this.form = response.data
+                this.form.llegada =  moment().format('YYYY-MM-DD')
                 })
                 this.form = {
                     op:'OC-1',

@@ -64,7 +64,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.peso" type="number" placeholder="" :disabled="true" name="peso"></el-input>
+                                                   <el-input v-model="form.peso" type="number" placeholder="" :disabled="true" name="peso" step=".0001" ></el-input>
                                                 </div>
                                             </td>
                                              <td>
@@ -89,12 +89,12 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.tejed" type="number" name="tejed"></el-input>
+                                                    <el-input v-model="form.tejed" type="number" step=".01" min="0" max="100" name="tejed"></el-input>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.tinto" type="number" name="tinto"></el-input>
+                                                   <el-input v-model="form.tinto" type="number" step=".01" min="0" max="100" name="tinto"></el-input>
                                                 </div>
                                             </td>
                                             <br>
@@ -197,6 +197,8 @@ export default {
                 //this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
                 this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
                 this.form.prov_tejed = (this.suppliers.length > 0) ? this.suppliers[0].name : null
+                this.form.init =  moment().format('YYYY-MM-DD')
+
             })
             // this.$http.get(`/${this.resource}/record/${this.id}`)
             //    .then(response => {
@@ -269,6 +271,8 @@ export default {
             this.$http.get(`/${this.resource}/record/${this.id}`)
                .then(response => {
                 this.form = response.data
+                this.form.init =  moment().format('YYYY-MM-DD')
+               
                 })
                this.errors = {}
                 this.form = {

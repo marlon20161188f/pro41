@@ -134,11 +134,13 @@
                                         <tr>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                              <el-select v-model="form.produc_artic" name="produc_artic">
-                                                        <el-option key="PRODUCTO OBTENIDO" value="PRODUCTO OBTENIDO" label="PRODUCTO OBTENIDO"></el-option>
-                                                        <el-option key="ARTICULO OBTENIDO" value="ARTICULO OBTENIDO" label="ARTICULO OBTENIDO"></el-option>
+                                                    <el-select v-model="form.produc_artic" name="produc_artic">
+                                                       <el-option v-for="options in items"
+                                                                :key="options.id"
+                                                                :label="options.description"
+                                                                :value="options.id"></el-option>
                                                     </el-select>
-                                                    </div>
+                                                </div>
                                             </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
@@ -208,27 +210,27 @@
                                         <tr>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.peso" type="number" name="peso" :disabled="true"></el-input>
+                                                   <el-input v-model="form.peso" type="number" step=".0001" name="peso" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.peso_tej" type="number" name="peso_tej" :disabled="true"></el-input>
+                                                   <el-input v-model="form.peso_tej" type="number" step=".0001" name="peso_tej" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                               <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.peso_tin" type="number" name="peso_tin" :disabled="true"></el-input>
+                                                   <el-input v-model="form.peso_tin" type="number" step=".0001" name="peso_tin" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                              <td >
                                                  <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.tejed" type="number" name="tejed" :disabled="true"></el-input>
+                                                    <el-input v-model="form.tejed" type="number" step=".01" name="tejed" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                              <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.tinto" type="number" name="tinto" :disabled="true"></el-input>
+                                                   <el-input v-model="form.tinto" type="number" step=".01" name="tinto" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                         </tr>
@@ -272,6 +274,12 @@ export default {
     },
     mounted() {
         this.initForm()
+        this.$http.get(`/${this.resource}/item/tables`)
+        .then(response => {
+            let data = response.data
+            this.items = data.items
+             this.form.produc_artic = (this.items.length > 0) ? this.items[0].description : null
+        }),
         this.$http.get(`/${this.resource}/tables`)
             .then(response => {
                 let data = response.data
@@ -299,6 +307,7 @@ export default {
                 this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
                 this.form.prov_tejed = (this.suppliers.length > 0) ? this.suppliers[0].name : null
                 //this.form.warehouses_id = (this.warehouses.length > 0) ? this.warehouses[0].description : null
+                this.form.produc_artic = (this.items.length > 0) ? this.items[0].description : null
             })},
      data() {
         return {
@@ -333,6 +342,7 @@ export default {
             operation_types: [],
             all_series: [],
             series: [],
+            items:[],
             payment_destinations: [],
             payment_conditions: [],
             currency_type: {},
@@ -367,6 +377,9 @@ export default {
                .then(response => {
                 this.form = response.data
                 })
+                this.form ={
+                    produc_artic: null,
+                }
                this.errors = {}
             }, 
             resetForm() {
@@ -378,6 +391,7 @@ export default {
                     init: null,
                     hilo: null,
                     tejed:null,
+                    produc_artic: null,
                     tinto:null,
                     }
                 // this.activePanel = 0

@@ -73,7 +73,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.peso" type="number" ></el-input>
+                                                    <el-input v-model="form.peso" type="number" min="0" step=".0001" ></el-input>
                                                 </div>
                                             </td>
                                              <td>
@@ -81,7 +81,6 @@
                                                  <el-date-picker
                                                     v-model="form.init"
                                                     :clearable="false"
-                                                    format="dd/MM/yyyy"
                                                     type="date"
                                                     value-format="yyyy-MM-dd">
                                                     </el-date-picker>
@@ -98,12 +97,12 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.tejed" type="number"></el-input>
+                                                    <el-input v-model="form.tejed" type="number" min="0" max="100"></el-input>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.tinto" type="number"></el-input>
+                                                    <el-input v-model="form.tinto" type="number" min="0" max="100"></el-input>
                                                 </div>
                                             </td>
                                             <br>
@@ -181,7 +180,7 @@ export default {
                 // this.form.establishment_id = (this.establishment.id) ? this.establishment.id : null
                 //this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
                 this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
-
+                this.form.init =  moment().format('YYYY-MM-DD')
             })},
             data() {
         return {
@@ -235,7 +234,8 @@ export default {
                     this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
                     this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
                     this.form.op = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
-    
+                    this.form.init =  moment().format('YYYY-MM-DD')
+
 
                     this.changeEstablishment()
                     // this.changeDateOfIssue() 

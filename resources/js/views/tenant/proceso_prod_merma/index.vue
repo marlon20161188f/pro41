@@ -21,16 +21,16 @@
                 </el-dropdown>
             </div> -->
             <div class="card-body">
-                <data-table :resource="resource">
+                <data-table :resource="resource" >
                     <tr slot="heading">
-                        <th>#</th>
-                        <th class="text-center">OP</th>
-                        <th  class="text-center">Partida</th>
-                        <th class="text-center">Producto final</th>
-                        <th class="text-center" >Proveedor</th>
-                        <th class="text-center" >Estado</th>
-                        <th class="text-center">Max. merma (kg) </th>
-                         <th class="text-center">Merma real (kg) </th>
+                        <th >#</th>
+                        <th >OP</th>
+                        <th >Partida</th>
+                        <th >Producto final</th>
+                        <th >Proveedor</th>
+                        <th >Estado</th>
+                        <th >Max. merma (kg) </th>
+                        <th >Merma real (kg) </th>
                         <!-- <th class="text-center">{{ row.user_name }}</th> -->
                         <!-- <th class="text-center">Acción</th>
                         <th class="text-center">Archivos</th>
@@ -47,38 +47,154 @@
                   
                     <!-- </tr> -->
                     <!-- tabla back /////////////////////////////////////////////////////////////////////////////////////////////-->
-                    
-                      <tr slot-scope="{ index, row }">
-                          <template v-if="row.estado  === 'Tintorería'">
-                    <template v-if ="row.peso - row.peso_tej > row.peso * row.tejed /100">
-                          <td class="text-center">{{ index }}</td>
-                          <td class="text-center">{{ row.op }}</td>
-                          <td class="text-center">{{ row.partida }}</td>
-                          <td class="text-center">{{ row.producto_final }}</td>
-                          <td class="text-center">{{ row.prov_tejed }}</td>
-                          <td class="text-center"><span style="background-color:#CA33FF;" class="badge text-white">Tejeduría
-                            </span></td>
-                          <td class="text-center">{{row.peso * row.tejed/100}}</td>
-                          <td class="text-center"> {{row.peso - row.peso_tej }}</td>
-                      </template>
+                    <!-- <tr slot-scope="{ index, row }">
+                      
+                    <template v-if="row.estado  === 'Cancelado' && row.peso_tej - row.peso_tin > row.peso_tej * row.tinto/100">
+                 
+                            <td class="text-center">{{ index }}</td>
+                            <td class="text-center">{{ row.op }}</td>
+                            <td class="text-center">{{ row.partida }}</td>
+                            <td class="text-center">{{ row.producto_final }}</td>
+                            <td class="text-center">{{ row.prov_tejed }}</td>
+                            <td class="text-center"><span style="background-color:#F07B06;" class="badge text-white">Tintorería
+                                </span></td>
+                                <td class="text-center">{{row.peso * row.tinto/100}}</td>
+                            <td class="text-center"> {{row.peso - row.peso_tin }}</td>
+                            
                     </template>
-                      </tr>
-                    
-                   
-                      <tr slot-scope="{ index, row }">
-                           <template v-if="row.estado  === 'Almacén'">
-                    <template v-if ="row.peso - row.peso_tin > row.peso * row.tinto/100">
-                          <td class="text-center">{{ index }}</td>
-                          <td class="text-center">{{ row.op }}</td>
-                          <td class="text-center">{{ row.partida }}</td>
-                          <td class="text-center">{{ row.producto_final }}</td>
-                          <td class="text-center">{{ row.prov_tejed }}</td>
-                          <td class="text-center"><span style="background-color:#CA33FF;" class="badge text-white">Tintorería
-                            </span></td>
-                            <td class="text-center">{{row.peso * row.tinto/100}}</td>
-                          <td class="text-center"> {{row.peso - row.peso_tin }}</td>
+                    </tr>
+                    <tr slot-scope="{ index, row }">
+                    <template v-if="row.estado  === 'Cancelado' && row.peso - row.peso_tej > row.peso * row.tejed /100">    
+             
+                            <td class="text-center">{{ index }}</td>
+                            <td class="text-center">{{ row.op }}</td>
+                            <td class="text-center">{{ row.partida }}</td>
+                            <td class="text-center">{{ row.producto_final }}</td>
+                            <td class="text-center">{{ row.prov_tejed }}</td>
+                            <td class="text-center"><span style="background-color:#CA33FF;" class="badge text-white">Tejeduría
+                                </span></td>
+                            <td class="text-center">{{row.peso * row.tejed/100}}</td>
+                            <td class="text-center"> {{row.peso - row.peso_tej }}</td>
+                            
+                    </template>
+                    </tr>
+                    <tr slot-scope="{ index, row }">      
+                    <template v-if="row.estado  === 'Inventario' && row.peso_tej - row.peso_tin > row.peso_tej * row.tinto/100">
+                        
+                            <td class="text-center">{{ index }}</td>
+                            <td class="text-center">{{ row.op }}</td>
+                            <td class="text-center">{{ row.partida }}</td>
+                            <td class="text-center">{{ row.producto_final }}</td>
+                            <td class="text-center">{{ row.prov_tejed }}</td>
+                            <td class="text-center"><span style="background-color:#F07B06;" class="badge text-white">Tintorería
+                                </span></td>
+                                <td class="text-center">{{row.peso * row.tinto/100}}</td>
+                            <td class="text-center"> {{row.peso - row.peso_tin }}</td>
+                            
+                    </template>
+                    </tr>
+                    <tr slot-scope="{ index, row }">      
+                    <template v-if="row.estado  === 'Inventario' && row.peso - row.peso_tej > row.peso * row.tejed /100">
+                        
+                            <td class="text-center">{{ index }}</td>
+                            <td class="text-center">{{ row.op }}</td>
+                            <td class="text-center">{{ row.partida }}</td>
+                            <td class="text-center">{{ row.producto_final }}</td>
+                            <td class="text-center">{{ row.prov_tejed }}</td>
+                            <td class="text-center"><span style="background-color:#CA33FF;" class="badge text-white">Tejeduría
+                                </span></td>
+                            <td class="text-center">{{row.peso * row.tejed/100}}</td>
+                            <td class="text-center"> {{row.peso - row.peso_tej }}</td>
+                            
+                    </template>
+                    </tr>
+                    <tr slot-scope="{ index, row }"> 
+                    <template v-if="row.estado  === 'Almacén' && row.peso_tej - row.peso_tin > row.peso_tej * row.tinto/100">
+                        
+                            <td class="text-center">{{ index }}</td>
+                            <td class="text-center">{{ row.op }}</td>
+                            <td class="text-center">{{ row.partida }}</td>
+                            <td class="text-center">{{ row.producto_final }}</td>
+                            <td class="text-center">{{ row.prov_tejed }}</td>
+                            <td class="text-center"><span style="background-color:#F07B06;" class="badge text-white">Tintorería
+                                </span></td>
+                                <td class="text-center">{{row.peso * row.tinto/100}}</td>
+                            <td class="text-center"> {{row.peso - row.peso_tin }}</td>
+                            
+                    </template>
+                    </tr>
+                    <tr slot-scope="{ index, row }"> 
+                    <template v-if="row.estado  === 'Almacén' && row.peso - row.peso_tej > row.peso * row.tejed /100">
+                         
+                            <td class="text-center">{{ index }}</td>
+                            <td class="text-center">{{ row.op }}</td>
+                            <td class="text-center">{{ row.partida }}</td>
+                            <td class="text-center">{{ row.producto_final }}</td>
+                            <td class="text-center">{{ row.prov_tejed }}</td>
+                            <td class="text-center"><span style="background-color:#CA33FF;" class="badge text-white">Tejeduría
+                                </span></td>
+                            <td class="text-center">{{row.peso * row.tejed/100}}</td>
+                            <td class="text-center"> {{row.peso - row.peso_tej }}</td>
+                            
+                    </template>
+                    </tr> -->
+                    <tr slot-scope="{ index, row }"> 
+                    <template v-if="row.estado == 'Cancelado'|| row.estado == 'Inventario'|| row.estado == 'Tintorería'">
+                        <template v-if="row.peso_tej - row.peso_tin > row.peso_tej * row.tinto/100 && row.peso - row.peso_tej > row.peso * row.tejed /100">
+                        
+                            <td class="text-center" align="center" style="text-align:center;">
+                                
+                                <tr class="text-center"> <td class="text-center">{{ index }}</td></tr></td>
+                            <td class="text-center" align="center" style="text-align:center;">
+                                <tr class="text-center"> <td class="text-center">{{ row.op }}</td></tr>
+                                <tr class="text-center"> <td class="text-center">{{ row.op }}</td></tr></td>
+                            <td class="text-center" align="center" style="text-align:center;">
+                                <tr class="text-center"> <td class="text-center">{{ row.partida }}</td></tr>
+                                <tr class="text-center"> <td class="text-center">{{ row.partida }}</td></tr></td>
+                            <td class="text-center" align="center" style="text-align:center;">
+                                <tr class="text-center"> <td class="text-center">{{ row.producto_final }}</td></tr>
+                                <tr class="text-center"> <td class="text-center">{{ row.producto_final }}</td></tr></td>
+                            <td class="text-center" align="center" style="text-align:center;">
+                                <tr class="text-center"> <td class="text-center">{{ row.prov_tejed }}</td></tr>
+                                <tr class="text-center"> <td class="text-center">{{ row.prov_tin }}</td></tr></td>
+                            <td class="text-center" align="center" style="text-align:center;">
+                                <tr class="text-center"> <td class="text-center"><span style="background-color:#CA33FF;" class="badge text-white">Tejeduría
+                                </span></td></tr>
+                                <tr class="text-center"> <td class="text-center"><span style="background-color:#F07B06;" class="badge text-white">Tintorería
+                                </span></td></tr></td>
+                            <td class="text-center" align="center" style="text-align:center;">
+                                <tr class="text-center"> <td class="text-center">{{row.peso * row.tejed/100}}</td></tr>
+                                <tr class="text-center"> <td class="text-center">{{row.peso_tej * row.tinto/100}}</td></tr></td>
+                            <td class="text-center" align="center" style="text-align:center;">
+                                <tr class="text-center"> <td class="text-center">{{row.peso - row.peso_tej }}</td></tr>
+                                <tr class="text-center"> <td class="text-center">{{row.peso_tej - row.peso_tin }}</td></tr></td>
+                            
+                        </template>
+                        <template v-else-if="row.peso - row.peso_tej > row.peso * row.tejed /100">
                           
-                    </template>
+                          <td ><tr><td>{{ index }}</td></tr></td>
+                          <td ><tr><td>{{ row.op }}</td></tr></td>
+                          <td ><tr><td>{{ row.partida }}</td></tr></td>
+                          <td ><tr><td>{{ row.producto_final }}</td></tr></td>
+                          <td ><tr><td>{{ row.prov_tejed }}</td></tr></td>
+                          <td><tr><td><span style="background-color:#CA33FF;" class="badge text-white">Tejeduría
+                            </span></td></tr></td>
+                          <td ><tr><td>{{row.peso * row.tejed/100}}</td></tr></td>
+                          <td > <tr><td>{{row.peso - row.peso_tej }}</td></tr></td>    
+                        </template>  
+                        <template v-else-if="row.peso_tej - row.peso_tin > row.peso_tej * row.tinto/100">
+                        
+                            <td ><tr><td>{{ index }}</td></tr></td>
+                            <td ><tr><td>{{ row.op }}</td></tr></td>
+                            <td ><tr><td>{{ row.partida }}</td></tr></td>
+                            <td ><tr><td>{{ row.producto_final }}</td></tr></td>
+                            <td ><tr><td>{{ row.prov_tin }}</td></tr></td>
+                            <td ><tr><td><span style="background-color:#F07B06;" class="badge text-white">Tintorería
+                                </span></td></tr></td>
+                            <td ><tr><td>{{row.peso * row.tinto/100}}</td></tr></td>
+                            <td > <tr><td>{{row.peso_tej - row.peso_tin }}</td></tr></td>
+                            
+                         </template>
                     </template>
                       </tr>
                     <!-- <tr>

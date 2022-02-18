@@ -335,7 +335,7 @@ class ProdController extends Controller
             'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
         ];
     }
-    public function storealm(ProcesoProducaLMRequest $request)
+    public function storealm(ProcesoProducAlmRequest $request)
     {
         $id = $request->input('id');
         $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
@@ -343,6 +343,10 @@ class ProdController extends Controller
         $proceso->estado="Inventario";
         $proceso->update();
         $item = Item::firstOrNew(['id' => $proceso->produc_artic]);
+        $item->stock = $item->stock + $request->cantidad;
+        $item->warehouses()->update([
+            'stock' => $item->stock ,
+        ]);
         //$item->fill($request->all());
             // $item->lots()->delete();
             $establishment = Establishment::where('id', auth()->user()->establishment_id)->first();
@@ -398,7 +402,7 @@ class ProdController extends Controller
             //$warehouse = WarehouseModule::find(auth()->user()->establishment_id);
 
             $v_lots = isset($request->lots) ? $request->lots:[];
-
+            
             foreach ($v_lots as $lot) {
 
                 // $item->lots()->create($lot);
