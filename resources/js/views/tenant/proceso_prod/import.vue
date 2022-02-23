@@ -79,11 +79,29 @@
                                                  </div>
                                             </td>
                                             <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.hilo" name="hilo">
-                                                        <el-option key="Hilo X" value="Hilo X" label="Hilo X"></el-option>
-                                                        <el-option key="Hilo Y" value="Hilo Y" label="Hilo Y"></el-option>
-                                                        <el-option key="Hilo Z" value="Hilo Z" label="Hilo Z"></el-option>
+                                                <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                     <a v-if="form_hilo.add == false"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="form_hilo.add = true"> [ + Nuevo]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="saveHilo()"> [ + Guardar]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-danger"
+                                                    href="#"
+                                                    @click="form_hilo.add = false"> [ Cancelar]</a>
+                                                    <el-input v-if="form_hilo.add == true"
+                                                  v-model="form_hilo.name"
+                                                  dusk="item_code"
+                                                  style="margin-bottom:1.5%;"></el-input>
+                                                    <el-select v-if="form_hilo.add == false" 
+                                                    v-model="form.hilo" placeholder="Seleccionar" name="hilo">
+                                                        <el-option v-for="option in hilo"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.name"></el-option>  
                                                     </el-select>
                                                 </div>
                                             </td>
@@ -109,6 +127,9 @@
                                             <th
                                                 class="pb-2">Proveedor de tejeduría
                                             </th>
+                                            <th
+                                                class="pb-2">Tipo de tela
+                                            </th>
                                            
                                         </tr>
                                         </thead>
@@ -123,6 +144,33 @@
                                                                 :key="option.id"
                                                                 :label="option.name"
                                                                 :value="option.name"></el-option>
+                                                    </el-select>
+                                                </div>
+                                            </td>
+                                             <td>
+                                                <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                     <a v-if="form_tela.add == false"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="form_tela.add = true"> [ + Nuevo]</a>
+                                                    <a v-if="form_tela.add == true"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="saveTela()"> [ + Guardar]</a>
+                                                    <a v-if="form_tela.add == true"
+                                                    class="control-label font-weight-bold text-danger"
+                                                    href="#"
+                                                    @click="form_tela.add = false"> [ Cancelar]</a>
+                                                    <el-input v-if="form_tela.add == true"
+                                                  v-model="form_tela.name"
+                                                  dusk="item_code"
+                                                  style="margin-bottom:1.5%;"></el-input>
+                                                    <el-select v-if="form_tela.add == false"
+                                                    v-model="form.tela" placeholder="Seleccionar" name="tela">
+                                                        <el-option v-for="option in tela"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.name"></el-option>  
                                                     </el-select>
                                                 </div>
                                             </td>
@@ -181,7 +229,8 @@ export default {
                 this.payment_conditions = data.payment_conditions
                 this.suppliers = data.suppliers
                 // this.establishment = data.establishment
-
+                this.hilo = data.hilo
+                this.tela = data.tela
 
                 this.all_suppliers = data.suppliers
                 this.discount_types = data.discount_types
@@ -209,6 +258,8 @@ export default {
         return {
             input_person: {},
             resource: 'proceso_prod',
+            form_hilo: {add: false, name: null, id: null},
+            form_tela: {add: false, name: null, id: null},
             showDialogAddItem: false,
             readonly_date_of_due: false,
             localHasGlobalIgv: false,
@@ -221,6 +272,8 @@ export default {
             form: {
                 items:[]
             },
+            hilo: [],
+            tela: [],
             producto: null,
             aux_supplier_id: null,
             total_amount: 0,
@@ -261,6 +314,57 @@ export default {
 
         },
     methods:{
+         async reloadTables() {
+            await this.$http.get(`/${this.resource}/tables`)
+                .then(response => {
+                    this.unit_types = response.data.unit_types
+                    this.accounts = response.data.accounts
+                    this.currency_types = response.data.currency_types
+                    this.system_isc_types = response.data.system_isc_types
+                    this.affectation_igv_types = response.data.affectation_igv_types
+                    this.warehouses = response.data.warehouses
+                    this.tela = response.data.tela
+                    this.hilo = response.data.hilo
+                    this.brands = response.data.brands
+
+                    this.form.sale_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                    this.form.purchase_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                })
+        },
+        saveHilo() {
+            this.form_hilo.add = false
+
+            this.$http.post(`/hilo`, this.form_hilo)
+                .then(response => {
+                    if (response.data.success) {
+                        this.$message.success(response.data.message)
+                        this.hilo.push(response.data.data)
+                        this.form_hilo.name = null
+                    } else {
+                        this.$message.error('No se guardaron los cambios')
+                    }
+                })
+                .catch(error => {
+
+                })
+        },
+        saveTela() {
+            this.form_tela.add = false
+
+            this.$http.post(`/tela`, this.form_tela)
+                .then(response => {
+                    if (response.data.success) {
+                        this.$message.success(response.data.message)
+                        this.tela.push(response.data.data)
+                        this.form_tela.name = null
+                    } else {
+                        this.$message.error('No se guardaron los cambios')
+                    }
+                })
+                .catch(error => {
+
+                })
+        },
         create() {
            
             },
@@ -275,15 +379,7 @@ export default {
                
                 })
                this.errors = {}
-                this.form = {
-                    op:'OC-1',
-                    producto: null,
-                    peso: 0,
-                    init: null,
-                    hilo: null,
-                    tejed:null,
-                    tinto:null,
-                }
+              
             }, 
             resetForm() {
                 this.errors = {}

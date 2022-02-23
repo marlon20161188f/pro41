@@ -119,6 +119,9 @@
                                             <th
                                                 class="pb-2" >Proveedor de tejeduría
                                             </th>
+                                            <th
+                                                class="pb-2" >Nº de rollos
+                                            </th>
                                            
                                         </tr>
                                         </thead>
@@ -135,14 +138,30 @@
                                                 </div>
                                             </td>
                                             <td >
-                                                <div class="form-group mb-2 mr-2">
-                                                   <el-select v-model="form.color" placeholder="Amaríllo" name="color">
+                                                <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                    <a v-if="form_color.add == false"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="form_color.add = true"> [ + Nuevo]</a>
+                                                    <a v-if="form_color.add == true"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="saveColor()"> [ + Guardar]</a>
+                                                    <a v-if="form_color.add == true"
+                                                    class="control-label font-weight-bold text-danger"
+                                                    href="#"
+                                                    @click="form_color.add = false"> [ Cancelar]</a>
+                                                    <el-input v-if="form_color.add == true"
+                                                  v-model="form_color.name"
+                                                  dusk="item_code"
+                                                  style="margin-bottom:1.5%;"></el-input>
+                                                   <el-select v-if="form_color.add == false"
+                                                   v-model="form.color" placeholder="Seleccionar" name="color">
                                                             <!-- @change="changePurchaseOrderType" -->
-                                                        <el-option key="Lila" value="Lila" label="Lila"></el-option>
-                                                        <el-option key="Gris" value="Gris" label="Gris"></el-option>
-                                                        <el-option key="Blanco" value="Blanco" label="Blanco"></el-option>
-                                                         <el-option key="Rojo" value="Rojo" label="Rojo"></el-option>  
-                                                         <el-option key="Negro" value="Negro" label="Negro"></el-option>  
+                                                       <el-option v-for="option in color"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.name"></el-option>  
                                                     </el-select>
                                                 </div>
                                             </td>
@@ -156,6 +175,11 @@
                                                                 :label="option.name"
                                                                 :value="option.name"></el-option>
                                                     </el-select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group mb-2 mr-2">
+                                                    <el-input v-model="form.cantidad" name="cantidad" type="number"></el-input>
                                                 </div>
                                             </td>
                                         </tr>
@@ -213,7 +237,7 @@ export default {
                 this.payment_conditions = data.payment_conditions
                 this.suppliers = data.suppliers
                 // this.establishment = data.establishment
-
+                this.color = data.color
 
                 this.all_suppliers = data.suppliers
                 this.discount_types = data.discount_types
@@ -236,6 +260,7 @@ export default {
         return {
             input_person: {},
             resource: 'proceso_prod',
+            form_color: {add: false, name: null, id: null},
             showDialogAddItem: false,
             readonly_date_of_due: false,
             localHasGlobalIgv: false,
@@ -248,6 +273,7 @@ export default {
             form: {
                 items:[]
             },
+            color: [],
             producto: null,
             aux_supplier_id: null,
             total_amount: 0,
@@ -288,6 +314,39 @@ export default {
 
         },
     methods:{
+        async reloadTables() {
+            await this.$http.get(`/${this.resource}/tables`)
+                .then(response => {
+                    this.unit_types = response.data.unit_types
+                    this.accounts = response.data.accounts
+                    this.currency_types = response.data.currency_types
+                    this.system_isc_types = response.data.system_isc_types
+                    this.affectation_igv_types = response.data.affectation_igv_types
+                    this.warehouses = response.data.warehouses
+                    this.color = response.data.color
+                    this.brands = response.data.brands
+
+                    this.form.sale_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                    this.form.purchase_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                })
+        },
+        saveColor() {
+            this.form_color.add = false
+
+            this.$http.post(`/color`, this.form_color)
+                .then(response => {
+                    if (response.data.success) {
+                        this.$message.success(response.data.message)
+                        this.color.push(response.data.data)
+                        this.form_color.name = null
+                    } else {
+                        this.$message.error('No se guardaron los cambios')
+                    }
+                })
+                .catch(error => {
+
+                })
+        },
         close() {
             location.href = '/proceso_prod'
         },

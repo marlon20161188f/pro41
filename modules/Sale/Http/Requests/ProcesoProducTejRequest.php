@@ -58,6 +58,9 @@ class ProcesoProducTejRequest extends FormRequest
             'prov_tejed' => [
                 'required',
             ],
+            'cantidad' => [
+                'required',
+            ],
         ];
     }
 }

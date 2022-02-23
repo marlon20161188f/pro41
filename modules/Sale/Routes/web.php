@@ -88,6 +88,11 @@ if($current_hostname) {
                 Route::get('print/{external_id}/{format?}', 'ProdController@toPrint');
 
             });
+            //color
+            Route::post('color', 'ColorController@store');
+            Route::post('hilo', 'HiloController@store');
+            Route::post('tela', 'TelaController@store');
+            //Proceso productivo Mermas
             Route::prefix('proceso_prod_merma')->group(function() {
                 Route::get('', 'ProdMermaController@index')->name('tenant.proceso_prod_merma.index')->middleware(['redirect.level']);
                 Route::get('columns', 'ProdMermaController@columns');

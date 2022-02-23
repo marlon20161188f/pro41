@@ -37,6 +37,9 @@ use Exception;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Tenant\PaymentMethodType;
 use Modules\Sale\Models\SaleOpportunity;
+use Modules\Sale\Models\Color;
+use Modules\Sale\Models\Hilo;
+use Modules\Sale\Models\Tela;
 use Modules\Sale\Models\ProcesoProd;
 use Modules\Sale\Models\ProcesoProduc;
 use Modules\Sale\Models\SaleOpportunityItem;
@@ -157,7 +160,9 @@ class ProdController extends Controller
    }
 
    public function tables() {
-
+    $tela = Tela::all();
+    $hilo = Hilo::all();
+    $color = Color::all();
     $warehouses = Warehouse::query()->select('establishment_id', 'description')->get()->transform(function($row) {
         return [
             'id' => $row->establishment_id,
@@ -181,7 +186,7 @@ class ProdController extends Controller
     });
     $company = Company::active();
 
-    return compact('warehouses', 'purchase_orders', 'suppliers', 'customers', 'establishments','currency_types','company');
+    return compact('tela', 'hilo', 'color', 'warehouses', 'purchase_orders', 'suppliers', 'customers', 'establishments','currency_types','company');
     }
 
     public function table($table)

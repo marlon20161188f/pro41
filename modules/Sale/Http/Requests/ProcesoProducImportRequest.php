@@ -34,6 +34,9 @@ class ProcesoProducImportRequest extends FormRequest
             'hilo' => [
                 'required',
             ],
+            'tela' => [
+                'required',
+            ],
             'tejed' => [
                 'required',
                 'numeric',

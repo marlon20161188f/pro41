@@ -209,6 +209,9 @@ if ($hostname) {
                 Route::get('/enabled/{type}/{person}', 'Tenant\PersonController@enabled');
                 Route::get('/{type}/exportation', 'Tenant\PersonController@export')->name('tenant.persons.export');
             });
+            //Colores
+            Route::post('color', 'ColorController@store');
+
             //Documents
             Route::post('documents/categories', 'Tenant\DocumentController@storeCategories');
             Route::post('documents/brands', 'Tenant\DocumentController@storeBrands');
