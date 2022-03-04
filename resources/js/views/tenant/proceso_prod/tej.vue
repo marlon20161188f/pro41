@@ -29,19 +29,19 @@
                                                 </el-tooltip> -->
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg)
+                                                class="pb-2">Peso importado (Kg) <span class="text-danger">*</span>
                                             </th>
                                             <th class="pb-2" 
-                                                >Fec. Inicio
+                                                >Fec. Inicio <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tipo de hilo
+                                                class="pb-2">Tipo de hilo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tejeduría (%)
+                                                class="pb-2">Tejeduría (%) <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tinteduría (%)
+                                                class="pb-2">Tinteduría (%) <span class="text-danger">*</span>
                                             </th>
                                         </tr>
                                         </thead>
@@ -108,21 +108,23 @@
                                         <thead>
                                         <tr width="100%" >
                                             <th
-                                                class="pb-2">Peso resultante Tejeduría (Kg)
+                                                class="pb-2">Peso resultante Tejeduría (Kg) <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Nº de partida
+                                                class="pb-2" >Nº de partida <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Color
+                                                class="pb-2" >Color <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Proveedor de tejeduría
+                                                class="pb-2" >Proveedor de tejeduría <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Nº de rollos
+                                                class="pb-2" >Nº de rollos <span class="text-danger">*</span>
                                             </th>
-                                           
+                                            <th
+                                                class="pb-2" >Guía a tintorería<span class="text-danger">*</span>
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -182,6 +184,11 @@
                                                     <el-input v-model="form.cantidad" name="cantidad" type="number"></el-input>
                                                 </div>
                                             </td>
+                                            <td >
+                                                <div class="form-group mb-2 mr-2">
+                                                   <el-input v-model="form.guia_tinto" type="text" name="guia_tinto" ></el-input>
+                                                </div>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -196,8 +203,10 @@
                                type="primary">Pasar a Tintorería
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
+                    <el-button @click.prevent="close()" type="warning">Regresar a importación</el-button>
+
                      <el-button
-                        @click.prevent="cancelar()" type="danger">
+                        @click.prevent="clickprocesscancel()" type="danger">
                         Cancelar proceso
                         </el-button>
                     
@@ -220,9 +229,11 @@
 </template>
 
 <script>
+import {deletable} from "../../../mixins/deletable";
 
 export default {
     props:['id'],
+    mixins: [deletable],
     setup() {
         
     },
@@ -435,6 +446,11 @@ export default {
                     this.loading_submit = false;
                 });
 
+            },
+            clickprocesscancel() {
+            this.processcancel(`/${this.resource}/det`,this.form).then(() =>
+                this.$eventHub.$emit("reloadData")
+            );
             },
     }
 

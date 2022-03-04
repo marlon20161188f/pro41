@@ -17,10 +17,10 @@
                                         <thead>
                                         <tr width="100%">
                                             <th
-                                                class="pb-2 text-center" >OP
+                                                class="pb-2 text-center" >OP <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Producto final
+                                                class="pb-2">Producto final <span class="text-danger">*</span>
                                                 <!-- <el-tooltip class="item"
                                                             content="Aperture caja o cuentas bancarias"
                                                             effect="dark"
@@ -29,19 +29,19 @@
                                                 </el-tooltip> -->
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg)
+                                                class="pb-2">Peso importado (Kg) <span class="text-danger">*</span>
                                             </th>
                                             <th class="pb-2" 
-                                                >Fec. Inicio
+                                                >Fec. Inicio <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tipo de hilo
+                                                class="pb-2">Tipo de hilo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tejeduría (%)
+                                                class="pb-2">Tejeduría (%) <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tintorería (%)
+                                                class="pb-2">Tintorería (%) <span class="text-danger">*</span>
                                             </th>
                                         </tr>
                                         </thead>

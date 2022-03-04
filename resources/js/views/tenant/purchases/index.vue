@@ -8,7 +8,7 @@
             <div class="right-wrapper pull-right">
                 <a :href="`/${resource}/create`" class="btn btn-custom btn-sm  mt-2 mr-2"><i class="fa fa-plus-circle"></i> Nuevo</a>
                 <button   @click.prevent="clickImport()" type="button" class="btn btn-custom btn-sm  mt-2 mr-2" ><i class="fa fa-upload"></i> Importar</button>
-
+                <button type="button" class="btn btn-success btn-sm  mt-2 mr-2" @click.prevent="clickExport()"><i class="fa fa-file-excel"></i> Exportar</button>  
             </div>
         </div>
         <div class="card mb-0">
@@ -31,6 +31,7 @@
                         <th class="text-center">F. Emisión</th>
                         <th class="text-center" v-if="columns.date_of_due.visible" >F. Vencimiento</th>
                         <th>Proveedor</th>
+                        <th>N° de compra"</th>
                         <th>Estado</th>
                         <th>Estado de pago</th>
                         <th>Número</th>
@@ -58,6 +59,7 @@
                         <td class="text-center">{{ row.date_of_issue }}</td>
                         <td v-if="columns.date_of_due.visible" class="text-center">{{ row.date_of_due }}</td>
                         <td>{{ row.supplier_name }}<br/><small v-text="row.supplier_number"></small></td>
+                        <td class="text-center">-</td>
                         <td>{{row.state_type_description}}</td>
                         <td>{{row.state_type_payment_description}}</td>
                         <td>{{ row.number }}<br/>
@@ -185,6 +187,7 @@ import {mapActions, mapState} from 'vuex'
     import PurchaseImport from './import.vue'
     import PurchasePayments from '@viewsModulePurchase/purchase_payments/payments.vue'
     import PurchaseOptions from './partials/options.vue'
+    import queryString from 'query-string'
 
 
     export default {
@@ -298,7 +301,16 @@ import {mapActions, mapState} from 'vuex'
                     }).then(()=>{
                         this.disableGuideBtn = !this.disableGuideBtn;
                 })
-            }
+            },
+            clickExport(){
+
+                let query = queryString.stringify({
+                    ...this.search
+                })
+
+                window.open(`/${this.resource}/export?${query}`, '_blank');
+
+            },
         }
     }
 </script>

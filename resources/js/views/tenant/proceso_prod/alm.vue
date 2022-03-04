@@ -20,7 +20,7 @@
                                                 class="pb-2 text-center" >OP
                                             </th>
                                             <th
-                                                class="pb-2">Producto final
+                                                class="pb-2">Producto final <span class="text-danger">*</span>
                                                 <el-tooltip class="item"
                                                             content="Aperture caja o cuentas bancarias"
                                                             effect="dark"
@@ -29,16 +29,16 @@
                                                 </el-tooltip>
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg)
+                                                class="pb-2">Peso importado (Kg) <span class="text-danger">*</span>
                                             </th>
                                             <th class="pb-2" 
                                                 >Fec. Inicio
                                             </th>
                                             <th
-                                                class="pb-2">Tipo de hilo
+                                                class="pb-2">Tipo de hilo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                 class="pb-2">Nº de partida
+                                                 class="pb-2">Nº de partida <span class="text-danger">*</span>
                                             </th>
                                         </tr>
                                         </thead>
@@ -101,16 +101,16 @@
                                         <thead>
                                         <tr width="100%" >
                                             <th
-                                                class="pb-2">Producto o artículo
+                                                class="pb-2">Producto o artículo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Fec. llegada a almacén
+                                                class="pb-2" >Fec. llegada a almacén <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Almacén
+                                                class="pb-2" >Almacén <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Cantidad
+                                                class="pb-2" >Cantidad <span class="text-danger">*</span>
                                             </th>
                                             <th
                                                 class="pb-2" >
@@ -183,8 +183,9 @@
                                type="primary">Cargar inventario
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
+                    <el-button @click.prevent="close()" type="warning">Regresar a tintorería</el-button>
                      <el-button
-                        @click.prevent="cancelar()" type="danger">
+                        @click.prevent="clickprocesscancel()" type="danger">
                         Cancelar proceso
                         </el-button>
                     
@@ -217,8 +218,11 @@
 <script>
 import LotsForm from './partials/lots.vue';
 import {mapActions} from "vuex";
+import {deletable} from "../../../mixins/deletable";
+
 export default {
     props:['id', 'showDialog'],
+    mixins: [deletable],
     components: {
         LotsForm
     },
@@ -433,6 +437,11 @@ export default {
         addRowLot(lots) {
             this.lots = lots
         },
+        clickprocesscancel() {
+            this.processcancel(`/${this.resource}/det`,this.form).then(() =>
+                this.$eventHub.$emit("reloadData")
+            );
+            },
         
     }
 

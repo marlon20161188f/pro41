@@ -345,22 +345,29 @@
                                 <table class="table table-sm mb-0 table-borderless">
                                     <thead>
                                     <tr>
-                                        <th width="33%">
+                                        <th width="25%">
                                             <el-checkbox v-model="form.has_perception"
                                                          @change="changeHasPerception">Incluye percepción
                                             </el-checkbox>
                                         </th>
-                                        <th width="33%">
+                                        <th width="25%">
                                             <div v-show="form.unit_type_id !='ZZ'">
                                                 <el-checkbox v-model="form.lots_enabled"
                                                              @change="changeLotsEnabled">¿Maneja lotes?
                                                 </el-checkbox>
                                             </div>
                                         </th>
-                                        <th width="33%">
+                                        <th width="25%">
                                             <div v-show="form.unit_type_id !='ZZ'">
                                                 <el-checkbox v-model="form.series_enabled"
                                                              @change="changeLotsEnabled">¿Maneja series?
+                                                </el-checkbox>
+                                            </div>
+                                        </th>
+                                        <th width="25%">
+                                            <div v-show="form.unit_type_id !='ZZ'">
+                                                <el-checkbox v-model="form.producto_creado_"
+                                                             @change="changeLotsEnabled">¿Producto creado?
                                                 </el-checkbox>
                                             </div>
                                         </th>

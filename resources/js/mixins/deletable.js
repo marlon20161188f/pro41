@@ -196,6 +196,34 @@ export const deletable = {
                 });
             })
         },
+        processcancel(url, form) {
+            return new Promise((resolve) => {
+                this.$confirm('¿Desea cancelar el proceso productivo?', 'Cancelar', {
+                    confirmButtonText: 'Cancelar',
+                    cancelButtonText: 'Regresar',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.post(url,form)
+                        .then(res => {
+                            if (res.data.success) {
+                                this.$message.success(res.data.message)
+                                resolve()
+                                location.href = '/proceso_prod'
+                            }
+                        })
+                        .catch(error => {
+                            if (error.response.status === 500) {
+                                this.$message.error('Error al cancelar el proceso productivo');
+                            } else {
+                                console.log(error.response.data.message)
+                            }
+                        })
+                }).catch(error => {
+                    console.log(error)
+                    this.$eventHub.$emit('reloadData')
+                });
+            })
+        },
 
     }
 }

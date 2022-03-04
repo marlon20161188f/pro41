@@ -20,7 +20,7 @@
                                                 class="pb-2 text-center" >OP
                                             </th>
                                             <th
-                                                class="pb-2">Producto final
+                                                class="pb-2">Producto final <span class="text-danger">*</span>
                                                 <!-- <el-tooltip class="item"
                                                             content="Aperture caja o cuentas bancarias"
                                                             effect="dark"
@@ -29,19 +29,19 @@
                                                 </el-tooltip> -->
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg)
+                                                class="pb-2">Peso importado (Kg) <span class="text-danger">*</span>
                                             </th>
                                             <th class="pb-2" 
-                                                >Fec. Inicio
+                                                >Fec. Inicio <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tipo de hilo
+                                                class="pb-2">Tipo de hilo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tejeduría (%)
+                                                class="pb-2">Tejeduría (%) <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tinteduría (%)
+                                                class="pb-2">Tinteduría (%) <span class="text-danger">*</span>
                                             </th>
                                         </tr>
                                         </thead>
@@ -109,15 +109,20 @@
                                         <thead>
                                         <tr width="100%" >
                                             <th
-                                                class="pb-2">Nº de partida
+                                                class="pb-2">Nº de partida <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Color
+                                                class="pb-2" >Color <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Peso resultante Tintorería (kg)
+                                                class="pb-2" >Peso resultante Tintorería (kg) <span class="text-danger">*</span>
                                             </th>
-                                           
+                                            <th
+                                                class="pb-2" >N° de rollos resultante <span class="text-danger">*</span>
+                                            </th>
+                                            <th
+                                                class="pb-2" >Guía de tintorería<span class="text-danger">*</span>
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -144,6 +149,16 @@
                                                    <el-input v-model="form.peso_tin" type="number" name="peso_tin" min="0" v-bind:max="form.peso_tej" step=".0001" ></el-input>
                                                 </div>
                                             </td>
+                                            <td >
+                                                <div class="form-group mb-2 mr-2">
+                                                   <el-input v-model="form.num_rollos" type="number" name="num_rollos" min="0" v-bind:max="form.peso_tej" step=".0001" ></el-input>
+                                                </div>
+                                            </td>
+                                            <td >
+                                                <div class="form-group mb-2 mr-2">
+                                                   <el-input v-model="form.guia_tinto" type="text" name="guia_tinto" ></el-input>
+                                                </div>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -158,8 +173,10 @@
                                type="primary">Pasar al almacén
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
+                    <el-button @click.prevent="close()" type="warning">Regresar a tejeduría</el-button>
+
                      <el-button
-                        @click.prevent="cancelar()" type="danger">
+                        @click.prevent="clickprocesscancel()" type="danger">
                         Cancelar proceso
                         </el-button>
                     
@@ -182,9 +199,11 @@
 </template>
 
 <script>
+import {deletable} from "../../../mixins/deletable";
 
 export default {
      props:['id'],
+     mixins: [deletable],
     setup() {
         
     }, mounted() {
@@ -373,6 +392,11 @@ export default {
                     this.loading_submit = false;
                 });
 
+            },
+            clickprocesscancel() {
+            this.processcancel(`/${this.resource}/det`,this.form).then(() =>
+                this.$eventHub.$emit("reloadData")
+            );
             },
     }
 

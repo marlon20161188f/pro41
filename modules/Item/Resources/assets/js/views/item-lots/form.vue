@@ -9,6 +9,11 @@
                             <el-input v-model="form.series"></el-input>
                             <small class="form-control-feedback" v-if="errors.series" v-text="errors.series[0]"></small>
                         </div>
+                        <div class="form-group" :class="{'has-danger': errors.series}">
+                            <label class="control-label">Peso</label>
+                            <el-input v-model="form.peso"></el-input>
+                            <small class="form-control-feedback" v-if="errors.series" v-text="errors.series[0]"></small>
+                        </div>
                     </div> 
                 </div> 
             </div>
