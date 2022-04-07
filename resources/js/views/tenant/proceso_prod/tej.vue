@@ -20,7 +20,7 @@
                                                 class="pb-2 text-center" >OP
                                             </th>
                                             <th
-                                                class="pb-2">Producto final
+                                                class="pb-2">Producto final <span class="text-danger">*</span>
                                                 <!-- <el-tooltip class="item"
                                                             content="Aperture caja o cuentas bancarias"
                                                             effect="dark"
@@ -29,7 +29,7 @@
                                                 </el-tooltip> -->
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg) <span class="text-danger">*</span>
+                                                class="pb-2">Peso importado (Kg) 
                                             </th>
                                             <th class="pb-2" 
                                                 >Fec. Inicio <span class="text-danger">*</span>
@@ -38,7 +38,7 @@
                                                 class="pb-2">Tipo de hilo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tejeduría (%) <span class="text-danger">*</span>
+                                                class="pb-2">Tejeduría (%) 
                                             </th>
                                             <th
                                                 class="pb-2">Tinteduría (%) <span class="text-danger">*</span>
@@ -123,7 +123,7 @@
                                                 class="pb-2" >Nº de rollos <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Guía a tintorería<span class="text-danger">*</span>
+                                                class="pb-2" >Guía a tintorería
                                             </th>
                                         </tr>
                                         </thead>
@@ -203,7 +203,7 @@
                                type="primary">Pasar a Tintorería
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
-                    <el-button @click.prevent="close()" type="warning">Regresar a importación</el-button>
+                    <el-button @click.prevent="clickprocessreturn()" type="warning">Regresar a importación</el-button>
 
                      <el-button
                         @click.prevent="clickprocesscancel()" type="danger">
@@ -393,6 +393,24 @@ export default {
                 // this.allCustomers()
             },      
             async submit() {
+                if (!this.form.producto_final)
+                    return this.$message.error('Producto final es requerido');
+                if (!this.form.init)
+                    return this.$message.error('Fecha de inicio es requerido');
+                 if (!this.form.hilo)
+                    return this.$message.error('Tipo de hilo es requerido');
+                if (!this.form.tinto)
+                    return this.$message.error('Porcentaje de tintorería es requerido');
+                if (!this.form.prov_tejed)
+                    return this.$message.error('Proveedor de tejeduría es requerido');
+                if (!this.form.peso_tej)
+                    return this.$message.error('Peso resultante de tejeduría es requerido');
+                if (!this.form.partida)
+                    return this.$message.error('Número de partida es requerido');
+                if (!this.form.color)
+                    return this.$message.error('El color es requerido');
+                if (!this.form.cantidad)
+                    return this.$message.error('Número de rollos es requerido');
 
                 this.loading_submit = true
 
@@ -449,6 +467,11 @@ export default {
             },
             clickprocesscancel() {
             this.processcancel(`/${this.resource}/det`,this.form).then(() =>
+                this.$eventHub.$emit("reloadData")
+            );
+            },
+            clickprocessreturn() {
+            this.processreturn(`/${this.resource}/returnimport`,this.form).then(() =>
                 this.$eventHub.$emit("reloadData")
             );
             },

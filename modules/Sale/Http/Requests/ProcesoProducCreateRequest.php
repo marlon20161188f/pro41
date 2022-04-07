@@ -17,33 +17,33 @@ class ProcesoProducCreateRequest extends FormRequest
     { 
         
         return [
-            'op' => [
-                'required',
-            ],
-            'producto_final' => [
-                'required',
-            ],
-            'peso' => [
-                'required',
-                'numeric',
-                'min:0.01'
-            ],
-            'init' => [
-                'required',
-            ],
-            'hilo' => [
-                'required',
-            ],
-            'tejed' => [
-                'required',
-                'numeric',
-                'min:0.01'
-            ],
-            'tinto' => [
-                'required',
-                'numeric',
-                'min:0.01'
-            ], 
+            // 'op' => [
+            //     'required',
+            // ],
+            // 'producto_final' => [
+            //     'required',
+            // ],
+            // 'peso' => [
+            //     'required',
+            //     'numeric',
+            //     'min:0.01'
+            // ],
+            // 'init' => [
+            //     'required',
+            // ],
+            // 'hilo' => [
+            //     'required',
+            // ],
+            // 'tejed' => [
+            //     'required',
+            //     'numeric',
+            //     'min:0.01'
+            // ],
+            // 'tinto' => [
+            //     'required',
+            //     'numeric',
+            //     'min:0.01'
+            // ], 
             // 'llegada' => [
             //     'required',
             // ], 

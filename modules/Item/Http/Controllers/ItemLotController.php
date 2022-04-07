@@ -74,6 +74,7 @@ class ItemLotController extends Controller
         $id = $request->input('id');
         $record = ItemLot::findOrFail($id);
         $record->series = $request->series;
+        $record->peso = $request->peso;
         $record->save();
 
         return [

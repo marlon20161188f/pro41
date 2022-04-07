@@ -31,7 +31,7 @@
                         <th class="text-center">F. Emisión</th>
                         <th class="text-center" v-if="columns.date_of_due.visible" >F. Vencimiento</th>
                         <th>Proveedor</th>
-                        <th>N° de compra"</th>
+                        <th>N° de compra</th>
                         <th>Estado</th>
                         <th>Estado de pago</th>
                         <th>Número</th>
@@ -59,7 +59,7 @@
                         <td class="text-center">{{ row.date_of_issue }}</td>
                         <td v-if="columns.date_of_due.visible" class="text-center">{{ row.date_of_due }}</td>
                         <td>{{ row.supplier_name }}<br/><small v-text="row.supplier_number"></small></td>
-                        <td class="text-center">-</td>
+                        <td class="text-center">{{row.numero_compra= "C-"+row.id}}</td>
                         <td>{{row.state_type_description}}</td>
                         <td>{{row.state_type_payment_description}}</td>
                         <td>{{ row.number }}<br/>

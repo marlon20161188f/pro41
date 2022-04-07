@@ -138,6 +138,7 @@
                 'attributes' => $this->attributes ? $this->attributes : [],
                 'series_enabled' => (bool)$this->series_enabled,
                 'lots_enabled' => (bool)$this->lots_enabled,
+                'producto_creado' => (bool)$this->producto_creado,
                 'individual_items' => $this->sets->transform(function ($row, $key) {
 
                     $full_description = ($row->individual_item->internal_id) ? $row->individual_item->internal_id . ' - ' . $row->individual_item->description : $row->individual_item->description;

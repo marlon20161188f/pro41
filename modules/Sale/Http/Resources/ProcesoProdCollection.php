@@ -42,6 +42,8 @@ class ProcesoProdCollection extends ResourceCollection
                 'state_type_id' => $row->state_type_id, 
                 'files' => $row->files, 
                 'state_type_description' => $row->state_type->description, 
+                'guia_tinto' => $row->guia_tinto,
+                'guia_teje' => $row->guia_teje,
                 'btn_generate' => $btn_generate,
                 'btn_generate_oc' => $btn_generate_oc,
                 'created_at' => $row->created_at->format('Y-m-d H:i:s'),

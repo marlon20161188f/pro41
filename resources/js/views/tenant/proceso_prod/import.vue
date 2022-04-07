@@ -179,7 +179,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.guia_tinto" type="text" name="guia_tinto"></el-input>
+                                                   <el-input v-model="form.guia_teje" type="text" name="guia_tinto"></el-input>
                                                 </div>
                                             </td>
                                         </tr>
@@ -413,6 +413,20 @@ export default {
                 // this.allCustomers()
             }, 
              async submit() {
+                if (!this.form.producto_final)
+                    return this.$message.error('Producto final es requerido');
+                if (!this.form.init)
+                    return this.$message.error('Fecha de inicio es requerido');
+                 if (!this.form.hilo)
+                    return this.$message.error('Tipo de hilo es requerido');
+                 if (!this.form.tejed)
+                    return this.$message.error('Porcentaje de teduría es requerido');
+                 if (!this.form.tinto)
+                    return this.$message.error('Porcentaje de tintorería es requerido');
+                if (!this.form.prov_tejed)
+                    return this.$message.error('Proveedor de tejeduría es requerido');
+                if (!this.form.tela)
+                    return this.$message.error('Tipo de tela es requerido');
 
                 this.loading_submit = true
 

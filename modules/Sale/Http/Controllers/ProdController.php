@@ -37,6 +37,7 @@ use Exception;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Tenant\PaymentMethodType;
 use Modules\Sale\Models\SaleOpportunity;
+use Modules\Sale\Models\OP;
 use Modules\Sale\Models\Color;
 use Modules\Sale\Models\Hilo;
 use Modules\Sale\Models\Tela;
@@ -55,6 +56,8 @@ use Modules\Sale\Http\Requests\ProcesoProducTejRequest;
 use Modules\Sale\Http\Requests\ProcesoProducTinRequest;
 use Modules\Sale\Http\Requests\ProcesoProducAlmRequest;
 use App\Http\Requests\Tenant\ItemRequest;
+use App\Models\Tenant\Purchase;
+use App\Models\Tenant\PurchaseItem;
 
 use Modules\Sale\Mail\SaleOpportunityEmail;
 
@@ -160,9 +163,22 @@ class ProdController extends Controller
    }
 
    public function tables() {
+    $purchases = Purchase::query()->select('id' )->get()->transform(function($row) {
+        return [
+            'id' => $row->id,
+        ];
+    });
+    // $purchase_items = PurchaseItem::query()->select('purchase_id','item' )->get()->transform(function($row) {
+    //     return [
+    //         'purchase_id' => $row->purchase_id,
+    //         'item' => $row->item,
+    //     ];
+    // });
+    $purchase_items = PurchaseItem::all();
     $tela = Tela::all();
     $hilo = Hilo::all();
     $color = Color::all();
+    $op = OP::all();
     $warehouses = Warehouse::query()->select('establishment_id', 'description')->get()->transform(function($row) {
         return [
             'id' => $row->establishment_id,
@@ -186,7 +202,7 @@ class ProdController extends Controller
     });
     $company = Company::active();
 
-    return compact('tela', 'hilo', 'color', 'warehouses', 'purchase_orders', 'suppliers', 'customers', 'establishments','currency_types','company');
+    return compact('purchases','purchase_items','op','tela', 'hilo', 'color', 'warehouses', 'purchase_orders', 'suppliers', 'customers', 'establishments','currency_types','company');
     }
 
     public function table($table)
@@ -296,6 +312,38 @@ class ProdController extends Controller
         $proceso->fill($request->all());
         $proceso->save();
 
+        // $v_lots = isset($request) ? $request:[];
+
+        //     foreach ($v_lots as $lot) {
+
+        //         // $item->lots()->create($lot);
+        //         $proceso->create([
+        //             'op'=> $lot['op'],
+        //             'producto_final' => $lot['producto_final'],
+        //             'fecha_inicio'=> $lot['init'],
+        //             'fecha_final'=> $lot['llegada'],
+        //             'hilo'=> $lot['hilo'],
+        //             'partida'=> $lot['partida'],
+        //             'produc_artic'=> $lot['produc_artic'],
+        //             'color'=> $lot['color'],
+        //             'prov_tejed'=> $lot['prov_tejed'],
+        //             'warehouses_id' => $lot['warehouses_id'],
+        //             'cantidad'=> $lot['cantidad'],
+        //             'peso'=> $lot['peso'],
+        //             'peso_tej'=> $lot['peso_tej'],
+        //             'peso_tin'=> $lot['peso_tin'],
+        //             'tejed'=> $lot['tejed'],
+        //             'tinto'=> $lot['tinto'],
+        //             'estado' => $lot['estado'],
+        //             'prov_tejed' => $lot['prov_tejed'],
+        //             'prov_tin' => $lot['prov_tin'],
+        //             'guia_tinto' => $lot['guia_tinto'],
+        //             'guia_teje' => $lot['guia_teje'],
+        //             'num_rollos' => $lot['num_rollos'],
+                    
+        //         ]);
+        //     }
+        //     $proceso->update();
         return [
             'success' => true,
             'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
@@ -307,6 +355,19 @@ class ProdController extends Controller
         $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
         $proceso->fill($request->all());
         $proceso->estado="Tejeduría";
+        $proceso->update();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
+    }
+    public function storereturnimport(Request $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+        $proceso->fill($request->all());
+        $proceso->estado="Importación";
         $proceso->update();
 
         return [
@@ -327,12 +388,38 @@ class ProdController extends Controller
             'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
         ];
     }
+    public function storereturntej(Request $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+        $proceso->fill($request->all());
+        $proceso->estado="Tejeduría";
+        $proceso->update();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
+    }
     public function storetin(ProcesoProducTinRequest $request)
     {
         $id = $request->input('id');
         $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
         $proceso->fill($request->all());
         $proceso->estado="Almacén";
+        $proceso->update();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
+    }
+    public function storereturntin(Request $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+        $proceso->fill($request->all());
+        $proceso->estado="Tintorería";
         $proceso->update();
 
         return [

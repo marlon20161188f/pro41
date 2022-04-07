@@ -61,6 +61,9 @@ class ProcesoProducTejRequest extends FormRequest
             'cantidad' => [
                 'required',
             ],
+            'guia_tinto' => [
+                
+            ],
         ];
     }
 }

@@ -378,6 +378,7 @@ class ItemController extends Controller
                     'state' => $lot['state'],
                 ]);
             }
+            $producto_creado = isset($request->producto_creado) ? $request->producto_creado:false;
             $lots_enabled = isset($request->lots_enabled) ? $request->lots_enabled:false;
             if ($lots_enabled) {
                 ItemLotsGroup::create([

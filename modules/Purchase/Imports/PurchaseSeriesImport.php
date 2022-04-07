@@ -29,17 +29,19 @@ class PurchaseSeriesImport implements ToCollection
                 $states = collect(['Activo', 'Inactivo', 'Desactivado', 'Voz', 'M2m']);
 
                 $search_state = $states->first(function($state) use($row){
-                    return $state == $row[1];
+                    return $state == $row[2];
                 });
                 // dd($search_state);
 
                 $series = $row[0];
+                $peso = $row[1];
                 $state =  $search_state ? $search_state : 'Activo';
 
-                $date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[2]))->format('Y-m-d');
+                $date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[3]))->format('Y-m-d');
 
                 $news_rows [] = [
                     'series' => $series,
+                    'peso' => $peso,
                     'state' => $state,
                     'date' => $date,
                 ];

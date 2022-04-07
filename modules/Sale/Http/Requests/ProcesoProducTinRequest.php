@@ -57,6 +57,13 @@ class ProcesoProducTinRequest extends FormRequest
                 'numeric',
                 'min:0'
             ], 
+            'guia_tinto' => [
+                
+            ],
+            'num_rollos' => [
+                
+            ],
+
         ];
     }
 }

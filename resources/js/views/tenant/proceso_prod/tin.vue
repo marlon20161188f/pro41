@@ -29,7 +29,7 @@
                                                 </el-tooltip> -->
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg) <span class="text-danger">*</span>
+                                                class="pb-2">Peso importado (Kg) 
                                             </th>
                                             <th class="pb-2" 
                                                 >Fec. Inicio <span class="text-danger">*</span>
@@ -38,10 +38,10 @@
                                                 class="pb-2">Tipo de hilo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tejeduría (%) <span class="text-danger">*</span>
+                                                class="pb-2">Tejeduría (%) 
                                             </th>
                                             <th
-                                                class="pb-2">Tinteduría (%) <span class="text-danger">*</span>
+                                                class="pb-2">Tinteduría (%) 
                                             </th>
                                         </tr>
                                         </thead>
@@ -81,11 +81,29 @@
                                                  </div>
                                             </td>
                                             <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.hilo" name="hilo">
-                                                        <el-option key="Hilo X" value="Hilo X" label="Hilo X"></el-option>
-                                                        <el-option key="Hilo Y" value="Hilo Y" label="Hilo Y"></el-option>
-                                                        <el-option key="Hilo Z" value="Hilo Z" label="Hilo Z"></el-option>
+                                                <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                     <a v-if="form_hilo.add == false"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="form_hilo.add = true"> [ + Nuevo]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="saveHilo()"> [ + Guardar]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-danger"
+                                                    href="#"
+                                                    @click="form_hilo.add = false"> [ Cancelar]</a>
+                                                    <el-input v-if="form_hilo.add == true"
+                                                  v-model="form_hilo.name"
+                                                  dusk="item_code"
+                                                  style="margin-bottom:1.5%;"></el-input>
+                                                    <el-select v-if="form_hilo.add == false" 
+                                                    v-model="form.hilo" placeholder="Seleccionar" name="hilo">
+                                                        <el-option v-for="option in hilo"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.name"></el-option>  
                                                     </el-select>
                                                 </div>
                                             </td>
@@ -121,7 +139,7 @@
                                                 class="pb-2" >N° de rollos resultante <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Guía de tintorería<span class="text-danger">*</span>
+                                                class="pb-2" >Guía de tintorería
                                             </th>
                                         </tr>
                                         </thead>
@@ -173,7 +191,7 @@
                                type="primary">Pasar al almacén
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
-                    <el-button @click.prevent="close()" type="warning">Regresar a tejeduría</el-button>
+                    <el-button @click.prevent="clickprocessreturn()" type="warning">Regresar a tejeduría</el-button>
 
                      <el-button
                         @click.prevent="clickprocesscancel()" type="danger">
@@ -218,7 +236,7 @@ export default {
                 this.suppliers = data.suppliers
                 // this.establishment = data.establishment
 
-
+                this.hilo = data.hilo
                 this.all_suppliers = data.suppliers
                 this.discount_types = data.discount_types
                 this.payment_method_types = data.payment_method_types
@@ -243,6 +261,7 @@ export default {
     data() {
         return {
             input_person: {},
+            form_hilo: {add: false, name: null, id: null},
             resource: 'proceso_prod',
             showDialogAddItem: false,
             readonly_date_of_due: false,
@@ -256,6 +275,7 @@ export default {
             form: {
                 items:[]
             },
+            hilo: [],
             producto: null,
             aux_supplier_id: null,
             total_amount: 0,
@@ -337,9 +357,40 @@ export default {
                 // this.changeDateOfIssue()
                 // this.changeCurrencyType()
                 // this.allCustomers()
-            }, 
-         async submit() {
+            },
+        async reloadTables() {
+            await this.$http.get(`/${this.resource}/tables`)
+                .then(response => {
+                    this.unit_types = response.data.unit_types
+                    this.accounts = response.data.accounts
+                    this.currency_types = response.data.currency_types
+                    this.system_isc_types = response.data.system_isc_types
+                    this.affectation_igv_types = response.data.affectation_igv_types
+                    this.warehouses = response.data.warehouses
+                    this.tela = response.data.tela
+                    this.hilo = response.data.hilo
+                    this.brands = response.data.brands
 
+                    this.form.sale_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                    this.form.purchase_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                })
+        }, 
+         async submit() {
+                if (!this.form.producto_final)
+                    return this.$message.error('Producto final es requerido');
+                if (!this.form.init)
+                    return this.$message.error('Fecha de inicio es requerido');
+                 if (!this.form.hilo)
+                    return this.$message.error('Tipo de hilo es requerido');
+                if (!this.form.num_rollos)
+                    return this.$message.error('Número de rollos resultante es requerido');
+                if (!this.form.peso_tin)
+                    return this.$message.error('Peso resultante de tintorería es requerido');
+                if (!this.form.partida)
+                    return this.$message.error('Número de partida es requerido');
+                if (!this.form.color)
+                    return this.$message.error('El color es requerido');
+       
                 this.loading_submit = true
 
                 await this.$http.post(`/${this.resource}/tin`, this.form).then(response => {
@@ -366,6 +417,23 @@ export default {
                     this.loading_submit = false;
                 });
 
+            },
+            saveHilo() {
+            this.form_hilo.add = false
+
+            this.$http.post(`/hilo`, this.form_hilo)
+                .then(response => {
+                    if (response.data.success) {
+                        this.$message.success(response.data.message)
+                        this.hilo.push(response.data.data)
+                        this.form_hilo.name = null
+                    } else {
+                        this.$message.error('No se guardaron los cambios')
+                    }
+                })
+                .catch(error => {
+
+                })
             },
             cancelar() {
                     this.$http.post(`/${this.resource}/det`, this.form).then(response => {
@@ -395,6 +463,11 @@ export default {
             },
             clickprocesscancel() {
             this.processcancel(`/${this.resource}/det`,this.form).then(() =>
+                this.$eventHub.$emit("reloadData")
+            );
+            },
+             clickprocessreturn() {
+            this.processreturn(`/${this.resource}/returntej`,this.form).then(() =>
                 this.$eventHub.$emit("reloadData")
             );
             },

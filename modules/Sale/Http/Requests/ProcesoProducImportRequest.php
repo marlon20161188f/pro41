@@ -50,6 +50,8 @@ class ProcesoProducImportRequest extends FormRequest
             'prov_tejed' => [
                 'required',
             ], 
+            'guia_teje' => [
+            ], 
         ];
     }
 }

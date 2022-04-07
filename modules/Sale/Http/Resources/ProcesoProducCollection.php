@@ -19,7 +19,7 @@ class ProcesoProducCollection extends ResourceCollection
                 'id' => $row->id,
                 'op'=> $row->op,
                 'producto_final' => $row->producto_final,
-                'fecha_inicio'=> $row->init->format('Y-m-d'),
+                'fecha_inicio'=> $row->init?$row->init->format('Y-m-d'):'---/---/---',
                 'fecha_final'=> $row->llegada?$row->llegada->format('Y-m-d'):'---/---/---',
                 'hilo'=> $row->hilo,
                 'partida'=> $row->partida,
@@ -35,7 +35,10 @@ class ProcesoProducCollection extends ResourceCollection
                 'tinto'=> $row->tinto,
                 'estado' => $row->estado,
                 'prov_tejed' => $row->prov_tejed,
-                'prov_tin' => $row->prov_tin
+                'prov_tin' => $row->prov_tin,
+                'guia_tinto' => $row->guia_tinto,
+                'guia_teje' => $row->guia_teje,
+                'num_rollos' => $row->num_rollos,
                 ];
         });
     }

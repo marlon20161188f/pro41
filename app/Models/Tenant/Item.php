@@ -150,6 +150,7 @@ class Item extends ModelTenant
         'brand_id',
         'category_id',
         'lot_code',
+        'producto_creado',
         'lots_enabled',
         'active',
         'line',

@@ -30,6 +30,14 @@
 
                         </el-table-column>
 
+                        <el-table-column prop="peso"  label="Peso (Kg)">
+                            
+                            <template slot-scope="scope">  
+                                <el-input v-model="scope.row.peso" type="number" ></el-input>
+                            </template>
+
+                        </el-table-column>
+
                         <el-table-column prop="state" label="Estado"   >
                             
                             <template slot-scope="scope">  
@@ -196,6 +204,7 @@
                     
                 }
             },
+          
             create(){
                 this.loading = true
             },

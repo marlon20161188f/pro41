@@ -59,6 +59,9 @@ if($current_hostname) {
 
                 Route::get('', 'ProdController@index')->name('tenant.proceso_prod.index')->middleware(['redirect.level']);
                 Route::post('', 'ProdController@storecreate');
+                Route::post('returnimport', 'ProdController@storereturnimport');
+                Route::post('returntej', 'ProdController@storereturntej');
+                Route::post('returntin', 'ProdController@storereturntin');
                 Route::post('import', 'ProdController@storeimport');
                 Route::post('tej', 'ProdController@storetej');
                 Route::post('tin', 'ProdController@storetin');
@@ -92,6 +95,7 @@ if($current_hostname) {
             Route::post('color', 'ColorController@store');
             Route::post('hilo', 'HiloController@store');
             Route::post('tela', 'TelaController@store');
+            Route::post('OP', 'OPController@store');
             //Proceso productivo Mermas
             Route::prefix('proceso_prod_merma')->group(function() {
                 Route::get('', 'ProdMermaController@index')->name('tenant.proceso_prod_merma.index')->middleware(['redirect.level']);

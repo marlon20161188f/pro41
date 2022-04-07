@@ -12,12 +12,121 @@
 
                             <div class="col-md-12 col-lg-12 mt-2">
                                 <!-- Contado -->
-                                <template >
+                                <data-table >
+                                    
+                                        <tr >
+                                            <th style="font-size: 16px">
+                                               Insumos :
+                                            </th>
+                                            <th 
+                                            width="7%"><a href="#" @click.prevent="clickAddInsumo" 
+                                            class="text-center font-weight-bold text-info">[+ Agregar]</a>
+                                            </th>
+                                        </tr>
+                                    
+                                        <tr 
+                                         v-for="(form, index) in insumo" :key="index" width="100%" 
+                                         style="webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 5%);">
+                                           <td style="padding-top: 0.8rem;">
+                                               <tr>
+                                                    <th>
+                                                        Insumo {{index+1}}
+                                                    </th>
+                                                </tr>
+                                                <template>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                class="pb-2" >Compra <span class="text-danger">*</span>
+                                                </th>
+                                                <th
+                                                class="pb-2" >Insumo <span class="text-danger">*</span>
+                                                </th>
+                                                <th
+                                                class="pb-2" >Peso disponible (kg) <span class="text-danger">*</span>
+                                                </th>
+                                                <th
+                                                class="pb-2" >Peso (kg) <span class="text-danger">*</span>
+                                                </th>
+                                                <th
+                                                class="pb-2" >Tipo de Hilo <span class="text-danger">*</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-group mb-2 mr-2">
+                                                    <el-select v-model="form.compra"
+                                                    filterable
+                                                     @change="filtercompra">
+                                                        <el-option v-for="option in purchases"
+                                                                :key="option.id"
+                                                                :label="option.id"
+                                                                :value="option.id"></el-option>
+                                                    </el-select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-2 mr-2">
+                                                    <el-select v-model="form.insumo"
+                                                    filterable>
+                                                        <el-option v-for="option in infopurchase[index]"
+                                                                :key="option.id"
+                                                                :label="option.item.description"
+                                                                :value="option.item.description"></el-option>
+                                                    </el-select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-2 mr-2">
+                                                    <el-input v-model="form.peso_dis" type="number" min="0" step=".0001" ></el-input>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-2 mr-2">
+                                                    <el-input v-model="form.peso" type="number" min="0" step=".0001" ></el-input>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                 <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                     <a v-if="form_hilo.add == false"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="form_hilo.add = true"> [ + Nuevo]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="savehilo()"> [ + Guardar]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-danger"
+                                                    href="#"
+                                                    @click="form_hilo.add = false"> [ Cancelar]</a>
+                                                    <el-input v-if="form_hilo.add == true"
+                                                  v-model="form_hilo.name"
+                                                  dusk="item_code"
+                                                  style="margin-bottom:1.5%;"></el-input>
+                                                    <el-select v-if="form_hilo.add == false" 
+                                                    v-model="form.hilo" placeholder="Seleccionar" name="op">
+                                                        <el-option v-for="option in hilo"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.name"></el-option>  
+                                                    </el-select>
+                                                </div>
+                                            </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                                </template>
+                                                <template >
                                     <table>
                                         <thead>
                                         <tr width="100%">
                                             <th
-                                                class="pb-2 text-center" >OP <span class="text-danger">*</span>
+                                                class="pb-2" >OP <span class="text-danger">*</span>
                                             </th>
                                             <th
                                                 class="pb-2">Producto final <span class="text-danger">*</span>
@@ -34,9 +143,9 @@
                                             <th class="pb-2" 
                                                 >Fec. Inicio <span class="text-danger">*</span>
                                             </th>
-                                            <th
+                                            <!-- <th
                                                 class="pb-2">Tipo de hilo <span class="text-danger">*</span>
-                                            </th>
+                                            </th> -->
                                             <th
                                                 class="pb-2">Tejeduría (%) <span class="text-danger">*</span>
                                             </th>
@@ -48,20 +157,38 @@
                                         <tbody>
                                         <tr>
                                             <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.op">
-                                                            <!-- @change="changePurchaseOrderType" -->
-                                                            
+                                                 <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                     <a v-if="form_OP.add == false"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="form_OP.add = true"> [ + Nuevo]</a>
+                                                    <a v-if="form_OP.add == true"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="saveOP()"> [ + Guardar]</a>
+                                                    <a v-if="form_OP.add == true"
+                                                    class="control-label font-weight-bold text-danger"
+                                                    href="#"
+                                                    @click="form_OP.add = false"> [ Cancelar]</a>
+                                                    <el-input v-if="form_OP.add == true"
+                                                  v-model="form_OP.name"
+                                                  dusk="item_code"
+                                                  style="margin-bottom:1.5%;"></el-input>
+                                                    <el-select v-if="form_OP.add == false" 
+                                                    v-model="form.op" placeholder="Seleccionar" name="op">
+                                                        <el-option v-for="option in op"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.name"></el-option>  
+                                                    </el-select>
+                                                </div>
+                                                    <!-- <el-select v-model="form.op">
                                                         <el-option v-for="option in purchase_orders"
                                                                 :key="option.id"
                                                                 :label="option.number"
                                                                 :value="option.number"></el-option>
-                                                                <!-- <small v-if="errors.currency_type_id"
-                                       class="form-control-feedback"
-                                       v-text="errors.currency_type_id[0]"></small> -->
-                    
-                                                    </el-select>
-                                                </div>
+                                                    
+                                                    </el-select> -->
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
@@ -73,7 +200,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.peso" type="number" min="0" step=".0001" ></el-input>
+                                                    <el-input v-model="form.peso_import" type="number" min="0" step=".0001" ></el-input>
                                                 </div>
                                             </td>
                                              <td>
@@ -86,15 +213,15 @@
                                                     </el-date-picker>
                                                  </div>
                                             </td>
-                                            <td>
-                                                <div class="form-group mb-2 mr-2">
+                                           <!-- <td>
+                                                 <div class="form-group mb-2 mr-2">
                                                     <el-select v-model="form.hilo">
                                                         <el-option key="Hilo X" value="Hilo X" label="Hilo X"></el-option>
                                                         <el-option key="Hilo Y" value="Hilo Y" label="Hilo Y"></el-option>
                                                         <el-option key="Hilo Z" value="Hilo Z" label="Hilo Z"></el-option>
                                                     </el-select>
-                                                </div>
-                                            </td>
+                                                </div> 
+                                            </td> -->
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
                                                     <el-input v-model="form.tejed" type="number" min="0" max="100"></el-input>
@@ -109,7 +236,15 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                </template>
+                                                </template>
+                                           </td>
+                                            <td class="series-table-actions text-center">
+                                                <button  type="button" class="btn waves-effect waves-light btn-xs btn-danger" @click.prevent="clickCancel(index)">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                </data-table>
                             </div>
                         </template>
                     </div>
@@ -150,8 +285,10 @@
 
 //import {mapActions, mapState} from "vuex";
 import {calculateRowItem} from '../../../helpers/functions'
+import {serviceNumber} from '../../../mixins/functions'
 
 export default {
+     mixins: [serviceNumber],
     setup() {
         
     }, 
@@ -165,8 +302,9 @@ export default {
                 this.purchase_orders = data.purchase_orders
                 this.payment_conditions = data.payment_conditions
                 // this.establishment = data.establishment
-
-
+                this.op = data.op
+                this.purchases = data.purchases
+                this.purchase_items = data.purchase_items
                 this.all_suppliers = data.suppliers
                 this.discount_types = data.discount_types
                 this.payment_method_types = data.payment_method_types
@@ -179,13 +317,22 @@ export default {
                 this.form.currency_type_id = (this.currency_types.length > 0) ? this.currency_types[0].id : null
                 // this.form.establishment_id = (this.establishment.id) ? this.establishment.id : null
                 //this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
-                this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
+                //this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
                 this.form.init =  moment().format('YYYY-MM-DD')
+                this.form.op = null
+                this.form.currency_type_id = (this.currency_types.length > 0) ? this.currency_types[0].id : null
+                // this.form.establishment_id = (this.establishment.id) ? this.establishment.id : null
+                //this.form.document_type_id = (this.document_types.length > 0) ? this.document_types[0].id : null
+                //this.form.op = (this.purchase_orders.length > 0) ? this.purchase_orders[0].number : null
+                this.form.init =  moment().format('YYYY-MM-DD')
+                this.form.op = null
             })},
             data() {
         return {
             input_person: {},
             resource: 'proceso_prod',
+            form_OP: {add: false, name: null, id: null},
+            form_hilo: {add: false, name: null, id: null},
             showDialogAddItem: false,
             readonly_date_of_due: false,
             localHasGlobalIgv: false,
@@ -195,12 +342,17 @@ export default {
             hide_button: false,
             is_perception_agent: false,
             errors: {},
-            form: {
-                items:[]
-            },
-            producto: null,
+            // form: {
+            //     items:[]
+            // },
+            form:[],
+            index:0,
+            producto_final: null,
             aux_supplier_id: null,
             total_amount: 0,
+            purchases: [],
+            infopurchase: [],
+            purchase_items:[],
             document_types: [],
             purchase_orders: [],
             currency_types: [],
@@ -221,6 +373,15 @@ export default {
             loading_search: false,
             purchaseNewId: null,
             showDialogLots: false,
+            insumo:[],
+            // insumo: [{
+            //         id: null,
+            //         item_id: null,
+            //         series: null,
+            //         peso: 0,
+            //         date:  moment().format('YYYY-MM-DD'),
+            //         state: 'Activo'
+            //     }],
         }
     },
      async created() {
@@ -233,14 +394,22 @@ export default {
                     this.company = response.data.company 
                     this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
                     this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
-                    this.form.op = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
+                    this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
+                    this.form.establishment_id = (this.establishments.length > 0)?this.establishments[0].id:null 
+                    // this.form.op = (this.purchase_orders.length > 0)?this.purchase_orders[0].id:null
                     this.form.init =  moment().format('YYYY-MM-DD')
-
-
+                    this.form.init =  moment().format('YYYY-MM-DD')
+                    this.purchases = response.data.purchases
+                    this.purchase_items = response.data.purchase_items
+                    this.op = response.data.op
+                    this.hilo = response.data.hilo
+                    this.form.op = null
+                    this.form.op = null
                     this.changeEstablishment()
                     // this.changeDateOfIssue() 
                     this.changeCurrencyType()
                     this.allCustomers()
+                    
                 })
             this.loading_form = true
             this.$eventHub.$on('reloadDataPersons', (customer_id) => {
@@ -251,6 +420,30 @@ export default {
 
         },
         methods: {
+             
+            async reloadTables() {
+            await this.$http.get(`/${this.resource}/tables`)
+                .then(response => {
+                    this.unit_types = response.data.unit_types
+                    this.accounts = response.data.accounts
+                    this.currency_types = response.data.currency_types
+                    this.system_isc_types = response.data.system_isc_types
+                    this.affectation_igv_types = response.data.affectation_igv_types
+                    this.warehouses = response.data.warehouses
+                    this.tela = response.data.tela
+                    this.op = response.data.op
+                    this.hilo = response.data.hilo
+                    this.brands = response.data.brands
+                    this.purchases = response.data.purchases
+                    this.purchase_items = response.data.purchase_items
+
+                    this.form.sale_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                    this.form.purchase_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                    this.form.sale_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                    this.form.purchase_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                
+                })
+        },
             handleRemove(file, fileList) {
 
                 this.form.files = fileList
@@ -321,51 +514,61 @@ export default {
             },
             initForm() {
                 this.errors = {}
+                //for(var i=0;i=0;i++){
                 this.form = {
-                    // prefix:'CASO',
-                    // observation: null,
-                    // detail: null,
-                    // establishment_id: null, 
-                    // date_of_issue: moment().format('YYYY-MM-DD'),
-                    // time_of_issue: moment().format('HH:mm:ss'),
-                    // customer_id: null,
-                    // currency_type_id: null,
-                    // purchase_orders_id: null,
-                    // exchange_rate_sale: 0, 
-                    // total_exportation: 0,
-                    // total_free: 0,
-                    // total_taxed: 0,
-                    // total_unaffected: 0,
-                    // total_exonerated: 0,
-                    // total_igv: 0, 
-                    // total_taxes: 0,
-                    // total_value: 0,
-                    // total: 0,
-                    // items: [],
-                    // files: [],
-                    // actions: {
-                    //     format_pdf:'a4',
-                    op:'OC-1',
                     producto: null,
                     peso: 0,
                     init: null,
+                    op: null,
                     hilo: null,
                     tejed:null,
                     tinto:null,
+                    compra:null,
                     }
-            
+                this.insumo=[{
+                    producto_final: null,
+                    peso: 0,
+                    init: null,
+                    op: null,
+                    hilo: null,
+                    tejed:null,
+                    tinto:null,
+                    // id: null,
+                    // item_id: null,
+                    // series: null,
+                    // peso: 0,
+                    // date:  moment().format('YYYY-MM-DD'),
+                    // state: 'Activo'
+                }]
             },
             resetForm() {
                 this.errors = {}
                 this.form = {
-                    op:'OC-1',
-                    producto: null,
+                    //op:'OC-1',
+                    // producto: null,
+                    // peso: 0,
+                    // init: null,
+                    // hilo: null,
+                    // tejed:null,
+                    // tinto:null,
+                    // op: null,
+                    }
+                this.insumo=[{
+                    producto_final: null,
                     peso: 0,
                     init: null,
+                    op: null,
                     hilo: null,
                     tejed:null,
                     tinto:null,
-                    }
+                    // id: null,
+                    // item_id: null,
+                    // series: null,
+                    // peso: 0,
+                    // date:  moment().format('YYYY-MM-DD'),
+                    // state: 'Activo'
+                }]
+                
                 // this.activePanel = 0
                 // this.initForm()
                 // this.form.currency_type_id = (this.currency_types.length > 0)?this.currency_types[0].id:null
@@ -469,10 +672,43 @@ export default {
                 this.form.total = _.round(total, 2)
             },
             async submit() {
-
-                this.loading_submit = true
-
-                await this.$http.post(`/${this.resource}`, this.form).then(response => {
+                console.log(this.insumo);
+                this.insumo.forEach(form => {
+                 if (!form.op)
+                    return this.$message.error('Orden de producción es requerido');
+                 if (!form.producto_final)
+                    return this.$message.error('Producto final es requerido');
+                 if (!form.peso)
+                    return this.$message.error('El peso es requerido');
+                 if (!form.init)
+                    return this.$message.error('Fecha de inicio es requerido');
+                 if (!form.hilo)
+                    return this.$message.error('Tipo de hilo es requerido');
+                 if (!form.tejed)
+                    return this.$message.error('Porcentaje de teduría es requerido');
+                 if (!form.tinto)
+                    return this.$message.error('Porcentaje de tintorería es requerido');
+                
+                
+                // if (!this.form.op)
+                //     return this.$message.error('Orden de producción es requerido');
+                //  if (!this.form.producto_final)
+                //     return this.$message.error('Producto final es requerido');
+                //  if (!this.form.peso)
+                //     return this.$message.error('El peso es requerido');
+                //  if (!this.form.init)
+                //     return this.$message.error('Fecha de inicio es requerido');
+                //  if (!this.form.hilo)
+                //     return this.$message.error('Tipo de hilo es requerido');
+                //  if (!this.form.tejed)
+                //     return this.$message.error('Porcentaje de teduría es requerido');
+                //  if (!this.form.tinto)
+                //     return this.$message.error('Porcentaje de tintorería es requerido');
+                });
+               
+                    this.insumo.forEach(form => {
+                         this.loading_submit = true
+                this.$http.post(`/${this.resource}`,form).then(response => {
                     if (response.data.success) {
                         this.resetForm();
                         // this.saleOpportunityNewId = response.data.data.id;
@@ -496,6 +732,33 @@ export default {
                     this.loading_submit = false;
                 });
 
+                    });
+               
+                
+                // await this.$http.post(`/${this.resource}`, this.insumo[0]).then(response => {
+                //     if (response.data.success) {
+                //         this.resetForm();
+                //         // this.saleOpportunityNewId = response.data.data.id;
+                //         // this.showDialogOptions = true;
+                //         this.$message.success(response.data.message)
+                //         this.$eventHub.$emit('reloadData')
+                //         this.close()
+                //         this.isUpdate()
+                //     }
+                //     else {
+                //         this.$message.error(response.data.message);
+                //     }
+                // }).catch(error => {
+                //     if (error.response.status === 422) {
+                //         this.errors = error.response.data;
+                //     }
+                //     else {
+                //         this.$message.error(error.response.data.message);
+                //     }
+                // }).then(() => {
+                //     this.loading_submit = false;
+                // });
+
             },
             close() {
                 location.href = `/${this.resource}`
@@ -505,7 +768,80 @@ export default {
                     this.customers = response.data.customers
                     this.form.customer_id = customer_id
                 })                  
-            }
+            },
+            saveOP() {
+            this.form_OP.add = false
+
+            this.$http.post(`/OP`, this.form_OP)
+                .then(response => {
+                    if (response.data.success) {
+                        this.$message.success(response.data.message)
+                        this.op.push(response.data.data)
+                        this.form_OP.name = null
+                    } else {
+                        this.$message.error('No se guardaron los cambios')
+                    }
+                })
+                .catch(error => {
+
+                })
+        },
+        filtercompra(){
+                    this.infopurchase[0] = this.purchase_items.filter(items => {
+                        return  items.purchase_id === this.insumo[0].compra
+                    })
+                    this.infopurchase[1] = this.purchase_items.filter(items => {
+                        return  items.purchase_id === this.insumo[1].compra
+                    })
+                    this.infopurchase[2] = this.purchase_items.filter(items => {
+                        return  items.purchase_id === this.insumo[2].compra
+                    })
+                    this.infopurchase[3] = this.purchase_items.filter(items => {
+                        return  items.purchase_id === this.insumo[3].compra
+                    })
+                    
+                },
+         savehilo() {
+            this.form_hilo.add = false
+
+            this.$http.post(`/hilo`, this.form_hilo)
+                .then(response => {
+                    if (response.data.success) {
+                        this.$message.success(response.data.message)
+                        this.op.push(response.data.data)
+                        this.form_hilo.name = null
+                    } else {
+                        this.$message.error('No se guardaron los cambios')
+                    }
+                })
+                .catch(error => {
+
+                })
+        },
+         async clickAddInsumo() {
+            // this.insumo=this.insumo+1
+            await this.insumo.push({
+                    // id: null,
+                    // item_id: null,
+                    // series: null,
+                    // peso: 0,
+                    // date:  moment().format('YYYY-MM-DD'),
+                    // state: 'Activo'
+                    producto_final: null,
+                    peso: 0,
+                    init: null,
+                    op: null,
+                    hilo: null,
+                    tejed:null,
+                    tinto:null,
+
+                });
+             
+         },
+        async clickCancel(index) {
+            await this.insumo.splice(index, 1);
+               // item.deleted = true
+            },
     }
 }
 </script>

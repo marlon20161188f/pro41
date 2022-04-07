@@ -21,15 +21,15 @@
                                             </th>
                                             <th
                                                 class="pb-2">Producto final <span class="text-danger">*</span>
-                                                <el-tooltip class="item"
+                                                <!-- <el-tooltip class="item"
                                                             content="Aperture caja o cuentas bancarias"
                                                             effect="dark"
                                                             placement="top-start">
                                                     <i class="fa fa-info-circle"></i>
-                                                </el-tooltip>
+                                                </el-tooltip> -->
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg) <span class="text-danger">*</span>
+                                                class="pb-2">Peso importado (Kg)
                                             </th>
                                             <th class="pb-2" 
                                                 >Fec. Inicio
@@ -183,7 +183,7 @@
                                type="primary">Cargar inventario
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
-                    <el-button @click.prevent="close()" type="warning">Regresar a tintorería</el-button>
+                    <el-button @click.prevent="clickprocessreturn()" type="warning">Regresar a tintorería</el-button>
                      <el-button
                         @click.prevent="clickprocesscancel()" type="danger">
                         Cancelar proceso
@@ -377,6 +377,20 @@ export default {
                 // this.allCustomers()
             }, 
              async submit() {
+                 if (!this.form.producto_final)
+                    return this.$message.error('Producto final es requerido');
+                 if (!this.form.hilo)
+                    return this.$message.error('Tipo de hilo es requerido');
+                 if (!this.form.partida)
+                    return this.$message.error('Número de partida es requerido');
+                 if (!this.form.produc_artic)
+                    return this.$message.error('Producto o artículo es requerido');
+                 if (!this.form.llegada)
+                    return this.$message.error('Fecha de llegada es requerido');
+                 if (!this.form.warehouses_id)
+                    return this.$message.error('Almacén es requerido');
+                 if (!this.form.cantidad)
+                    return this.$message.error('La cantidad es requerido');
 
                 this.loading_submit = true
                 this.form.lots=this.lots
@@ -443,7 +457,12 @@ export default {
             );
             },
         
-    }
+    },
+     clickprocessreturn() {
+            this.processreturn(`/${this.resource}/returntin`,this.form).then(() =>
+                this.$eventHub.$emit("reloadData")
+            );
+            },
 
 }
 </script>

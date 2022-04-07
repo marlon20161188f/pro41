@@ -36,14 +36,21 @@ class ProcesoProduc extends ModelTenant
             'tejed',
             'tinto',
             'estado',
-            'prev_tejed',
-            'prev_tin',
+            'prov_tejed',
+            'prov_tin',
             'updated_at',
-            'created_at'
+            'created_at',
+            'guia_Teje',
+            'guia_tinto',
+            'num_rollos'
         ];
         protected $casts = [
             'init' => 'date', 
             'llegada' => 'date'
         ];
+        public function lots()
+        {
+            return $this->morphMany(ItemLot::class, 'item_loteable');
+        }
      
 }

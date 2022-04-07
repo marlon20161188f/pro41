@@ -367,6 +367,7 @@
                                 $p_item->lots()->create([
                                     'date' => $lot['date'],
                                     'series' => $lot['series'],
+                                    'peso'  => $lot['peso'],
                                     'item_id' => $row['item_id'],
                                     'warehouse_id' => $row['warehouse_id'],
                                     'has_sale' => false,
@@ -586,6 +587,7 @@
                             $p_item->lots()->create([
                                 'date' => $lot['date'],
                                 'series' => $lot['series'],
+                                'peso'  => $lot['peso'],
                                 'item_id' => $row['item_id'],
                                 'warehouse_id' => $row['warehouse_id'],
                                 'has_sale' => false

@@ -366,7 +366,7 @@
                                         </th>
                                         <th width="25%">
                                             <div v-show="form.unit_type_id !='ZZ'">
-                                                <el-checkbox v-model="form.producto_creado_"
+                                                <el-checkbox v-model="form.producto_creado"
                                                              @change="changeLotsEnabled">¿Producto creado?
                                                 </el-checkbox>
                                             </div>
@@ -1206,6 +1206,7 @@ export default {
                 lot_code: null,
                 line: null,
                 lots_enabled: false,
+                producto_creado:false,
                 lots: [],
                 attributes: [],
                 series_enabled: false,
@@ -1397,8 +1398,8 @@ export default {
                 if (!this.form.lot_code)
                     return this.$message.error('Código de lote es requerido');
 
-                if (!this.form.date_of_due)
-                    return this.$message.error('Fecha de vencimiento es requerido si lotes esta habilitado.');
+                //if (!this.form.date_of_due)
+                 //   return this.$message.error('Fecha de vencimiento es requerido si lotes esta habilitado.');
             }
 
             if (!this.recordId && this.form.series_enabled) {
