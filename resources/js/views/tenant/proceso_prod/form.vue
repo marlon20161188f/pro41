@@ -704,9 +704,7 @@ export default {
                 //     return this.$message.error('Porcentaje de teduría es requerido');
                 //  if (!this.form.tinto)
                 //     return this.$message.error('Porcentaje de tintorería es requerido');
-                });
-               
-                    this.insumo.forEach(form => {
+                
                          this.loading_submit = true
                 this.$http.post(`/${this.resource}`,form).then(response => {
                     if (response.data.success) {
