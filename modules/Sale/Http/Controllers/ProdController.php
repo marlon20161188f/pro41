@@ -168,13 +168,13 @@ class ProdController extends Controller
             'id' => $row->id,
         ];
     });
-    // $purchase_items = PurchaseItem::query()->select('purchase_id','item' )->get()->transform(function($row) {
-    //     return [
-    //         'purchase_id' => $row->purchase_id,
-    //         'item' => $row->item,
-    //     ];
-    // });
-    $purchase_items = PurchaseItem::all();
+    $purchase_items = PurchaseItem::query()->select('purchase_id','item' )->get()->transform(function($row) {
+        return [
+            'purchase_id' => $row->purchase_id,
+            'item' => $row->item,
+        ];
+    });
+    //$purchase_items = PurchaseItem::all();
     $tela = Tela::all();
     $hilo = Hilo::all();
     $color = Color::all();
