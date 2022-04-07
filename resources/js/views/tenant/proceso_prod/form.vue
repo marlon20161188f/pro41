@@ -63,8 +63,8 @@
                                                      @change="filtercompra">
                                                         <el-option v-for="option in purchases"
                                                                 :key="option.id"
-                                                                :label="'C - '+option.id"
-                                                                :value="'C - '+option.id"></el-option>
+                                                                :label="'C-'+option.id"
+                                                                :value="'C-'+option.id"></el-option>
                                                     </el-select>
                                                     </div>
                                                 </td>
