@@ -44,7 +44,7 @@
                                                 class="pb-2" >Insumo <span class="text-danger">*</span>
                                                 </th>
                                                 <th
-                                                class="pb-2" >Peso disponible (kg) <span class="text-danger">*</span>
+                                                class="pb-2" >Peso disponible (kg): 
                                                 </th>
                                                 <th
                                                 class="pb-2" >Peso (kg) <span class="text-danger">*</span>
@@ -60,7 +60,8 @@
                                                     <div class="form-group mb-2 mr-2">
                                                     <el-select v-model="form.compra"
                                                     filterable
-                                                     @change="filtercompra">
+                                                     @change="insumonull(index)"
+                                                    >
                                                         <el-option v-for="option in purchases"
                                                                 :key="option.id"
                                                                 :label="'C-'+option.id"
@@ -71,7 +72,9 @@
                                                 <td>
                                                     <div class="form-group mb-2 mr-2">
                                                     <el-select v-model="form.insumo"
-                                                    filterable>
+                                                    filterable
+                                                    @change="filterpeso"
+                                                     >
                                                         <el-option v-for="option in infopurchase[index]"
                                                                 :key="option.id"
                                                                 :label="option.item.description"
@@ -80,13 +83,15 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.peso_dis" type="number" min="0" step=".0001" ></el-input>
-                                                    </div>
+                                                    <ul >
+                                                   <li v-for="option in pesopurchase[index]"
+                                                   :key="option.id">{{peso_dis=option.item.lots[0]? option.item.lots[0].peso:null}}</li>
+                                                   </ul> 
                                                 </td>
+                                                
                                                 <td>
                                                     <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.peso" type="number" min="0" step=".0001" ></el-input>
+                                                    <el-input v-model="form.peso" type="number" min="0" :max="peso_dis" step=".0001" ></el-input>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -137,9 +142,7 @@
                                                     <i class="fa fa-info-circle"></i>
                                                 </el-tooltip> -->
                                             </th>
-                                            <th 
-                                                class="pb-2">Peso importado (Kg) <span class="text-danger">*</span>
-                                            </th>
+                                           
                                             <th class="pb-2" 
                                                 >Fec. Inicio <span class="text-danger">*</span>
                                             </th>
@@ -198,11 +201,7 @@
                                                     </el-select>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.peso_import" type="number" min="0" step=".0001" ></el-input>
-                                                </div>
-                                            </td>
+                                            
                                              <td>
                                                  <div class="form-group mb-2 mr-2">
                                                  <el-date-picker
@@ -352,6 +351,7 @@ export default {
             total_amount: 0,
             purchases: [],
             infopurchase: [],
+            pesopurchase:[],
             purchase_items:[],
             document_types: [],
             purchase_orders: [],
@@ -533,6 +533,7 @@ export default {
                     hilo: null,
                     tejed:null,
                     tinto:null,
+                    insumo:null,
                     // id: null,
                     // item_id: null,
                     // series: null,
@@ -561,6 +562,7 @@ export default {
                     hilo: null,
                     tejed:null,
                     tinto:null,
+                    insumo:null,
                     // id: null,
                     // item_id: null,
                     // series: null,
@@ -799,6 +801,25 @@ export default {
                     })
                     
                 },
+        filterpeso(){
+                    this.pesopurchase[0] = this.infopurchase[0].filter(items => {
+                        return  items.item.description === this.insumo[0].insumo
+                    })
+                    this.pesopurchase[1] = this.infopurchase[1].filter(items => {
+                        return  items.item.description === this.insumo[1].insumo
+                    })
+                    this.pesopurchase[2] = this.infopurchase[2].filter(items => {
+                        return  items.item.description === this.insumo[2].insumo
+                    })
+                    this.pesopurchase[3] = this.infopurchase[3].filter(items => {
+                        return  items.item.description === this.insumo[3].insumo
+                    })
+                    
+                },
+                insumonull(index){
+                    this.insumo[index].insumo=null
+                    this.filtercompra()
+                },
          savehilo() {
             this.form_hilo.add = false
 
@@ -832,6 +853,7 @@ export default {
                     hilo: null,
                     tejed:null,
                     tinto:null,
+                    insumo:null,
 
                 });
              
