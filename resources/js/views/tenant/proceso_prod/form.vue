@@ -5,7 +5,7 @@
         </div>
         <div class="tab-content">
             <form autocomplete="off" @submit.prevent="submit"
-                 > 
+                 >
                 <div class="form-body">
                     <div class="row">
                         <template>
