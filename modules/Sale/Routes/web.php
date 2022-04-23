@@ -65,6 +65,7 @@ if($current_hostname) {
                 Route::post('import', 'ProdController@storeimport');
                 Route::post('tej', 'ProdController@storetej');
                 Route::post('tin', 'ProdController@storetin');
+                Route::post('ingreso', 'ProdController@storeingreso');
                 Route::post('alm', 'ProdController@storealm');
                 Route::post('det', 'ProdController@storedet');
                 Route::post('series', 'ProdController@storeSeries');

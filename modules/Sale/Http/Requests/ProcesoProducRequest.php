@@ -44,6 +44,8 @@ class ProcesoProducRequest extends FormRequest
                 'numeric',
                 'min:0.01'
             ], 
+            'insumo' =>[
+            ],
         ];
     }
 }

@@ -36,6 +36,8 @@ class ProcesoProducCollection extends ResourceCollection
                 'estado' => $row->estado,
                 'prov_tejed' => $row->prov_tejed,
                 'prov_tin' => $row->prov_tin,
+                'ingreso' => $row->ingreso,
+                'insumo' => $row->insumo,
                 'guia_tinto' => $row->guia_tinto,
                 'guia_teje' => $row->guia_teje,
                 'num_rollos' => $row->num_rollos,

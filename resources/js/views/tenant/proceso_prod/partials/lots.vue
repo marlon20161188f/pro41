@@ -18,19 +18,24 @@
                                 <th v-if="lots.length>0">Peso</th>
                                 <!-- <th v-if="lots.length>0" type="hidden">Estado</th> -->
                                 <th v-if="lots.length>0">Fecha</th>
+                                <template v-if="val===1">
+                                <th width="15%"></th>
+                                </template>
+                                <template v-else-if="val===0">
                                 <th width="15%"><a href="#" @click.prevent="clickAddLot" class="text-center font-weight-bold text-info">[+ Agregar]</a></th>
+                                </template>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(row, index) in lots" :key="index" width="100%" >
                                 <td>
                                     <div class="form-group mb-2 mr-2"  >
-                                        <el-input @blur="duplicateSerie(row.series, index)" v-model="row.series"></el-input>
+                                        <el-input @blur="duplicateSerie(row.series, index)" v-model="row.series" :readonly="val===1"></el-input>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group mb-2 mr-2"  >
-                                        <el-input v-model="row.peso" type="number"></el-input>
+                                        <el-input v-model="row.peso" type="number" :readonly="val===1"></el-input>
                                     </div>
                                 </td>
                                  <!-- <td>
@@ -47,13 +52,17 @@
                                 </td> -->
                                 <td>
                                     <div class="form-group mb-2 mr-2" >
-                                        <el-date-picker v-model="row.date" type="date" value-format="yyyy-MM-dd" :clearable="false"></el-date-picker>
+                                        <el-date-picker v-model="row.date" type="date" value-format="yyyy-MM-dd" :clearable="false" :readonly="val===1"></el-date-picker>
                                     </div>
                                 </td>
                                 <td class="series-table-actions text-center">
+                                    <template v-if="val===1">
+                                    </template>
+                                    <template v-else-if="val===0">
                                     <button  type="button" class="btn waves-effect waves-light btn-xs btn-danger" @click.prevent="clickCancel(index)">
                                         <i class="fa fa-trash"></i>
                                     </button>
+                                    </template>
                                 </td>
                                 <br>
                             </tr>
@@ -68,14 +77,18 @@
 
         <div class="form-actions text-right pt-2">
             <el-button @click.prevent="clickCancelSubmit()">Cancelar</el-button>
+            <template v-if="val===1">
+             </template>
+             <template v-else-if="val===0">
             <el-button type="primary" @click="submit" >Guardar</el-button>
+             </template>
         </div>
     </el-dialog>
 </template>
 
 <script>
     export default {
-        props: ['showDialog', 'lots', 'stock','recordId'],
+        props: ['val','showDialog', 'lots', 'stock','recordId'],
         data() {
             return {
                 titleDialog: 'Series',
@@ -192,6 +205,7 @@
             close() {
                 this.$emit('update:showDialog', false)
                 this.$emit('addRowLot', this.lots);
+                this.$emit('update:stock', null);
             },
             clickCancel(index) {
                 this.lots.splice(index, 1);
@@ -205,6 +219,7 @@
             },
             close() {
                 this.$emit('update:showDialog', false)
+                
             },
         }
     }

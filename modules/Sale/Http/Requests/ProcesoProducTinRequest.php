@@ -57,11 +57,15 @@ class ProcesoProducTinRequest extends FormRequest
                 'numeric',
                 'min:0'
             ], 
+            'ingreso' =>[
+            ],
             'guia_tinto' => [
                 
             ],
             'num_rollos' => [
                 
+            ],
+            'insumo' =>[
             ],
 
         ];

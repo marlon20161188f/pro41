@@ -12,127 +12,8 @@
 
                             <div class="col-md-12 col-lg-12 mt-2">
                                 <!-- Contado -->
-                                <data-table >
-                                    
-                                        <tr >
-                                            <th style="font-size: 16px">
-                                               Insumos :
-                                            </th>
-                                            <th 
-                                            width="7%"><a href="#" @click.prevent="clickAddInsumo" 
-                                            class="text-center font-weight-bold text-info">[+ Agregar]</a>
-                                            </th>
-                                        </tr>
-                                    
-                                        <tr 
-                                         v-for="(form, index) in insumo" :key="index" width="100%" 
-                                         style="webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 5%);">
-                                           <td style="padding-top: 0.8rem;">
-                                               <tr>
-                                                    <th>
-                                                        Insumo {{index+1}}
-                                                    </th>
-                                                </tr>
-                                                <template>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th
-                                                class="pb-2" >Compra <span class="text-danger">*</span>
-                                                </th>
-                                                <th
-                                                class="pb-2" >Insumo <span class="text-danger">*</span>
-                                                </th>
-                                                <th
-                                                class="pb-2" >Peso disponible (kg): 
-                                                </th>
-                                                <th
-                                                class="pb-2" >Peso (kg) <span class="text-danger">*</span>
-                                                </th>
-                                                <th
-                                                class="pb-2" >Tipo de Hilo <span class="text-danger">*</span>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.compra"
-                                                    filterable
-                                                     @change="insumonull(index)"
-                                                    >
-                                                        <el-option v-for="option in purchases"
-                                                                :key="option.id"
-                                                                :label="'C-'+option.id"
-                                                                :value="option.id"></el-option>
-                                                    </el-select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.insumo"
-                                                    filterable
-                                                    @change="filterpeso"
-                                                     >
-                                                        <el-option v-for="option in infopurchase[index]"
-                                                                :key="option.id"
-                                                                :label="option.item.description"
-                                                                :value="option.item.description"></el-option>
-                                                    </el-select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <ul >
-                                                   <li v-for="option in pesopurchase[index]"
-                                                   :key="option.id">{{peso_dis=option.item.lots[0]? option.item.lots[0].peso:null}}</li>
-                                                   </ul> 
-                                                </td>
-                                                
-                                                <td>
-                                                    <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.peso" type="number" min="0" :max="peso_dis" step=".0001" ></el-input>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                 <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
-                                                     <a v-if="form_hilo.add == false"
-                                                    class="control-label font-weight-bold text-info"
-                                                    href="#"
-                                                    @click="form_hilo.add = true"> [ + Nuevo]</a>
-                                                    <a v-if="form_hilo.add == true"
-                                                    class="control-label font-weight-bold text-info"
-                                                    href="#"
-                                                    @click="savehilo()"> [ + Guardar]</a>
-                                                    <a v-if="form_hilo.add == true"
-                                                    class="control-label font-weight-bold text-danger"
-                                                    href="#"
-                                                    @click="form_hilo.add = false"> [ Cancelar]</a>
-                                                    <el-input v-if="form_hilo.add == true"
-                                                  v-model="form_hilo.name"
-                                                  dusk="item_code"
-                                                  style="margin-bottom:1.5%;"></el-input>
-                                                    <el-select v-if="form_hilo.add == false" 
-                                                    v-model="form.hilo" placeholder="Seleccionar" name="op">
-                                                        <el-option v-for="option in hilo"
-                                                       :key="option.id"
-                                                       :label="option.name"
-                                                       :value="option.name"></el-option>  
-                                                    </el-select>
-                                                </div>
-                                            </td>
-
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                                </template>
-                                                <template >
-                                    <table>
-                                        <thead>
-                                        <tr width="100%">
-                                            <th
-                                                class="pb-2" >OP <span class="text-danger">*</span>
-                                            </th>
+                                <table>
+                                    <tr>
                                             <th
                                                 class="pb-2">Producto final <span class="text-danger">*</span>
                                                 <!-- <el-tooltip class="item"
@@ -155,45 +36,9 @@
                                             <th
                                                 class="pb-2">Tintorería (%) <span class="text-danger">*</span>
                                             </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                 <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
-                                                     <a v-if="form_OP.add == false"
-                                                    class="control-label font-weight-bold text-info"
-                                                    href="#"
-                                                    @click="form_OP.add = true"> [ + Nuevo]</a>
-                                                    <a v-if="form_OP.add == true"
-                                                    class="control-label font-weight-bold text-info"
-                                                    href="#"
-                                                    @click="saveOP()"> [ + Guardar]</a>
-                                                    <a v-if="form_OP.add == true"
-                                                    class="control-label font-weight-bold text-danger"
-                                                    href="#"
-                                                    @click="form_OP.add = false"> [ Cancelar]</a>
-                                                    <el-input v-if="form_OP.add == true"
-                                                  v-model="form_OP.name"
-                                                  dusk="item_code"
-                                                  style="margin-bottom:1.5%;"></el-input>
-                                                    <el-select v-if="form_OP.add == false" 
-                                                    v-model="form.op" placeholder="Seleccionar" name="op">
-                                                        <el-option v-for="option in op"
-                                                       :key="option.id"
-                                                       :label="option.name"
-                                                       :value="option.name"></el-option>  
-                                                    </el-select>
-                                                </div>
-                                                    <!-- <el-select v-model="form.op">
-                                                        <el-option v-for="option in purchase_orders"
-                                                                :key="option.id"
-                                                                :label="option.number"
-                                                                :value="option.number"></el-option>
-                                                    
-                                                    </el-select> -->
-                                            </td>
-                                            <td>
+                                    </tr>
+                                    <tr>
+                                             <td>
                                                 <div class="form-group mb-2 mr-2">
                                                     <el-select  v-model="form.producto_final" placeholder="Rib">
                                                         <el-option key="Rib" value="Rib" label="Rib"></el-option>
@@ -231,10 +76,172 @@
                                                     <el-input v-model="form.tinto" type="number" min="0" max="100"></el-input>
                                                 </div>
                                             </td>
-                                            <br>
                                         </tr>
+                                </table>
+                                <data-table >
+                                        <tr >
+                                            <th style="font-size: 16px">
+                                               Insumos :
+                                            </th>
+                                            <th 
+                                            width="7%"><a href="#" @click.prevent="clickAddInsumo" 
+                                            class="text-center font-weight-bold text-info">[+ Agregar]</a>
+                                            </th>
+                                        </tr>
+                                    
+                                        <tr 
+                                         v-for="(forms, index) in form.insumo" :key="index" width="100%" 
+                                         style="webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 5%);">
+                                           <td style="padding-top: 0.8rem;">
+                                               <tr>
+                                                    <th>
+                                                        Insumo {{index+1}}
+                                                    </th>
+                                                </tr>
+                                                <template>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                class="pb-2" >Compra <span class="text-danger">*</span>
+                                                </th>
+                                                <th
+                                                class="pb-2" >Insumo <span class="text-danger">*</span>
+                                                </th>
+                                                <th
+                                                class="pb-2" >Peso disponible (kg): 
+                                                </th>
+                                                <th
+                                                class="pb-2" >Peso (kg) <span class="text-danger">*</span>
+                                                </th>
+                                                <th
+                                                class="pb-2" >Tipo de Hilo <span class="text-danger">*</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-group mb-2 mr-2">
+                                                    <el-select v-model="forms.compra"
+                                                    filterable
+                                                     @change="insumonull(index)"
+                                                    >
+                                                        <el-option v-for="option in purchases"
+                                                                :key="option.id"
+                                                                :label="'C-'+option.id"
+                                                                :value="option.id"></el-option>
+                                                    </el-select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-2 mr-2">
+                                                    <el-select v-model="forms.insum"
+                                                    filterable
+                                                    @change="filterpeso"
+                                                     >
+                                                        <el-option v-for="option in infopurchase[index]"
+                                                                :key="option.id"
+                                                                :label="option.item.description"
+                                                                :value="option.item.description"></el-option>
+                                                    </el-select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <ul >
+                                                   <li v-for="option in pesopurchase[index]"
+                                                   :key="option.id">{{peso_dis=option.item.lots[0]? option.item.lots[0].peso:null}}</li>
+                                                   </ul> 
+                                                </td>
+                                                
+                                                <td>
+                                                    <div class="form-group mb-2 mr-2">
+                                                    <el-input v-model="forms.peso" type="number" min="0" :max="peso_dis" step=".0001" ></el-input>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                 <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                     <a v-if="form_hilo.add == false"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="form_hilo.add = true"> [ + Nuevo]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="savehilo()"> [ + Guardar]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-danger"
+                                                    href="#"
+                                                    @click="form_hilo.add = false"> [ Cancelar]</a>
+                                                    <el-input v-if="form_hilo.add == true"
+                                                  v-model="form_hilo.name"
+                                                  dusk="item_code"
+                                                  style="margin-bottom:1.5%;"></el-input>
+                                                    <el-select v-if="form_hilo.add == false" 
+                                                    v-model="forms.hilo" placeholder="Seleccionar" name="op">
+                                                        <el-option v-for="option in hilo"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.name"></el-option>  
+                                                    </el-select>
+                                                </div>
+                                            </td>
+
+                                            </tr>
                                         </tbody>
                                     </table>
+                                                </template>
+                                                <template>
+                                                <table>
+                                                    <thead>
+                                                    <tr width="100%">
+                                                        <th
+                                                            class="pb-2" >OP <span class="text-danger">*</span>
+                                                        </th>
+                                                    
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                                <a v-if="form_OP.add == false"
+                                                                class="control-label font-weight-bold text-info"
+                                                                href="#"
+                                                                @click="form_OP.add = true"> [ + Nuevo]</a>
+                                                                <a v-if="form_OP.add == true"
+                                                                class="control-label font-weight-bold text-info"
+                                                                href="#"
+                                                                @click="saveOP()"> [ + Guardar]</a>
+                                                                <a v-if="form_OP.add == true"
+                                                                class="control-label font-weight-bold text-danger"
+                                                                href="#"
+                                                                @click="form_OP.add = false"> [ Cancelar]</a>
+                                                                <el-input v-if="form_OP.add == true"
+                                                            v-model="form_OP.name"
+                                                            dusk="item_code"
+                                                            style="margin-bottom:1.5%;"></el-input>
+                                                                <el-select v-if="form_OP.add == false" 
+                                                                v-model="forms.op" placeholder="Seleccionar" name="op">
+                                                                    <el-option v-for="option in op"
+                                                                :key="option.id"
+                                                                :label="option.name"
+                                                                :value="option.name"></el-option>  
+                                                                </el-select>
+                                                            </div>
+                                                                <!-- <el-select v-model="form.op">
+                                                                    <el-option v-for="option in purchase_orders"
+                                                                            :key="option.id"
+                                                                            :label="option.number"
+                                                                            :value="option.number"></el-option>
+                                                                
+                                                                </el-select> -->
+                                                        </td>
+                                                    
+                                                        <br>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
                                                 </template>
                                            </td>
                                             <td class="series-table-actions text-center">
@@ -244,6 +251,18 @@
                                             </td>
                                         </tr>
                                 </data-table>
+                                <div class="text-center">
+                                    <data-table>
+                                    <tr>
+                                        <th
+                                           class="pb-2" style="font-size: 14px">PESO TOTAL       
+                                        </th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        {{ form.peso=totalPeso()? totalPeso():0 }}
+                                    </tr>
+                                </data-table>
+                                </div>
                             </div>
                         </template>
                     </div>
@@ -344,7 +363,9 @@ export default {
             // form: {
             //     items:[]
             // },
-            form:[],
+            form:{ insumo:[]
+            },
+            forms:[],
             index:0,
             producto_final: null,
             aux_supplier_id: null,
@@ -516,24 +537,34 @@ export default {
                 this.errors = {}
                 //for(var i=0;i=0;i++){
                 this.form = {
-                    producto: null,
-                    peso: 0,
+                    producto_final: null,
                     init: null,
-                    op: null,
-                    hilo: null,
                     tejed:null,
                     tinto:null,
-                    compra:null,
+                    peso:null,
+                    insumo:[
+                        {
+                    peso: 0,
+                    compra: null,
+                    op: null,
+                    hilo: null,
+                    insum:null,
+                    // id: null,
+                    // item_id: null,
+                    // series: null,
+                    // peso: 0,
+                    // date:  moment().format('YYYY-MM-DD'),
+                    // state: 'Activo'
+                }
+                    ],
                     }
                 this.insumo=[{
                     producto_final: null,
                     peso: 0,
-                    init: null,
+                    compra: null,
                     op: null,
                     hilo: null,
-                    tejed:null,
-                    tinto:null,
-                    insumo:null,
+                    insum:null,
                     // id: null,
                     // item_id: null,
                     // series: null,
@@ -555,14 +586,13 @@ export default {
                     // op: null,
                     }
                 this.insumo=[{
-                    producto_final: null,
                     peso: 0,
                     init: null,
                     op: null,
                     hilo: null,
                     tejed:null,
                     tinto:null,
-                    insumo:null,
+                    insum:null,
                     // id: null,
                     // item_id: null,
                     // series: null,
@@ -674,24 +704,26 @@ export default {
                 this.form.total = _.round(total, 2)
             },
             async submit() {
-                console.log(this.insumo);
-                this.insumo.forEach(form => {
-                 if (!form.op)
+                var vecto=this.form.insumo
+                vecto.forEach(forms => {
+                if (!forms.op)
                     return this.$message.error('Orden de producción es requerido');
-                 if (!form.producto_final)
-                    return this.$message.error('Producto final es requerido');
-                 if (!form.peso)
-                    return this.$message.error('El peso es requerido');
-                 if (!form.init)
-                    return this.$message.error('Fecha de inicio es requerido');
-                 if (!form.hilo)
+                 if (!forms.compra)
+                    return this.$message.error('Compra es requerido');
+                 if (!forms.peso)
+                  return this.$message.error('El peso es requerido');
+                   if (!forms.hilo)
                     return this.$message.error('Tipo de hilo es requerido');
-                 if (!form.tejed)
+                });
+                
+                 if (!this.form.init)
+                    return this.$message.error('Fecha de inicio es requerido');
+                if (!this.form.producto_final)
+                    return this.$message.error('Producto final es requerido');
+                 if (!this.form.tejed)
                     return this.$message.error('Porcentaje de teduría es requerido');
-                 if (!form.tinto)
+                 if (!this.form.tinto)
                     return this.$message.error('Porcentaje de tintorería es requerido');
-                
-                
                 // if (!this.form.op)
                 //     return this.$message.error('Orden de producción es requerido');
                 //  if (!this.form.producto_final)
@@ -708,7 +740,7 @@ export default {
                 //     return this.$message.error('Porcentaje de tintorería es requerido');
                 
                          this.loading_submit = true
-                this.$http.post(`/${this.resource}`,form).then(response => {
+                this.$http.post(`/${this.resource}`,this.form).then(response => {
                     if (response.data.success) {
                         this.resetForm();
                         // this.saleOpportunityNewId = response.data.data.id;
@@ -731,8 +763,6 @@ export default {
                 }).then(() => {
                     this.loading_submit = false;
                 });
-
-                    });
                
                 
                 // await this.$http.post(`/${this.resource}`, this.insumo[0]).then(response => {
@@ -788,36 +818,36 @@ export default {
         },
         filtercompra(){
                     this.infopurchase[0] = this.purchase_items.filter(items => {
-                        return  items.purchase_id === this.insumo[0].compra
+                        return  items.purchase_id === this.form.insumo[0].compra
                     })
                     this.infopurchase[1] = this.purchase_items.filter(items => {
-                        return  items.purchase_id === this.insumo[1].compra
+                        return  items.purchase_id === this.form.insumo[1].compra
                     })
                     this.infopurchase[2] = this.purchase_items.filter(items => {
-                        return  items.purchase_id === this.insumo[2].compra
+                        return  items.purchase_id === this.form.insumo[2].compra
                     })
                     this.infopurchase[3] = this.purchase_items.filter(items => {
-                        return  items.purchase_id === this.insumo[3].compra
+                        return  items.purchase_id === this.form.insumo[3].compra
                     })
                     
                 },
         filterpeso(){
                     this.pesopurchase[0] = this.infopurchase[0].filter(items => {
-                        return  items.item.description === this.insumo[0].insumo
+                        return  items.item.description === this.form.insumo[0].insum
                     })
                     this.pesopurchase[1] = this.infopurchase[1].filter(items => {
-                        return  items.item.description === this.insumo[1].insumo
+                        return  items.item.description === this.form.insumo[1].insum
                     })
                     this.pesopurchase[2] = this.infopurchase[2].filter(items => {
-                        return  items.item.description === this.insumo[2].insumo
+                        return  items.item.description === this.form.insumo[2].insum
                     })
                     this.pesopurchase[3] = this.infopurchase[3].filter(items => {
-                        return  items.item.description === this.insumo[3].insumo
+                        return  items.item.description === this.form.insumo[3].insum
                     })
                     
                 },
                 insumonull(index){
-                    this.insumo[index].insumo=null
+                    this.form.insumo[index].insum=null
                     this.filtercompra()
                 },
          savehilo() {
@@ -838,29 +868,43 @@ export default {
                 })
         },
          async clickAddInsumo() {
+        //       if(!Array.isArray(this.insumo)){
+        //     this.insumo=[this.insumo]
+        // }
             // this.insumo=this.insumo+1
-            await this.insumo.push({
+            await this.form.insumo.push({
                     // id: null,
                     // item_id: null,
                     // series: null,
                     // peso: 0,
                     // date:  moment().format('YYYY-MM-DD'),
                     // state: 'Activo'
-                    producto_final: null,
                     peso: 0,
-                    init: null,
+                    compra: null,
                     op: null,
                     hilo: null,
-                    tejed:null,
-                    tinto:null,
-                    insumo:null,
+                    insum:null,
 
                 });
-             
+            //     var peso=[]
+            //     for (let index = 0; index < this.insumo.length; index++) {
+            //          peso.push(this.insumo[index].peso);
+            //     }
+              console.log(this.form)
          },
         async clickCancel(index) {
-            await this.insumo.splice(index, 1);
+            await this.form.insumo.splice(index, 1);
                // item.deleted = true
+            },
+            totalPeso(){
+                let sum = 0;
+            for(let i = 0; i < this.form.insumo.length; i++){
+            sum += parseFloat(this.form.insumo[i].peso);
+                }
+                if(sum==0){
+                    return 0
+                }else{
+             return parseFloat(parseFloat(sum).toFixed(4))}
             },
     }
 }

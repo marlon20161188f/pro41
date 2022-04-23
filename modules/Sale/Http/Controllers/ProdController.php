@@ -406,7 +406,20 @@ class ProdController extends Controller
         $id = $request->input('id');
         $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
         $proceso->fill($request->all());
-        $proceso->estado="Almacén";
+        $proceso->estado="Inventario";
+        $proceso->update();
+
+        return [
+            'success' => true,
+            'message' => ($id)?'Proceso editado con éxito':'Proceso registrado con éxito'
+        ];
+    }
+    public function storeingreso(ProcesoProducTinRequest $request)
+    {
+        $id = $request->input('id');
+        $proceso = ProcesoProduc::firstOrNew(['id' => $id]);
+        $proceso->fill($request->all());
+        //$proceso->estado="Almacén";
         $proceso->update();
 
         return [

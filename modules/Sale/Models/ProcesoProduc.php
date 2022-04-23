@@ -40,6 +40,8 @@ class ProcesoProduc extends ModelTenant
             'prov_tin',
             'updated_at',
             'created_at',
+            'ingreso',
+            'insumo',
             'guia_Teje',
             'guia_tinto',
             'num_rollos'
@@ -52,5 +54,20 @@ class ProcesoProduc extends ModelTenant
         {
             return $this->morphMany(ItemLot::class, 'item_loteable');
         }
-     
+        public function getIngresoAttribute($value)
+    {
+        return (is_null($value))?null:json_decode($value);
+    }
+        public function setIngresoAttribute($value)
+    {
+        $this->attributes['ingreso'] = (is_null($value))?null:json_encode($value);
+    }
+        public function getInsumoAttribute($value)
+    {
+        return (is_null($value))?null:json_decode($value);
+    }
+        public function setInsumoAttribute($value)
+    {
+        $this->attributes['insumo'] = (is_null($value))?null:json_encode($value);
+    }
 }

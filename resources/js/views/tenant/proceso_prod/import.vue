@@ -17,7 +17,7 @@
                                         <thead>
                                         <tr width="100%">
                                             <th
-                                                class="pb-2 text-center" >OP
+                                                class="pb-2 text-center" >Proveedor de tejeduría <span class="text-danger">*</span>
                                             </th>
                                             <th
                                                 class="pb-2">Producto final <span class="text-danger">*</span>
@@ -35,7 +35,7 @@
                                                 >Fec. Inicio
                                             </th>
                                             <th
-                                                class="pb-2">Tipo de hilo <span class="text-danger">*</span>
+                                                class="pb-2">Tipo de tela <span class="text-danger">*</span>
                                             </th>
                                             <th
                                                 class="pb-2">Tejeduría (%) <span class="text-danger">*</span>
@@ -47,10 +47,15 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                    <el-select  v-model="form.op" placeholder="OC-1" :disabled="true" name="op">
-                                                        <el-option ></el-option>
+                                             <td>
+                                                <div class="form-group mb-2 mr-2"> 
+                                                   <el-select v-model="form.prov_tejed" name="prov_tejed">
+                                                            <!-- @change="changePurchaseOrderType" -->
+                                                            
+                                                        <el-option v-for="option in suppliers"
+                                                                :key="option.id"
+                                                                :label="option.name"
+                                                                :value="option.name"></el-option>
                                                     </el-select>
                                                 </div>
                                             </td>
@@ -80,78 +85,6 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
-                                                     <a v-if="form_hilo.add == false"
-                                                    class="control-label font-weight-bold text-info"
-                                                    href="#"
-                                                    @click="form_hilo.add = true"> [ + Nuevo]</a>
-                                                    <a v-if="form_hilo.add == true"
-                                                    class="control-label font-weight-bold text-info"
-                                                    href="#"
-                                                    @click="saveHilo()"> [ + Guardar]</a>
-                                                    <a v-if="form_hilo.add == true"
-                                                    class="control-label font-weight-bold text-danger"
-                                                    href="#"
-                                                    @click="form_hilo.add = false"> [ Cancelar]</a>
-                                                    <el-input v-if="form_hilo.add == true"
-                                                  v-model="form_hilo.name"
-                                                  dusk="item_code"
-                                                  style="margin-bottom:1.5%;"></el-input>
-                                                    <el-select v-if="form_hilo.add == false" 
-                                                    v-model="form.hilo" placeholder="Seleccionar" name="hilo">
-                                                        <el-option v-for="option in hilo"
-                                                       :key="option.id"
-                                                       :label="option.name"
-                                                       :value="option.name"></el-option>  
-                                                    </el-select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.tejed" type="number" step=".01" min="0" max="100" name="tejed"></el-input>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.tinto" type="number" step=".01" min="0" max="100" name="tinto"></el-input>
-                                                </div>
-                                            </td>
-                                            <br>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </template>
-                                <template >
-                                    <table>
-                                        <thead>
-                                        <tr width="100%">
-                                            <th
-                                                class="pb-2">Proveedor de tejeduría <span class="text-danger">*</span>
-                                            </th>
-                                            <th
-                                                class="pb-2">Tipo de tela <span class="text-danger">*</span>
-                                            </th>
-                                            <th
-                                                class="pb-2">Guía a tejeduria
-                                            </th>
-                                           
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="form-group mb-2 mr-2"> 
-                                                   <el-select v-model="form.prov_tejed" name="prov_tejed">
-                                                            <!-- @change="changePurchaseOrderType" -->
-                                                            
-                                                        <el-option v-for="option in suppliers"
-                                                                :key="option.id"
-                                                                :label="option.name"
-                                                                :value="option.name"></el-option>
-                                                    </el-select>
-                                                </div>
-                                            </td>
-                                             <td>
-                                                <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
                                                      <a v-if="form_tela.add == false"
                                                     class="control-label font-weight-bold text-info"
                                                     href="#"
@@ -179,11 +112,90 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.guia_teje" type="text" name="guia_tinto"></el-input>
+                                                    <el-input v-model="form.tejed" type="number" step=".01" min="0" max="100" name="tejed"></el-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group mb-2 mr-2">
+                                                   <el-input v-model="form.tinto" type="number" step=".01" min="0" max="100" name="tinto"></el-input>
+                                                </div>
+                                            </td>
+                                            <br>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </template>
+                                <template >
+                                    <table v-for="(forms,index) in form.insumo" :key="index">
+                                        <tr style="color:#777777; font-weight: bold;">
+                                                Insumo {{index+1}}
+                                        </tr>
+                                        <tr width="100%">
+                                            <th
+                                                class="pb-2 text-center">OP
+                                            </th>
+                                            <th
+                                                class="pb-2">Tipo de hilo <span class="text-danger">*</span>
+                                            </th>
+                                            <th
+                                                class="pb-2 text-center">peso
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group mb-2 mr-2">
+                                                    <el-select  v-model="forms.op" placeholder="OC-1" :disabled="true" name="op">
+                                                        <el-option ></el-option>
+                                                    </el-select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                     <a v-if="form_hilo.add == false"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="form_hilo.add = true"> [ + Nuevo]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="saveHilo()"> [ + Guardar]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-danger"
+                                                    href="#"
+                                                    @click="form_hilo.add = false"> [ Cancelar]</a>
+                                                    <el-input v-if="form_hilo.add == true"
+                                                  v-model="form_hilo.name"
+                                                  dusk="item_code"
+                                                  style="margin-bottom:1.5%;"></el-input>
+                                                    <el-select v-if="form_hilo.add == false" 
+                                                    v-model="forms.hilo" placeholder="Seleccionar" name="hilo">
+                                                        <el-option v-for="option in hilo"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.name"></el-option>  
+                                                    </el-select>
+                                                </div>
+                                            </td>
+                                            <td >
+                                                <div class="form-group mb-2 mr-2">
+                                                   <el-input v-model="forms.peso" type="number" name="peso" step=".0001" :readonly="true"></el-input>
                                                 </div>
                                             </td>
                                         </tr>
-                                        </tbody>
+                                    </table>
+                                    <table>
+                                            <tr>
+                                                <th
+                                                    class="pb-2">Guía a tejeduria
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                            <td>
+                                                <div class="form-group mb-2 mr-2">
+                                                   <el-input v-model="form.guia_teje" type="text" name="guia_tinto"></el-input>
+                                                </div>
+                                            </td>
+                                            </tr>
                                     </table>
                                 </template>
                             </div>
@@ -417,7 +429,7 @@ export default {
                     return this.$message.error('Producto final es requerido');
                 if (!this.form.init)
                     return this.$message.error('Fecha de inicio es requerido');
-                 if (!this.form.hilo)
+                 if (!this.forms.hilo)
                     return this.$message.error('Tipo de hilo es requerido');
                  if (!this.form.tejed)
                     return this.$message.error('Porcentaje de teduría es requerido');

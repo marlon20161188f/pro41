@@ -52,6 +52,8 @@ class ProcesoProducImportRequest extends FormRequest
             ], 
             'guia_teje' => [
             ], 
+            'insumo' =>[
+            ],
         ];
     }
 }

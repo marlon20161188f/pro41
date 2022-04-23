@@ -17,9 +17,6 @@
                                         <thead>
                                         <tr width="100%">
                                             <th
-                                                class="pb-2 text-center" >OP
-                                            </th>
-                                            <th
                                                 class="pb-2">Producto final <span class="text-danger">*</span>
                                                 <!-- <el-tooltip class="item"
                                                             content="Aperture caja o cuentas bancarias"
@@ -35,7 +32,7 @@
                                                 >Fec. Inicio <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2">Tipo de hilo <span class="text-danger">*</span>
+                                                class="pb-2" >Nº de rollos <span class="text-danger">*</span>
                                             </th>
                                             <th
                                                 class="pb-2">Tejeduría (%) 
@@ -47,13 +44,6 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                    <el-select  v-model="form.op" name="op" :disabled="true">
-                                                        <el-option ></el-option>
-                                                    </el-select>
-                                                </div>
-                                            </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
                                                      <el-select  v-model="form.producto_final" name="producto_final">
@@ -81,11 +71,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-select v-model="form.hilo" name="hilo">
-                                                        <el-option key="Hilo X" value="Hilo X" label="Hilo X"></el-option>
-                                                        <el-option key="Hilo Y" value="Hilo Y" label="Hilo Y"></el-option>
-                                                        <el-option key="Hilo Z" value="Hilo Z" label="Hilo Z"></el-option>
-                                                    </el-select>
+                                                    <el-input v-model="form.num_rollos" name="num_rollos" type="number"></el-input>
                                                 </div>
                                             </td>
                                             <td>
@@ -120,9 +106,6 @@
                                                 class="pb-2" >Proveedor de tejeduría <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2" >Nº de rollos <span class="text-danger">*</span>
-                                            </th>
-                                            <th
                                                 class="pb-2" >Guía a tintorería
                                             </th>
                                         </tr>
@@ -136,7 +119,7 @@
                                             </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.partida" type="number" name="partida"></el-input>
+                                                   <el-input v-model="form.partida" type="text" name="partida"></el-input>
                                                 </div>
                                             </td>
                                             <td >
@@ -179,11 +162,6 @@
                                                     </el-select>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.cantidad" name="cantidad" type="number"></el-input>
-                                                </div>
-                                            </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
                                                    <el-input v-model="form.guia_tinto" type="text" name="guia_tinto" ></el-input>
@@ -191,6 +169,63 @@
                                             </td>
                                         </tr>
                                         </tbody>
+                                    </table>
+                                    <table v-for="(forms,index) in form.insumo" :key="index">
+                                        <tr style="color:#777777; font-weight: bold;">
+                                            insumo {{index+1}}
+                                        </tr>
+                                        <tr>
+                                            <th
+                                                class="pb-2 text-center" >OP
+                                            </th>
+                                            <th
+                                                class="pb-2">Tipo de hilo <span class="text-danger">*</span>
+                                            </th>
+                                            <th
+                                                class="pb-2 text-center" >peso
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group mb-2 mr-2">
+                                                    <el-select  v-model="forms.op" name="op" :disabled="true">
+                                                        <el-option ></el-option>
+                                                    </el-select>
+                                                </div>
+                                            </td>
+                                             <td>
+                                                <div class="form-group mb-2 mr-2" align="right" style="margin-top: -1.4rem;">
+                                                     <a v-if="form_hilo.add == false"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="form_hilo.add = true"> [ + Nuevo]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-info"
+                                                    href="#"
+                                                    @click="saveHilo()"> [ + Guardar]</a>
+                                                    <a v-if="form_hilo.add == true"
+                                                    class="control-label font-weight-bold text-danger"
+                                                    href="#"
+                                                    @click="form_hilo.add = false"> [ Cancelar]</a>
+                                                    <el-input v-if="form_hilo.add == true"
+                                                  v-model="form_hilo.name"
+                                                  dusk="item_code"
+                                                  style="margin-bottom:1.5%;"></el-input>
+                                                    <el-select v-if="form_hilo.add == false" 
+                                                    v-model="forms.hilo" placeholder="Seleccionar" name="hilo">
+                                                        <el-option v-for="option in hilo"
+                                                       :key="option.id"
+                                                       :label="option.name"
+                                                       :value="option.name"></el-option>  
+                                                    </el-select>
+                                                </div>
+                                            </td>
+                                            <td >
+                                                <div class="form-group mb-2 mr-2">
+                                                   <el-input v-model="forms.peso" type="number" name="peso" step=".0001" :readonly="true"></el-input>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </table>
                                 </template>
                             </div>
@@ -249,6 +284,7 @@ export default {
                 this.suppliers = data.suppliers
                 // this.establishment = data.establishment
                 this.color = data.color
+                this.hilo = data.hilo
 
                 this.all_suppliers = data.suppliers
                 this.discount_types = data.discount_types
@@ -271,6 +307,7 @@ export default {
         return {
             input_person: {},
             resource: 'proceso_prod',
+            form_hilo: {add: false, name: null, id: null},
             form_color: {add: false, name: null, id: null},
             showDialogAddItem: false,
             readonly_date_of_due: false,
@@ -285,6 +322,7 @@ export default {
                 items:[]
             },
             color: [],
+            hilo: [],
             producto: null,
             aux_supplier_id: null,
             total_amount: 0,
@@ -335,10 +373,28 @@ export default {
                     this.affectation_igv_types = response.data.affectation_igv_types
                     this.warehouses = response.data.warehouses
                     this.color = response.data.color
+                    this.hilo = response.data.hilo
                     this.brands = response.data.brands
 
                     this.form.sale_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
                     this.form.purchase_affectation_igv_type_id = (this.affectation_igv_types.length > 0) ? this.affectation_igv_types[0].id : null
+                })
+        }, 
+        saveHilo() {
+            this.form_hilo.add = false
+
+            this.$http.post(`/hilo`, this.form_hilo)
+                .then(response => {
+                    if (response.data.success) {
+                        this.$message.success(response.data.message)
+                        this.hilo.push(response.data.data)
+                        this.form_hilo.name = null
+                    } else {
+                        this.$message.error('No se guardaron los cambios')
+                    }
+                })
+                .catch(error => {
+
                 })
         },
         saveColor() {
@@ -397,7 +453,7 @@ export default {
                     return this.$message.error('Producto final es requerido');
                 if (!this.form.init)
                     return this.$message.error('Fecha de inicio es requerido');
-                 if (!this.form.hilo)
+                 if (!this.forms.hilo)
                     return this.$message.error('Tipo de hilo es requerido');
                 if (!this.form.tinto)
                     return this.$message.error('Porcentaje de tintorería es requerido');
@@ -409,7 +465,7 @@ export default {
                     return this.$message.error('Número de partida es requerido');
                 if (!this.form.color)
                     return this.$message.error('El color es requerido');
-                if (!this.form.cantidad)
+                if (!this.form.num_rollos)
                     return this.$message.error('Número de rollos es requerido');
 
                 this.loading_submit = true
