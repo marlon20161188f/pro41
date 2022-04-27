@@ -425,12 +425,23 @@ export default {
                 // this.allCustomers()
             }, 
              async submit() {
+                 var y=""
+                 this.form.insumo.forEach(forms => {
+                    if (!forms.hilo)
+                    y= this.$message.error('Tipo de hilo es requerido');
+                     if (!forms.op)
+                    y= this.$message.error('OP es requerido');
+                     if (!forms.peso)
+                    y= this.$message.error('El peso es requerido');
+                 });
+                 if(y)
+                 return y;
                 if (!this.form.producto_final)
                     return this.$message.error('Producto final es requerido');
                 if (!this.form.init)
                     return this.$message.error('Fecha de inicio es requerido');
-                 if (!this.forms.hilo)
-                    return this.$message.error('Tipo de hilo es requerido');
+                //  if (!this.forms.hilo)
+                //     return this.$message.error('Tipo de hilo es requerido');
                  if (!this.form.tejed)
                     return this.$message.error('Porcentaje de teduría es requerido');
                  if (!this.form.tinto)

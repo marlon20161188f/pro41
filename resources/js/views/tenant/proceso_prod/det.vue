@@ -221,7 +221,7 @@
                                                   dusk="item_code"
                                                   style="margin-bottom:1.5%;"></el-input>
                                                     <el-select v-if="form_hilo.add == false" 
-                                                    v-model="forms.hilo" placeholder="Seleccionar" name="hilo">
+                                                    v-model="forms.hilo" placeholder="Seleccionar" name="hilo" :disabled="true">
                                                         <el-option v-for="option in hilo"
                                                        :key="option.id"
                                                        :label="option.name"

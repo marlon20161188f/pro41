@@ -17,23 +17,15 @@ class ProcesoProducTejRequest extends FormRequest
     { 
         
         return [
-            'op' => [
-                'required',
-            ],
+            
             'producto_final' => [
                 'required',
             ],
-            'peso' => [
-                'required',
-                'numeric',
-                'min:0'
-            ],
+           
             'init' => [
                 'required',
             ],
-            'hilo' => [
-                'required',
-            ],
+           
             'tejed' => [
                 'required',
                 'numeric',
@@ -64,6 +56,7 @@ class ProcesoProducTejRequest extends FormRequest
             'guia_tinto' => [
             ],
             'insumo' =>[
+                'required',
             ],
         ];
     }

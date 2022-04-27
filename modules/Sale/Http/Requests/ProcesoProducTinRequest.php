@@ -17,23 +17,15 @@ class ProcesoProducTinRequest extends FormRequest
     { 
         
         return [
-            'op' => [
-                'required',
-            ],
+            
             'producto_final' => [
                 'required',
             ],
-            'peso' => [
-                'required',
-                'numeric',
-                'min:0.01'
-            ],
+           
             'init' => [
                 'required',
             ],
-            'hilo' => [
-                'required',
-            ],
+           
             'tejed' => [
                 'required',
                 'numeric',
@@ -46,7 +38,6 @@ class ProcesoProducTinRequest extends FormRequest
             ], 
             'partida' => [
                 'required',
-                'numeric',
                 'min:0'
             ],  
             'color' => [
@@ -59,11 +50,7 @@ class ProcesoProducTinRequest extends FormRequest
             ], 
             'ingreso' =>[
             ],
-            'guia_tinto' => [
-                
-            ],
             'num_rollos' => [
-                
             ],
             'insumo' =>[
             ],

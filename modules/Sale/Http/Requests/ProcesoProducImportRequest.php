@@ -17,23 +17,15 @@ class ProcesoProducImportRequest extends FormRequest
     { 
         
         return [
-            'op' => [
-                'required',
-            ],
+           
             'producto_final' => [
                 'required',
             ],
-            'peso' => [
-                'required',
-                'numeric',
-                'min:0.01'
-            ],
+           
             'init' => [
                 'required',
             ],
-            'hilo' => [
-                'required',
-            ],
+           
             'tela' => [
                 'required',
             ],
@@ -53,6 +45,7 @@ class ProcesoProducImportRequest extends FormRequest
             'guia_teje' => [
             ], 
             'insumo' =>[
+                'required',
             ],
         ];
     }

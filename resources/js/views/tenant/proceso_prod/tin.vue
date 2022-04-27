@@ -107,7 +107,7 @@
                                         <tr>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.partida" type="number" name="partida"></el-input>
+                                                   <el-input v-model="form.partida" type="text" name="partida"></el-input>
                                                 </div>
                                             </td>
                                             <td >
@@ -207,7 +207,7 @@
                                                   dusk="item_code"
                                                   style="margin-bottom:1.5%;"></el-input>
                                                     <el-select v-if="form_hilo.add == false" 
-                                                    v-model="forms.hilo" placeholder="Seleccionar" name="hilo">
+                                                    v-model="forms.hilo" placeholder="Seleccionar" name="hilo" :disabled="true">
                                                         <el-option v-for="option in hilo"
                                                        :key="option.id"
                                                        :label="option.name"
@@ -577,7 +577,15 @@ export default {
             this.$http.get(`/${this.resource}/record/${this.id}`)
                .then(response => {
                 this.form = response.data
-                this.ingreso=response.data.ingreso
+                this.ingreso=response.data.ingreso? response.data.ingreso:[{
+                    llegada: moment().format('YYYY-MM-DD'),
+                    warehouses_id: null,
+                    cantidad: 0,
+                    guia_tinto: null,
+                    lots:[],
+                    showDialogLots: false,
+                    val: 0,
+                }];
                 console.log(this.form)
                 this.form.init =  moment().format('YYYY-MM-DD')
                 })
@@ -830,8 +838,9 @@ export default {
                     return this.$message.error('Número de partida es requerido');
                 if (!this.form.color)
                     return this.$message.error('El color es requerido');
-                    this.loading_submit = true
+                    //this.loading_submit = true
            // this.ingreso[index].lots=this.lots[index]
+           this.form.ingreso=this.ingreso
             this.form.ingreso[index].val=1
             // this.ingresos.push(this.ingreso[index]);
             // this.ingresos.push(this.ingreso[index]);
