@@ -28,6 +28,7 @@ class ProcesoProducCollection extends ResourceCollection
                 'prov_tejed'=> $row->prov_tejed,
                 'warehouses_id' => $row->warehouses_id,
                 'cantidad'=> $row->cantidad,
+                'roll_rest'=>$row->roll_rest,
                 'peso'=> $row->peso,
                 'peso_tej'=> $row->peso_tej,
                 'peso_tin'=> $row->peso_tin,

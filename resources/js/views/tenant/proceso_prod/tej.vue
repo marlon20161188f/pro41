@@ -26,7 +26,7 @@
                                                 </el-tooltip> -->
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg) 
+                                                class="pb-2">peso total (Kg) 
                                             </th>
                                             <th class="pb-2" 
                                                 >Fec. Inicio <span class="text-danger">*</span>
@@ -182,7 +182,7 @@
                                                 class="pb-2">Tipo de hilo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2 text-center" >peso
+                                                class="pb-2 text-center" >Peso
                                             </th>
                                         </tr>
                                         <tr>
@@ -222,7 +222,7 @@
                                             </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="forms.peso" type="number" name="peso" step=".0001" :readonly="true"></el-input>
+                                                   <el-input v-model="forms.peso" type="number" name="peso" step=".0001" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                         </tr>

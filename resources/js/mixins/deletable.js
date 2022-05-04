@@ -224,6 +224,65 @@ export const deletable = {
                 });
             })
         },
+        processinventory( roll_rest) {
+            if(roll_rest==0){
+                return new Promise((resolve) => {
+                    this.$confirm('¿Esta seguro de terminar el proceso?', 'Cancelar', {
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: 'Regresar',
+                        type: 'warning'
+                    }).then(() => {
+                        // this.$http.post(url,form)
+                        //     .then(res => {
+                        //         if (res.data.success) {
+                        //             this.$message.success(res.data.message)
+                                     resolve()
+                        //             location.href = '/proceso_prod'
+                        //         }
+                        //     })
+                        //     .catch(error => {
+                        //         if (error.response.status === 500) {
+                        //             this.$message.error('Error al cancelar el proceso productivo');
+                        //         } else {
+                        //             console.log(error.response.data.message)
+                        //         }
+                        //     })
+
+                    }).catch(error => {
+                        console.log(error)
+                        this.$eventHub.$emit('reloadData')
+                    });
+                })
+            }else{
+                return new Promise((resolve) => {
+                    this.$confirm('¿Aun tiene ' +roll_rest+ ' rollos por ingresar al inventario esta seguro de terminar el proceso?', 'Cancelar', {
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: 'Regresar',
+                        type: 'warning'
+                    }).then(() => {
+                        // this.$http.post(url,form)
+                            // .then(res => {
+                            //     if (res.data.success) {
+                            //         this.$message.success(res.data.message)
+                                     resolve()
+                            //         location.href = '/proceso_prod'
+                            //     }
+                            // })
+                            // .catch(error => {
+                            //     if (error.response.status === 500) {
+                            //         this.$message.error('Error al cancelar el proceso productivo');
+                            //     } else {
+                            //         console.log(error.response.data.message)
+                            //     }
+                            // })
+                    }).catch(error => {
+                        console.log(error)
+                        this.$eventHub.$emit('reloadData')
+                    });
+                })
+
+            }
+        },
         processreturn(url, form) {
             return new Promise((resolve) => {
                 this.$confirm('¿Desea regresar al estado anterior ?', 'Regresar proceso productivo', {

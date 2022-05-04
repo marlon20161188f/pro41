@@ -33,6 +33,7 @@ class ProcesoProduc extends ModelTenant
             'peso',
             'peso_tej',
             'peso_tin',
+            'roll_rest',
             'tejed',
             'tinto',
             'estado',

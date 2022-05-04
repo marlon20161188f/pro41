@@ -135,7 +135,7 @@
                                                 </el-tooltip> -->
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg) <span class="text-danger">*</span>
+                                                class="pb-2">peso total (Kg) <span class="text-danger">*</span>
                                             </th>
                                             <th class="pb-2" 
                                                 >Fec. Inicio <span class="text-danger">*</span>

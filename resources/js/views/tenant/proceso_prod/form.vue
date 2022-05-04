@@ -148,15 +148,16 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <ul >
-                                                   <li v-for="option in pesopurchase[index]"
-                                                   :key="option.id">{{peso_dis=option.item.lots[0]? option.item.lots[0].peso:null}}</li>
+                                                    <ul v-for="option in pesopurchase[index]"
+                                                   :key="option.id">
+                                                   <li >{{peso_dis[index]=option.item.lots[0]? option.item.lots[0].peso:option.item.stock}}</li>
+                                                    <li hidden>{{lot_code[index]=option.lot_code? option.lot_code:null}}</li>
                                                    </ul> 
                                                 </td>
                                                 
                                                 <td>
                                                     <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="forms.peso" type="number" min="0" :max="peso_dis" step=".0001" ></el-input>
+                                                    <el-input v-model="forms.peso" type="number" min="0" :max="peso_dis[index]" step=".0001" @blur.prevent="limit(peso_dis[index],forms.peso)"></el-input>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -186,7 +187,6 @@
                                                     </el-select>
                                                 </div>
                                             </td>
-
                                             </tr>
                                         </tbody>
                                     </table>
@@ -237,7 +237,20 @@
                                                                 
                                                                 </el-select> -->
                                                         </td>
-                                                    
+                                            <td v-show="lot_code[index]">
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-group mb-2 mr-2">
+                                                        Lote:
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group mb-2 mr-2">
+                                                        <el-input v-model="forms.lote" type="text" v-bind:value="lot_code[index]? lot_code[index]:null" :readonly="true"></el-input>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </td>
                                                         <br>
                                                     </tr>
                                                     </tbody>
@@ -261,7 +274,7 @@
                                     <tr class="text-center">
                                         {{ form.peso=totalPeso()? totalPeso():0 }}
                                     </tr>
-                                </data-table>
+                                    </data-table>
                                 </div>
                             </div>
                         </template>
@@ -373,6 +386,8 @@ export default {
             purchases: [],
             infopurchase: [],
             pesopurchase:[],
+            peso_dis:[],
+            lot_code:[],
             purchase_items:[],
             document_types: [],
             purchase_orders: [],
@@ -549,6 +564,7 @@ export default {
                     op: null,
                     hilo: null,
                     insum:null,
+                    lote:this.lot_code[this.index],
                     // id: null,
                     // item_id: null,
                     // series: null,
@@ -705,17 +721,19 @@ export default {
             },
             async submit() {
                 var vecto=this.form.insumo
+                var y=""
                 vecto.forEach(forms => {
                 if (!forms.op)
-                    return this.$message.error('Orden de producción es requerido');
+                    y= this.$message.error('Orden de producción es requerido');
                  if (!forms.compra)
-                    return this.$message.error('Compra es requerido');
+                    y= this.$message.error('Compra es requerido');
                  if (!forms.peso)
-                  return this.$message.error('El peso es requerido');
+                  y= this.$message.error('El peso es requerido');
                    if (!forms.hilo)
-                    return this.$message.error('Tipo de hilo es requerido');
+                    y= this.$message.error('Tipo de hilo es requerido');
                 });
-                
+                if(y)
+                    return y
                  if (!this.form.init)
                     return this.$message.error('Fecha de inicio es requerido');
                 if (!this.form.producto_final)
@@ -738,7 +756,9 @@ export default {
                 //     return this.$message.error('Porcentaje de teduría es requerido');
                 //  if (!this.form.tinto)
                 //     return this.$message.error('Porcentaje de tintorería es requerido');
-                
+                for (let index = 0; index < this.form.insumo.length; index++) {
+                this.form.insumo[index].lote=this.lot_code[index];
+               }
                          this.loading_submit = true
                 this.$http.post(`/${this.resource}`,this.form).then(response => {
                     if (response.data.success) {
@@ -884,12 +904,15 @@ export default {
                     op: null,
                     hilo: null,
                     insum:null,
-
+                    lote:this.lot_code[this.index],
                 });
             //     var peso=[]
             //     for (let index = 0; index < this.insumo.length; index++) {
             //          peso.push(this.insumo[index].peso);
             //     }
+            for (let index = 0; index < this.form.insumo.length; index++) {
+                this.form.insumo[index].lote=this.lot_code[index];
+            }
               console.log(this.form)
          },
         async clickCancel(index) {
@@ -906,6 +929,11 @@ export default {
                 }else{
              return parseFloat(parseFloat(sum).toFixed(4))}
             },
+            limit(peso_dis,peso){
+                console.log(peso_dis,peso)
+                 if(parseFloat(peso)>parseFloat(peso_dis)) {
+                  return this.$message.error('El peso debe ser menor al peso disponible');}
+            }
     }
 }
 </script>

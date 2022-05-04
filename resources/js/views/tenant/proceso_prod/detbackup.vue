@@ -189,7 +189,7 @@
                                         <thead>
                                         <tr width="100%" >
                                             <th
-                                                class="pb-2">Peso importado (Kg)
+                                                class="pb-2">peso total (Kg)
                                             </th>
                                             <th
                                                 class="pb-2" >Peso resultante Tejeduría (Kg)

@@ -54,6 +54,8 @@ class ProcesoProducTinRequest extends FormRequest
             ],
             'insumo' =>[
             ],
+            'roll_rest' =>[
+            ],
 
         ];
     }

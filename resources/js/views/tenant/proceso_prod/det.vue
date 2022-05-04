@@ -34,7 +34,7 @@
                                                 >Fec. Inicio <span class="text-danger">*</span>
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg) 
+                                                class="pb-2">Peso total (Kg) 
                                             </th>
                                             <th 
                                                 class="pb-2">Peso resultante Tejeduría (Kg) 
@@ -73,17 +73,17 @@
                                             </td>
                                              <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.peso" type="number" name="peso" :readonly="true"></el-input>
+                                                   <el-input v-model="form.peso" type="number" name="peso" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.peso_tej" type="number" name="peso_tin" min="0" step=".0001" :readonly="true"></el-input>
+                                                   <el-input v-model="form.peso_tej" type="number" name="peso_tin" min="0" step=".0001" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group mb-2 mr-2">
-                                                    <el-input v-model="form.tejed" type="number" :readonly="true" name="tejed" step=".01" ></el-input>
+                                                    <el-input v-model="form.tejed" type="number" :disabled="true" name="tejed" step=".01" ></el-input>
                                                 </div>
                                             </td>
                                             <td>
@@ -121,7 +121,7 @@
                                         <tr>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="form.partida" type="number" name="partida" :readonly="true"></el-input>
+                                                   <el-input v-model="form.partida" type="text" name="partida" :readonly="true"></el-input>
                                                 </div>
                                             </td>
                                             <td >
@@ -191,7 +191,7 @@
                                                 class="pb-2">Tipo de hilo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2 text-center" >peso
+                                                class="pb-2 text-center" >Peso
                                             </th>
                                         </tr>
                                         <tr>
@@ -231,8 +231,22 @@
                                             </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="forms.peso" type="number" name="peso" step=".0001" :readonly="true"></el-input>
+                                                   <el-input v-model="forms.peso" type="number" name="peso" step=".0001" :disabled="true"></el-input>
                                                 </div>
+                                            </td>
+                                            <td v-show="forms.lote">
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-group mb-2 mr-2">
+                                                        Lote:
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group mb-2 mr-2">
+                                                        <el-input v-model="forms.lote" type="text" :readonly="true"></el-input>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             </td>
                                         </tr>
                                     </table>
@@ -255,7 +269,7 @@
                                                             <tr>
                                                                 <td >
                                                                     <div class="form-group mb-2 mr-2">
-                                                                        <el-select v-model="form.produc_artic" name="produc_artic">
+                                                                        <el-select v-model="form.produc_artic" name="produc_artic" :disabled="true">
                                                                         <el-option v-for="options in items"
                                                                                     :key="options.id"
                                                                                     :label="options.description"
@@ -338,7 +352,7 @@
                                                 <td >
                                                     <div class="form-group mb-2 mr-2">
                                                         <el-input v-model="forms.cantidad" name="cantidad" type="number" min="0" 
-                                                        v-bind:max="totalSum()" :readonly="forms.val===1"></el-input>
+                                                        v-bind:max="totalSum()" :disabled="forms.val===1"></el-input>
                                                     </div>
                                                 </td>
                                                 <td >
@@ -411,6 +425,18 @@
                                         </tr>
                                     </table >
                                 </template>
+                                 <div class="text-center">
+                                    <data-table>
+                                    <tr>
+                                        <th
+                                           class="pb-2" style="font-size: 14px">N° de rollos restantes      
+                                        </th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        {{ form.roll_rest }}
+                                    </tr>
+                                    </data-table>
+                                </div>
                             </div>
                         </template>
                     </div>

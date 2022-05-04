@@ -26,7 +26,7 @@
                                                 </el-tooltip> -->
                                             </th>
                                             <th 
-                                                class="pb-2">Peso importado (Kg) 
+                                                class="pb-2">peso total (Kg) 
                                             </th>
                                             <th class="pb-2" 
                                                 >Fec. Inicio <span class="text-danger">*</span>
@@ -177,7 +177,7 @@
                                                 class="pb-2">Tipo de hilo <span class="text-danger">*</span>
                                             </th>
                                             <th
-                                                class="pb-2 text-center" >peso
+                                                class="pb-2 text-center" >Peso
                                             </th>
                                         </tr>
                                         <tr>
@@ -217,7 +217,7 @@
                                             </td>
                                             <td >
                                                 <div class="form-group mb-2 mr-2">
-                                                   <el-input v-model="forms.peso" type="number" name="peso" step=".0001" :readonly="true"></el-input>
+                                                   <el-input v-model="forms.peso" type="number" name="peso" step=".0001" :disabled="true"></el-input>
                                                 </div>
                                             </td>
                                         </tr>
@@ -241,11 +241,12 @@
                                                             <tr>
                                                                 <td >
                                                                     <div class="form-group mb-2 mr-2">
-                                                                        <el-select v-model="form.produc_artic" name="produc_artic">
+                                                                        <el-select v-model="form.produc_artic" name="produc_artic" :disabled="this.ingreso[0].val===1">
                                                                         <el-option v-for="options in items"
                                                                                     :key="options.id"
                                                                                     :label="options.description"
-                                                                                    :value="options.id"></el-option>
+                                                                                    :value="options.description"
+                                                                                    ></el-option>
                                                                         </el-select>
                                                                     </div>
                                                                 </td>
@@ -397,13 +398,25 @@
                                         </tr>
                                     </table >
                                 </template>
+                                <div class="text-center">
+                                    <data-table>
+                                    <tr>
+                                        <th
+                                           class="pb-2" style="font-size: 14px">N° de rollos restantes      
+                                        </th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        {{ form.roll_rest=rollRest()? rollRest():0 }}
+                                    </tr>
+                                    </data-table>
+                                </div>
                             </div>
                         </template>
                     </div>
                 </div>
                 <div class="form-actions text-center mt-4">
                     <el-button
-                               native-type="submit"  :loading="loading_submit"
+                               @click.prevent="clickprocessinventory()"   :loading="loading_submit"
                                type="primary">Terminar proceso
                     </el-button>
                     <el-button @click.prevent="close()">Cancelar</el-button>
@@ -779,6 +792,12 @@ export default {
                 this.$eventHub.$emit("reloadData")
             );
             },
+             clickprocessinventory() {
+            this.processinventory(this.form.roll_rest).then(() =>
+                this.submit(),
+                this.$eventHub.$emit("reloadData")
+            );
+            },
              clickprocessreturn() {
             this.processreturn(`/${this.resource}/returntej`,this.form).then(() =>
                 this.$eventHub.$emit("reloadData")
@@ -870,7 +889,17 @@ export default {
                     this.loading_submit = false;
                 });
 
-        }
+        },
+         rollRest(){
+                let sum = 0;
+            for(let i = 0; i < this.ingreso.length; i++){
+            sum += parseFloat(this.ingreso[i].cantidad);
+                }
+                if(sum==0){
+                    return this.form.num_rollos
+                }else{
+             return parseInt(this.form.num_rollos)-parseInt(sum)}
+            },
     }
 
 }
